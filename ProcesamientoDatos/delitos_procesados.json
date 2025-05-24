@@ -1,0 +1,2802 @@
+[
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "05/01/2022",
+        "hora": "10:00",
+        "lat": 19.5079885,
+        "lng": -99.09539573
+    },
+    {
+        "tipoDelito": "Fraude",
+        "fecha": "05/01/2022",
+        "hora": "15:17",
+        "lat": 19.50876299,
+        "lng": -99.09737123
+    },
+    {
+        "tipoDelito": "Abuso Sexual",
+        "fecha": "29/12/2021",
+        "hora": "18:00",
+        "lat": 19.50987498,
+        "lng": -99.09900031
+    },
+    {
+        "tipoDelito": "Cobranza Ilegitima",
+        "fecha": "05/01/2022",
+        "hora": "10:00",
+        "lat": 19.50750519,
+        "lng": -99.09425832
+    },
+    {
+        "tipoDelito": "Fraude",
+        "fecha": "10/01/2022",
+        "hora": "17:00",
+        "lat": 19.50904101,
+        "lng": -99.09459762
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "13/01/2022",
+        "hora": "08:00",
+        "lat": 19.50854978,
+        "lng": -99.09460522
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "17/01/2022",
+        "hora": "14:15",
+        "lat": 19.50745905,
+        "lng": -99.09533948
+    },
+    {
+        "tipoDelito": "Usurpación",
+        "fecha": "21/12/2021",
+        "hora": "12:00",
+        "lat": 19.51121001,
+        "lng": -99.09999719
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "15/01/2022",
+        "hora": "08:30",
+        "lat": 19.50988236,
+        "lng": -99.0999949
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "24/01/2022",
+        "hora": "09:00",
+        "lat": 19.50661137,
+        "lng": -99.09294337
+    },
+    {
+        "tipoDelito": "Despojo",
+        "fecha": "25/01/2022",
+        "hora": "11:43",
+        "lat": 19.50855013,
+        "lng": -99.09159534
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "24/01/2022",
+        "hora": "19:58",
+        "lat": 19.50841714,
+        "lng": -99.09756801
+    },
+    {
+        "tipoDelito": "Contra La Intimidad Sexual",
+        "fecha": "28/01/2022",
+        "hora": "12:40",
+        "lat": 19.51192244,
+        "lng": -99.09944225
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "02/02/2022",
+        "hora": "14:00",
+        "lat": 19.51132233,
+        "lng": -99.0949139
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "03/02/2022",
+        "hora": "20:00",
+        "lat": 19.50938042,
+        "lng": -99.09799509
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "04/02/2022",
+        "hora": "07:00",
+        "lat": 19.51228879,
+        "lng": -99.09879355
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "12/02/2022",
+        "hora": "18:20",
+        "lat": 19.50929779,
+        "lng": -99.09092689
+    },
+    {
+        "tipoDelito": "Lesiones Culposas",
+        "fecha": "16/02/2022",
+        "hora": "23:20",
+        "lat": 19.50806499,
+        "lng": -99.09268007
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "24/01/2022",
+        "hora": "16:00",
+        "lat": 19.51204634,
+        "lng": -99.09817212
+    },
+    {
+        "tipoDelito": "Daño A La Propiedad",
+        "fecha": "26/10/2021",
+        "hora": "05:00",
+        "lat": 19.51150184,
+        "lng": -99.0993361
+    },
+    {
+        "tipoDelito": "Allanamiento",
+        "fecha": "02/03/2022",
+        "hora": "05:25",
+        "lat": 19.51202519,
+        "lng": -99.09854852
+    },
+    {
+        "tipoDelito": "Cobranza Ilegitima",
+        "fecha": "25/02/2022",
+        "hora": "09:00",
+        "lat": 19.51163345,
+        "lng": -99.09815718
+    },
+    {
+        "tipoDelito": "Cohecho",
+        "fecha": "05/03/2022",
+        "hora": "19:58",
+        "lat": 19.50929952,
+        "lng": -99.09751229
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "03/03/2022",
+        "hora": "05:00",
+        "lat": 19.50645653,
+        "lng": -99.09253162
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "07/03/2022",
+        "hora": "07:45",
+        "lat": 19.51007109,
+        "lng": -99.09924059
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "05/03/2022",
+        "hora": "08:30",
+        "lat": 19.51017907,
+        "lng": -99.10016094
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "08/03/2022",
+        "hora": "07:06",
+        "lat": 19.50656056,
+        "lng": -99.09362666
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "08/03/2022",
+        "hora": "06:20",
+        "lat": 19.50710194,
+        "lng": -99.09314357
+    },
+    {
+        "tipoDelito": "Tentativa",
+        "fecha": "23/03/2022",
+        "hora": "14:30",
+        "lat": 19.50953499,
+        "lng": -99.0977283
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "20/03/2022",
+        "hora": "12:00",
+        "lat": 19.51065044,
+        "lng": -99.09653513
+    },
+    {
+        "tipoDelito": "Usurpación",
+        "fecha": "11/03/2022",
+        "hora": "10:30",
+        "lat": 19.51131056,
+        "lng": -99.09943793
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "27/03/2022",
+        "hora": "16:20",
+        "lat": 19.50770549,
+        "lng": -99.09475929
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "03/04/2022",
+        "hora": "09:30",
+        "lat": 19.50853229,
+        "lng": -99.09366488
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "03/04/2022",
+        "hora": "12:30",
+        "lat": 19.50990914,
+        "lng": -99.09240279
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "06/04/2022",
+        "hora": "02:00",
+        "lat": 19.50853153,
+        "lng": -99.09667198
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "06/04/2022",
+        "hora": "15:40",
+        "lat": 19.50729725,
+        "lng": -99.09185082
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "07/04/2022",
+        "hora": "08:38",
+        "lat": 19.50867796,
+        "lng": -99.09659375
+    },
+    {
+        "tipoDelito": "Encubrimiento",
+        "fecha": "11/04/2022",
+        "hora": "23:20",
+        "lat": 19.51210042,
+        "lng": -99.09894705
+    },
+    {
+        "tipoDelito": "Negación Del Servicio Público",
+        "fecha": "09/01/2022",
+        "hora": "12:00",
+        "lat": 19.50748451,
+        "lng": -99.09532696
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "11/04/2022",
+        "hora": "11:00",
+        "lat": 19.5090308,
+        "lng": -99.09507573
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "13/04/2022",
+        "hora": "06:00",
+        "lat": 19.51203791,
+        "lng": -99.09924568
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "13/04/2022",
+        "hora": "12:00",
+        "lat": 19.50989091,
+        "lng": -99.09953736
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "13/04/2022",
+        "hora": "07:00",
+        "lat": 19.50924633,
+        "lng": -99.09943662
+    },
+    {
+        "tipoDelito": "Fraude",
+        "fecha": "14/04/2022",
+        "hora": "10:40",
+        "lat": 19.50825515,
+        "lng": -99.09491815
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "13/04/2022",
+        "hora": "08:30",
+        "lat": 19.51237033,
+        "lng": -99.09762438
+    },
+    {
+        "tipoDelito": "Lesiones Dolosas",
+        "fecha": "29/03/2022",
+        "hora": "12:00",
+        "lat": 19.50789644,
+        "lng": -99.09221962
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "22/04/2022",
+        "hora": "17:00",
+        "lat": 19.50982547,
+        "lng": -99.09983352
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "24/04/2022",
+        "hora": "05:00",
+        "lat": 19.51113243,
+        "lng": -99.09953814
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "24/04/2022",
+        "hora": "07:00",
+        "lat": 19.50830146,
+        "lng": -99.09577098
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "24/04/2022",
+        "hora": "06:00",
+        "lat": 19.51234903,
+        "lng": -99.0979524
+    },
+    {
+        "tipoDelito": "Fraude",
+        "fecha": "17/02/2022",
+        "hora": "01:26",
+        "lat": 19.5093412,
+        "lng": -99.09489859
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "04/05/2022",
+        "hora": "01:00",
+        "lat": 19.50931478,
+        "lng": -99.09432113
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "08/05/2022",
+        "hora": "04:00",
+        "lat": 19.50757388,
+        "lng": -99.09260848
+    },
+    {
+        "tipoDelito": "Revelación De Secretos",
+        "fecha": "26/04/2022",
+        "hora": "10:00",
+        "lat": 19.50933629,
+        "lng": -99.09903958
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "15/05/2022",
+        "hora": "20:20",
+        "lat": 19.50974739,
+        "lng": -99.09640266
+    },
+    {
+        "tipoDelito": "Fraude",
+        "fecha": "16/05/2022",
+        "hora": "02:24",
+        "lat": 19.5109265,
+        "lng": -99.09896225
+    },
+    {
+        "tipoDelito": "Daño A La Propiedad",
+        "fecha": "13/05/2022",
+        "hora": "14:30",
+        "lat": 19.51151953,
+        "lng": -99.09607977
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "18/05/2022",
+        "hora": "20:30",
+        "lat": 19.51079775,
+        "lng": -99.0945294
+    },
+    {
+        "tipoDelito": "Usurpación",
+        "fecha": "17/05/2022",
+        "hora": "08:00",
+        "lat": 19.51175051,
+        "lng": -99.09804683
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "18/05/2022",
+        "hora": "21:30",
+        "lat": 19.51032231,
+        "lng": -99.09338313
+    },
+    {
+        "tipoDelito": "Narcomenudeo",
+        "fecha": "24/05/2022",
+        "hora": "07:18",
+        "lat": 19.50620896,
+        "lng": -99.09297055
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "19/05/2022",
+        "hora": "16:00",
+        "lat": 19.51052359,
+        "lng": -99.09558007
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "19/05/2022",
+        "hora": "00:15",
+        "lat": 19.51112244,
+        "lng": -99.09806415
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "26/05/2022",
+        "hora": "07:00",
+        "lat": 19.51090114,
+        "lng": -99.09947433
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "29/05/2021",
+        "hora": "05:30",
+        "lat": 19.50815609,
+        "lng": -99.09488071
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "30/05/2022",
+        "hora": "07:10",
+        "lat": 19.5115524,
+        "lng": -99.09508109
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "31/05/2022",
+        "hora": "22:30",
+        "lat": 19.50713535,
+        "lng": -99.09301423
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "01/06/2022",
+        "hora": "06:30",
+        "lat": 19.51017622,
+        "lng": -99.09325629
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "03/06/2022",
+        "hora": "18:00",
+        "lat": 19.51167515,
+        "lng": -99.09627418
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "23/05/2022",
+        "hora": "07:53",
+        "lat": 19.50778511,
+        "lng": -99.09192525
+    },
+    {
+        "tipoDelito": "Encubrimiento",
+        "fecha": "07/06/2022",
+        "hora": "10:15",
+        "lat": 19.5117544,
+        "lng": -99.10043456
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "12/06/2022",
+        "hora": "07:00",
+        "lat": 19.50827464,
+        "lng": -99.09464825
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "15/06/2022",
+        "hora": "12:00",
+        "lat": 19.51032384,
+        "lng": -99.09813688
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "15/06/2022",
+        "hora": "07:30",
+        "lat": 19.50860647,
+        "lng": -99.09460992
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "14/06/2022",
+        "hora": "23:00",
+        "lat": 19.50945636,
+        "lng": -99.09545347
+    },
+    {
+        "tipoDelito": "Abuso Sexual",
+        "fecha": "05/05/2022",
+        "hora": "10:00",
+        "lat": 19.50888136,
+        "lng": -99.09593354
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "16/06/2022",
+        "hora": "03:30",
+        "lat": 19.51109056,
+        "lng": -99.0995349
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "16/06/2022",
+        "hora": "11:00",
+        "lat": 19.50991902,
+        "lng": -99.09956641
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "20/06/2022",
+        "hora": "07:30",
+        "lat": 19.50746655,
+        "lng": -99.09563743
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "28/05/2022",
+        "hora": "20:00",
+        "lat": 19.50746023,
+        "lng": -99.09564145
+    },
+    {
+        "tipoDelito": "Encubrimiento",
+        "fecha": "20/06/2022",
+        "hora": "14:45",
+        "lat": 19.51241931,
+        "lng": -99.09788789
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "20/06/2022",
+        "hora": "18:00",
+        "lat": 19.5075762,
+        "lng": -99.09451774
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "21/06/2022",
+        "hora": "15:47",
+        "lat": 19.50929372,
+        "lng": -99.0971086
+    },
+    {
+        "tipoDelito": "Daño A La Propiedad",
+        "fecha": "17/05/2022",
+        "hora": "12:00",
+        "lat": 19.50817915,
+        "lng": -99.09290558
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "28/06/2022",
+        "hora": "20:50",
+        "lat": 19.50846093,
+        "lng": -99.09514253
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "29/06/2022",
+        "hora": "03:00",
+        "lat": 19.5070456,
+        "lng": -99.09450866
+    },
+    {
+        "tipoDelito": "Fraude",
+        "fecha": "30/05/2022",
+        "hora": "10:30",
+        "lat": 19.51202386,
+        "lng": -99.09936301
+    },
+    {
+        "tipoDelito": "Cobranza Ilegitima",
+        "fecha": "06/07/2022",
+        "hora": "10:00",
+        "lat": 19.50650439,
+        "lng": -99.0925768
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "13/07/2022",
+        "hora": "10:24",
+        "lat": 19.51235733,
+        "lng": -99.09766931
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "18/07/2022",
+        "hora": "08:10",
+        "lat": 19.50908134,
+        "lng": -99.09719218
+    },
+    {
+        "tipoDelito": "Fraude",
+        "fecha": "01/03/2022",
+        "hora": "12:00",
+        "lat": 19.51216759,
+        "lng": -99.09885585
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "01/08/2022",
+        "hora": "18:30",
+        "lat": 19.51116053,
+        "lng": -99.10041422
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "05/08/2022",
+        "hora": "16:15",
+        "lat": 19.51020588,
+        "lng": -99.09315147
+    },
+    {
+        "tipoDelito": "Cobranza Ilegitima",
+        "fecha": "03/08/2022",
+        "hora": "13:00",
+        "lat": 19.51030286,
+        "lng": -99.09951478
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "13/08/2022",
+        "hora": "12:40",
+        "lat": 19.50858399,
+        "lng": -99.09472492
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "14/08/2022",
+        "hora": "09:00",
+        "lat": 19.51171909,
+        "lng": -99.09638509
+    },
+    {
+        "tipoDelito": "Fraude",
+        "fecha": "16/08/2022",
+        "hora": "09:08",
+        "lat": 19.51025937,
+        "lng": -99.09413781
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "19/06/2022",
+        "hora": "12:00",
+        "lat": 19.50981536,
+        "lng": -99.09669891
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "15/08/2022",
+        "hora": "15:00",
+        "lat": 19.50734773,
+        "lng": -99.09292616
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "17/08/2022",
+        "hora": "20:00",
+        "lat": 19.51066404,
+        "lng": -99.09302557
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "14/08/2022",
+        "hora": "09:15",
+        "lat": 19.51218067,
+        "lng": -99.09722887
+    },
+    {
+        "tipoDelito": "Narcomenudeo",
+        "fecha": "20/08/2022",
+        "hora": "19:00",
+        "lat": 19.51122854,
+        "lng": -99.09713008
+    },
+    {
+        "tipoDelito": "Daño A La Propiedad",
+        "fecha": "25/08/2022",
+        "hora": "12:20",
+        "lat": 19.51215385,
+        "lng": -99.09886457
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "29/08/2022",
+        "hora": "16:45",
+        "lat": 19.51128414,
+        "lng": -99.0966968
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "20/06/2021",
+        "hora": "09:00",
+        "lat": 19.50994164,
+        "lng": -99.09901381
+    },
+    {
+        "tipoDelito": "Cobranza Ilegitima",
+        "fecha": "09/08/2022",
+        "hora": "11:00",
+        "lat": 19.50748025,
+        "lng": -99.0956366
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "03/09/2022",
+        "hora": "06:30",
+        "lat": 19.50925465,
+        "lng": -99.09350552
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "02/09/2022",
+        "hora": "15:30",
+        "lat": 19.5118707,
+        "lng": -99.09809969
+    },
+    {
+        "tipoDelito": "Daño A La Propiedad",
+        "fecha": "03/09/2022",
+        "hora": "06:30",
+        "lat": 19.50914768,
+        "lng": -99.09328368
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "03/09/2022",
+        "hora": "20:40",
+        "lat": 19.50985171,
+        "lng": -99.09221622
+    },
+    {
+        "tipoDelito": "Narcomenudeo",
+        "fecha": "21/09/2022",
+        "hora": "16:05",
+        "lat": 19.51230563,
+        "lng": -99.09832969
+    },
+    {
+        "tipoDelito": "Tentativa",
+        "fecha": "21/09/2022",
+        "hora": "19:00",
+        "lat": 19.50992418,
+        "lng": -99.09518038
+    },
+    {
+        "tipoDelito": "Lesiones Dolosas",
+        "fecha": "21/09/2022",
+        "hora": "18:30",
+        "lat": 19.50998745,
+        "lng": -99.09292012
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "24/09/2022",
+        "hora": "05:30",
+        "lat": 19.50785363,
+        "lng": -99.09182936
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "08/09/2022",
+        "hora": "16:15",
+        "lat": 19.51246062,
+        "lng": -99.09769537
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "06/10/2022",
+        "hora": "08:00",
+        "lat": 19.50764859,
+        "lng": -99.0918877
+    },
+    {
+        "tipoDelito": "Narcomenudeo",
+        "fecha": "11/10/2022",
+        "hora": "18:05",
+        "lat": 19.50940149,
+        "lng": -99.09562267
+    },
+    {
+        "tipoDelito": "Cobranza Ilegitima",
+        "fecha": "12/10/2022",
+        "hora": "12:00",
+        "lat": 19.51137526,
+        "lng": -99.09897789
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "14/10/2022",
+        "hora": "19:00",
+        "lat": 19.50789263,
+        "lng": -99.0972571
+    },
+    {
+        "tipoDelito": "Despojo",
+        "fecha": "18/10/2022",
+        "hora": "16:00",
+        "lat": 19.50938489,
+        "lng": -99.09563273
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "20/10/2022",
+        "hora": "12:35",
+        "lat": 19.50988038,
+        "lng": -99.10000902
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "24/10/2022",
+        "hora": "11:00",
+        "lat": 19.50779333,
+        "lng": -99.09681112
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "24/10/2022",
+        "hora": "02:00",
+        "lat": 19.51055667,
+        "lng": -99.09919292
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "25/10/2022",
+        "hora": "20:30",
+        "lat": 19.50973943,
+        "lng": -99.09685157
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "25/10/2022",
+        "hora": "10:30",
+        "lat": 19.51077298,
+        "lng": -99.09896242
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "20/10/2022",
+        "hora": "22:40",
+        "lat": 19.5119254,
+        "lng": -99.09852007
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "27/10/2022",
+        "hora": "12:00",
+        "lat": 19.50951394,
+        "lng": -99.09251886
+    },
+    {
+        "tipoDelito": "Fraude",
+        "fecha": "27/10/2022",
+        "hora": "11:45",
+        "lat": 19.5085112,
+        "lng": -99.09266718
+    },
+    {
+        "tipoDelito": "Abuso De Autoridad",
+        "fecha": "26/10/2022",
+        "hora": "12:55",
+        "lat": 19.50783872,
+        "lng": -99.09559555
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "01/11/2022",
+        "hora": "10:00",
+        "lat": 19.51047472,
+        "lng": -99.09957513
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "09/08/2022",
+        "hora": "20:13",
+        "lat": 19.50893415,
+        "lng": -99.09669091
+    },
+    {
+        "tipoDelito": "Abuso De Autoridad",
+        "fecha": "26/10/2022",
+        "hora": "11:40",
+        "lat": 19.50770195,
+        "lng": -99.095904
+    },
+    {
+        "tipoDelito": "Daño A La Propiedad",
+        "fecha": "03/11/2022",
+        "hora": "07:45",
+        "lat": 19.50962124,
+        "lng": -99.09504578
+    },
+    {
+        "tipoDelito": "Abuso De Autoridad",
+        "fecha": "18/11/2022",
+        "hora": "22:30",
+        "lat": 19.5086429,
+        "lng": -99.09566843
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "19/11/2022",
+        "hora": "22:00",
+        "lat": 19.5107085,
+        "lng": -99.09671957
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "19/11/2022",
+        "hora": "11:00",
+        "lat": 19.5089717,
+        "lng": -99.09182288
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "21/11/2022",
+        "hora": "03:50",
+        "lat": 19.50906882,
+        "lng": -99.09311503
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "22/11/2022",
+        "hora": "08:00",
+        "lat": 19.50942097,
+        "lng": -99.0940062
+    },
+    {
+        "tipoDelito": "Abuso De Confianza",
+        "fecha": "13/11/2022",
+        "hora": "02:00",
+        "lat": 19.50892535,
+        "lng": -99.09640186
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "25/11/2022",
+        "hora": "08:45",
+        "lat": 19.50884975,
+        "lng": -99.09116954
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "30/11/2022",
+        "hora": "06:25",
+        "lat": 19.50834623,
+        "lng": -99.09327699
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "01/12/2022",
+        "hora": "09:00",
+        "lat": 19.50778494,
+        "lng": -99.09358812
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "05/12/2022",
+        "hora": "01:00",
+        "lat": 19.50809868,
+        "lng": -99.09259513
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "05/12/2022",
+        "hora": "01:30",
+        "lat": 19.50811513,
+        "lng": -99.09274757
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "07/12/2022",
+        "hora": "01:00",
+        "lat": 19.50837554,
+        "lng": -99.09556925
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "10/12/2022",
+        "hora": "08:00",
+        "lat": 19.50799928,
+        "lng": -99.09608129
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "14/09/2022",
+        "hora": "20:00",
+        "lat": 19.5088954,
+        "lng": -99.09347174
+    },
+    {
+        "tipoDelito": "Contra La Intimidad Sexual",
+        "fecha": "17/12/2022",
+        "hora": "05:00",
+        "lat": 19.50887702,
+        "lng": -99.09870359
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "21/12/2022",
+        "hora": "13:30",
+        "lat": 19.51190444,
+        "lng": -99.09973371
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "04/01/2023",
+        "hora": "19:00",
+        "lat": 19.51146151,
+        "lng": -99.10065483
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "15/01/2023",
+        "hora": "01:00",
+        "lat": 19.50899656,
+        "lng": -99.0946548
+    },
+    {
+        "tipoDelito": "Fraude",
+        "fecha": "16/01/2023",
+        "hora": "08:37",
+        "lat": 19.51102024,
+        "lng": -99.09979373
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "15/01/2023",
+        "hora": "01:00",
+        "lat": 19.50903469,
+        "lng": -99.09457013
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "15/01/2023",
+        "hora": "01:10",
+        "lat": 19.50977099,
+        "lng": -99.09550611
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "15/01/2023",
+        "hora": "01:00",
+        "lat": 19.5090151,
+        "lng": -99.09465574
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "18/01/2023",
+        "hora": "20:00",
+        "lat": 19.51208563,
+        "lng": -99.09856054
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "21/01/2023",
+        "hora": "02:53",
+        "lat": 19.51101367,
+        "lng": -99.09887834
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "08/01/2023",
+        "hora": "09:00",
+        "lat": 19.51162642,
+        "lng": -99.09778475
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "25/01/2023",
+        "hora": "07:50",
+        "lat": 19.50730613,
+        "lng": -99.09306407
+    },
+    {
+        "tipoDelito": "Usurpación",
+        "fecha": "12/12/2022",
+        "hora": "12:00",
+        "lat": 19.50913224,
+        "lng": -99.09645512
+    },
+    {
+        "tipoDelito": "Personas Extraviadas",
+        "fecha": "01/02/2023",
+        "hora": "12:30",
+        "lat": 19.50826149,
+        "lng": -99.09557847
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "28/10/2022",
+        "hora": "05:00",
+        "lat": 19.50834733,
+        "lng": -99.09327731
+    },
+    {
+        "tipoDelito": "Daño A La Propiedad",
+        "fecha": "05/02/2023",
+        "hora": "15:07",
+        "lat": 19.50760118,
+        "lng": -99.09190536
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "14/02/2023",
+        "hora": "07:00",
+        "lat": 19.50726866,
+        "lng": -99.09278225
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "13/02/2023",
+        "hora": "02:00",
+        "lat": 19.5078731,
+        "lng": -99.0922839
+    },
+    {
+        "tipoDelito": "Fraude",
+        "fecha": "14/02/2023",
+        "hora": "11:51",
+        "lat": 19.51236188,
+        "lng": -99.09808718
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "18/02/2023",
+        "hora": "04:00",
+        "lat": 19.50898823,
+        "lng": -99.09281884
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "18/02/2023",
+        "hora": "07:00",
+        "lat": 19.50900573,
+        "lng": -99.09164116
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "18/02/2023",
+        "hora": "07:00",
+        "lat": 19.50902656,
+        "lng": -99.09213021
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "26/02/2023",
+        "hora": "12:50",
+        "lat": 19.50925031,
+        "lng": -99.09968309
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "27/02/2023",
+        "hora": "03:00",
+        "lat": 19.5089127,
+        "lng": -99.09547437
+    },
+    {
+        "tipoDelito": "Tentativa",
+        "fecha": "01/03/2023",
+        "hora": "10:00",
+        "lat": 19.51018343,
+        "lng": -99.09448379
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "17/02/2023",
+        "hora": "11:00",
+        "lat": 19.51196369,
+        "lng": -99.09944773
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "09/03/2023",
+        "hora": "07:45",
+        "lat": 19.5102002,
+        "lng": -99.09510121
+    },
+    {
+        "tipoDelito": "Despojo",
+        "fecha": "05/09/2021",
+        "hora": "00:00",
+        "lat": 19.50925717,
+        "lng": -99.09181416
+    },
+    {
+        "tipoDelito": "Lesiones Culposas",
+        "fecha": "20/03/2023",
+        "hora": "09:45",
+        "lat": 19.50848101,
+        "lng": -99.09789569
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "21/03/2023",
+        "hora": "12:00",
+        "lat": 19.5085333,
+        "lng": -99.09465024
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "26/03/2023",
+        "hora": "12:30",
+        "lat": 19.51012556,
+        "lng": -99.10013729
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "31/03/2023",
+        "hora": "17:00",
+        "lat": 19.51190272,
+        "lng": -99.09757914
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "29/03/2023",
+        "hora": "15:30",
+        "lat": 19.50890829,
+        "lng": -99.09517286
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "07/04/2023",
+        "hora": "08:00",
+        "lat": 19.50922462,
+        "lng": -99.09339465
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "08/04/2023",
+        "hora": "13:30",
+        "lat": 19.50838817,
+        "lng": -99.09556034
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "12/04/2023",
+        "hora": "02:00",
+        "lat": 19.50956022,
+        "lng": -99.09832924
+    },
+    {
+        "tipoDelito": "Daño A La Propiedad",
+        "fecha": "14/04/2023",
+        "hora": "10:59",
+        "lat": 19.51102763,
+        "lng": -99.09578651
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "15/04/2023",
+        "hora": "09:58",
+        "lat": 19.50846958,
+        "lng": -99.0946915
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "17/04/2023",
+        "hora": "12:30",
+        "lat": 19.50875588,
+        "lng": -99.09323756
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "20/04/2023",
+        "hora": "10:40",
+        "lat": 19.51134231,
+        "lng": -99.0979857
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "02/04/2023",
+        "hora": "19:30",
+        "lat": 19.50751258,
+        "lng": -99.09393507
+    },
+    {
+        "tipoDelito": "Lesiones Dolosas",
+        "fecha": "24/04/2023",
+        "hora": "16:39",
+        "lat": 19.50927053,
+        "lng": -99.09555852
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "23/04/2023",
+        "hora": "19:00",
+        "lat": 19.51052313,
+        "lng": -99.09491582
+    },
+    {
+        "tipoDelito": "Tentativa",
+        "fecha": "21/04/2023",
+        "hora": "14:55",
+        "lat": 19.50758905,
+        "lng": -99.0942073
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "01/05/2023",
+        "hora": "12:00",
+        "lat": 19.51048427,
+        "lng": -99.09793357
+    },
+    {
+        "tipoDelito": "Extorsión",
+        "fecha": "15/01/2023",
+        "hora": "15:00",
+        "lat": 19.50994439,
+        "lng": -99.09694466
+    },
+    {
+        "tipoDelito": "Abuso De Confianza",
+        "fecha": "28/04/2023",
+        "hora": "14:00",
+        "lat": 19.51131387,
+        "lng": -99.0977177
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "02/05/2023",
+        "hora": "05:00",
+        "lat": 19.50750701,
+        "lng": -99.0945632
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "11/05/2023",
+        "hora": "01:00",
+        "lat": 19.50930974,
+        "lng": -99.09522478
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "14/05/2023",
+        "hora": "20:00",
+        "lat": 19.50734785,
+        "lng": -99.09382868
+    },
+    {
+        "tipoDelito": "Fraude",
+        "fecha": "22/05/2023",
+        "hora": "06:20",
+        "lat": 19.50927685,
+        "lng": -99.09329966
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "24/05/2023",
+        "hora": "10:20",
+        "lat": 19.51228831,
+        "lng": -99.0982591
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "26/05/2023",
+        "hora": "09:30",
+        "lat": 19.50766056,
+        "lng": -99.09447681
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "30/05/2023",
+        "hora": "17:00",
+        "lat": 19.51170434,
+        "lng": -99.10052577
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "02/06/2023",
+        "hora": "11:30",
+        "lat": 19.50847576,
+        "lng": -99.09352891
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "04/06/2023",
+        "hora": "01:25",
+        "lat": 19.50925915,
+        "lng": -99.09297779
+    },
+    {
+        "tipoDelito": "Lesiones Dolosas",
+        "fecha": "08/06/2023",
+        "hora": "07:30",
+        "lat": 19.50874104,
+        "lng": -99.09915268
+    },
+    {
+        "tipoDelito": "Fraude",
+        "fecha": "03/05/2023",
+        "hora": "14:00",
+        "lat": 19.51134484,
+        "lng": -99.09771748
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "13/06/2023",
+        "hora": "19:00",
+        "lat": 19.5074674,
+        "lng": -99.09182793
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "03/06/2023",
+        "hora": "22:10",
+        "lat": 19.50997609,
+        "lng": -99.09996673
+    },
+    {
+        "tipoDelito": "Tentativa",
+        "fecha": "21/06/2023",
+        "hora": "03:31",
+        "lat": 19.51128388,
+        "lng": -99.09721291
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "23/06/2023",
+        "hora": "10:20",
+        "lat": 19.5077415,
+        "lng": -99.09511194
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "28/06/2023",
+        "hora": "04:00",
+        "lat": 19.51176009,
+        "lng": -99.09877181
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "30/06/2023",
+        "hora": "11:30",
+        "lat": 19.50990271,
+        "lng": -99.09851185
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "03/07/2023",
+        "hora": "12:00",
+        "lat": 19.50879493,
+        "lng": -99.09279929
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "16/07/2023",
+        "hora": "00:00",
+        "lat": 19.50811656,
+        "lng": -99.09734398
+    },
+    {
+        "tipoDelito": "Usurpación",
+        "fecha": "04/07/2023",
+        "hora": "11:00",
+        "lat": 19.50912314,
+        "lng": -99.0950099
+    },
+    {
+        "tipoDelito": "Fraude",
+        "fecha": "10/07/2023",
+        "hora": "02:00",
+        "lat": 19.50754457,
+        "lng": -99.09534607
+    },
+    {
+        "tipoDelito": "Despojo",
+        "fecha": "17/07/2023",
+        "hora": "22:30",
+        "lat": 19.50868453,
+        "lng": -99.0977405
+    },
+    {
+        "tipoDelito": "Daño A La Propiedad",
+        "fecha": "18/07/2023",
+        "hora": "02:05",
+        "lat": 19.50901811,
+        "lng": -99.09091073
+    },
+    {
+        "tipoDelito": "Fraude",
+        "fecha": "19/09/2022",
+        "hora": "12:00",
+        "lat": 19.50851958,
+        "lng": -99.09391043
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "29/07/2023",
+        "hora": "05:00",
+        "lat": 19.50936273,
+        "lng": -99.09370624
+    },
+    {
+        "tipoDelito": "Usurpación",
+        "fecha": "14/02/2023",
+        "hora": "05:00",
+        "lat": 19.50739703,
+        "lng": -99.09317158
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "25/07/2023",
+        "hora": "03:00",
+        "lat": 19.51009591,
+        "lng": -99.09754984
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "12/08/2023",
+        "hora": "09:40",
+        "lat": 19.50882287,
+        "lng": -99.09500934
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "07/08/2023",
+        "hora": "20:00",
+        "lat": 19.50885707,
+        "lng": -99.09507844
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "15/08/2023",
+        "hora": "03:35",
+        "lat": 19.50907788,
+        "lng": -99.09430709
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "16/08/2023",
+        "hora": "17:00",
+        "lat": 19.51093906,
+        "lng": -99.0958324
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "20/08/2023",
+        "hora": "17:00",
+        "lat": 19.50772823,
+        "lng": -99.09205131
+    },
+    {
+        "tipoDelito": "Extorsión",
+        "fecha": "19/08/2023",
+        "hora": "09:47",
+        "lat": 19.50759764,
+        "lng": -99.09389173
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "17/08/2023",
+        "hora": "07:40",
+        "lat": 19.50809636,
+        "lng": -99.09663543
+    },
+    {
+        "tipoDelito": "Fraude",
+        "fecha": "27/08/2023",
+        "hora": "09:00",
+        "lat": 19.50757143,
+        "lng": -99.09527343
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "07/08/2023",
+        "hora": "12:00",
+        "lat": 19.51197257,
+        "lng": -99.10008072
+    },
+    {
+        "tipoDelito": "Usurpación",
+        "fecha": "29/08/2023",
+        "hora": "08:47",
+        "lat": 19.50849818,
+        "lng": -99.09753387
+    },
+    {
+        "tipoDelito": "Daño A La Propiedad",
+        "fecha": "30/08/2023",
+        "hora": "09:30",
+        "lat": 19.51227872,
+        "lng": -99.09746656
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "04/09/2023",
+        "hora": "05:51",
+        "lat": 19.50947169,
+        "lng": -99.09064382
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "03/09/2023",
+        "hora": "21:00",
+        "lat": 19.50785975,
+        "lng": -99.09674724
+    },
+    {
+        "tipoDelito": "Usurpación",
+        "fecha": "24/08/2023",
+        "hora": "11:00",
+        "lat": 19.50796849,
+        "lng": -99.09582406
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "05/09/2023",
+        "hora": "15:00",
+        "lat": 19.50987414,
+        "lng": -99.09855625
+    },
+    {
+        "tipoDelito": "Tentativa",
+        "fecha": "20/08/2023",
+        "hora": "09:00",
+        "lat": 19.50744782,
+        "lng": -99.09249551
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "15/08/2023",
+        "hora": "01:00",
+        "lat": 19.51055461,
+        "lng": -99.09396806
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "14/09/2023",
+        "hora": "01:00",
+        "lat": 19.50958824,
+        "lng": -99.09071088
+    },
+    {
+        "tipoDelito": "Daño A La Propiedad",
+        "fecha": "15/09/2023",
+        "hora": "02:00",
+        "lat": 19.50810641,
+        "lng": -99.09503348
+    },
+    {
+        "tipoDelito": "Fraude",
+        "fecha": "25/07/2023",
+        "hora": "11:27",
+        "lat": 19.50812895,
+        "lng": -99.09445835
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "19/09/2023",
+        "hora": "21:00",
+        "lat": 19.51005301,
+        "lng": -99.09423396
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "19/09/2023",
+        "hora": "21:00",
+        "lat": 19.50889456,
+        "lng": -99.09794908
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "24/09/2023",
+        "hora": "05:00",
+        "lat": 19.50782331,
+        "lng": -99.09387209
+    },
+    {
+        "tipoDelito": "Allanamiento",
+        "fecha": "27/08/2023",
+        "hora": "15:00",
+        "lat": 19.50864174,
+        "lng": -99.09261444
+    },
+    {
+        "tipoDelito": "Lesiones Culposas",
+        "fecha": "07/10/2023",
+        "hora": "00:05",
+        "lat": 19.50948592,
+        "lng": -99.09061303
+    },
+    {
+        "tipoDelito": "Daño A La Propiedad",
+        "fecha": "07/10/2023",
+        "hora": "21:00",
+        "lat": 19.50800886,
+        "lng": -99.09424536
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "21/07/2023",
+        "hora": "18:00",
+        "lat": 19.51028515,
+        "lng": -99.09831839
+    },
+    {
+        "tipoDelito": "Fraude",
+        "fecha": "12/10/2023",
+        "hora": "12:30",
+        "lat": 19.50823636,
+        "lng": -99.09301836
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "14/10/2023",
+        "hora": "08:00",
+        "lat": 19.50854105,
+        "lng": -99.09377731
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "22/08/2023",
+        "hora": "09:15",
+        "lat": 19.50879497,
+        "lng": -99.09526641
+    },
+    {
+        "tipoDelito": "Usurpación",
+        "fecha": "16/10/2023",
+        "hora": "01:30",
+        "lat": 19.50925113,
+        "lng": -99.09327608
+    },
+    {
+        "tipoDelito": "Usurpación",
+        "fecha": "14/10/2023",
+        "hora": "09:30",
+        "lat": 19.51034961,
+        "lng": -99.09353091
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "26/10/2023",
+        "hora": "12:00",
+        "lat": 19.50761443,
+        "lng": -99.09480937
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "31/10/2023",
+        "hora": "10:20",
+        "lat": 19.51178206,
+        "lng": -99.09877594
+    },
+    {
+        "tipoDelito": "Encubrimiento",
+        "fecha": "20/10/2023",
+        "hora": "12:05",
+        "lat": 19.5091565,
+        "lng": -99.09154779
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "15/09/2023",
+        "hora": "19:00",
+        "lat": 19.50907419,
+        "lng": -99.09630204
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "16/11/2023",
+        "hora": "07:00",
+        "lat": 19.51039365,
+        "lng": -99.09380043
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "16/11/2023",
+        "hora": "07:00",
+        "lat": 19.50964426,
+        "lng": -99.0920684
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "19/11/2023",
+        "hora": "15:00",
+        "lat": 19.50977049,
+        "lng": -99.0960008
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "01/12/2023",
+        "hora": "08:45",
+        "lat": 19.50802798,
+        "lng": -99.09699707
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "02/12/2023",
+        "hora": "14:00",
+        "lat": 19.51078487,
+        "lng": -99.09353013
+    },
+    {
+        "tipoDelito": "Tentativa",
+        "fecha": "02/12/2023",
+        "hora": "23:49",
+        "lat": 19.51069686,
+        "lng": -99.09724476
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "02/12/2023",
+        "hora": "00:20",
+        "lat": 19.51214146,
+        "lng": -99.09896404
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "03/08/2023",
+        "hora": "12:00",
+        "lat": 19.51172766,
+        "lng": -99.09931985
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "07/12/2023",
+        "hora": "21:30",
+        "lat": 19.50774698,
+        "lng": -99.0952317
+    },
+    {
+        "tipoDelito": "Acoso Sexual",
+        "fecha": "04/01/2023",
+        "hora": "19:30",
+        "lat": 19.51083343,
+        "lng": -99.09637056
+    },
+    {
+        "tipoDelito": "Fraude",
+        "fecha": "01/12/2023",
+        "hora": "01:16",
+        "lat": 19.50847224,
+        "lng": -99.09670634
+    },
+    {
+        "tipoDelito": "Usurpación",
+        "fecha": "04/07/2023",
+        "hora": "11:00",
+        "lat": 19.50915575,
+        "lng": -99.09499437
+    },
+    {
+        "tipoDelito": "Abuso De Confianza",
+        "fecha": "20/11/2023",
+        "hora": "11:40",
+        "lat": 19.51015934,
+        "lng": -99.09630384
+    },
+    {
+        "tipoDelito": "Personas Extraviadas",
+        "fecha": "28/12/2023",
+        "hora": "21:00",
+        "lat": 19.50747279,
+        "lng": -99.09539357
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "31/12/2023",
+        "hora": "10:45",
+        "lat": 19.51126065,
+        "lng": -99.0991187
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "31/12/2023",
+        "hora": "15:20",
+        "lat": 19.50742109,
+        "lng": -99.09406078
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "03/01/2024",
+        "hora": "14:00",
+        "lat": 19.51153919,
+        "lng": -99.10019844
+    },
+    {
+        "tipoDelito": "Retención De Menores",
+        "fecha": 1704067200000,
+        "hora": "20:00",
+        "lat": 19.50921217,
+        "lng": -99.09203933
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "03/01/2024",
+        "hora": "21:55",
+        "lat": 19.50955514,
+        "lng": -99.09322396
+    },
+    {
+        "tipoDelito": "Lesiones Dolosas",
+        "fecha": "12/01/2024",
+        "hora": "02:30",
+        "lat": 19.50746015,
+        "lng": -99.09627602
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "13/01/2024",
+        "hora": "11:00",
+        "lat": 19.51232322,
+        "lng": -99.09858516
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "14/01/2024",
+        "hora": "16:00",
+        "lat": 19.51035524,
+        "lng": -99.09541197
+    },
+    {
+        "tipoDelito": "Fraude",
+        "fecha": "21/01/2024",
+        "hora": "04:15",
+        "lat": 19.50799045,
+        "lng": -99.09591325
+    },
+    {
+        "tipoDelito": "Lesiones Culposas",
+        "fecha": "23/01/2024",
+        "hora": "12:27",
+        "lat": 19.50665143,
+        "lng": -99.09223493
+    },
+    {
+        "tipoDelito": "Abuso De Confianza",
+        "fecha": "03/01/2024",
+        "hora": "19:30",
+        "lat": 19.51123035,
+        "lng": -99.09987755
+    },
+    {
+        "tipoDelito": "Abuso De Confianza",
+        "fecha": "09/01/2024",
+        "hora": "12:00",
+        "lat": 19.51123117,
+        "lng": -99.0998923
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "03/02/2024",
+        "hora": "06:00",
+        "lat": 19.50950814,
+        "lng": -99.09470639
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "14/07/2023",
+        "hora": "10:00",
+        "lat": 19.50838864,
+        "lng": -99.09321494
+    },
+    {
+        "tipoDelito": "Despojo",
+        "fecha": "19/01/2024",
+        "hora": "22:00",
+        "lat": 19.51074768,
+        "lng": -99.09671389
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "22/01/2024",
+        "hora": "10:00",
+        "lat": 19.50784414,
+        "lng": -99.09646351
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "07/02/2024",
+        "hora": "20:00",
+        "lat": 19.50900764,
+        "lng": -99.09290707
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "30/01/2024",
+        "hora": "12:30",
+        "lat": 19.51182773,
+        "lng": -99.09678574
+    },
+    {
+        "tipoDelito": "Abuso De Confianza",
+        "fecha": "15/01/2022",
+        "hora": "16:00",
+        "lat": 19.51178592,
+        "lng": -99.09970634
+    },
+    {
+        "tipoDelito": "Ejercicio Ilegal De Funciones",
+        "fecha": "27/06/2023",
+        "hora": "12:00",
+        "lat": 19.50954467,
+        "lng": -99.09540564
+    },
+    {
+        "tipoDelito": "Abuso De Autoridad",
+        "fecha": "12/02/2024",
+        "hora": "08:17",
+        "lat": 19.50766998,
+        "lng": -99.09349729
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "25/02/2024",
+        "hora": "11:00",
+        "lat": 19.50846323,
+        "lng": -99.09349121
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "28/02/2024",
+        "hora": "23:58",
+        "lat": 19.51052554,
+        "lng": -99.0989258
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "28/02/2024",
+        "hora": "12:50",
+        "lat": 19.50879414,
+        "lng": -99.09620171
+    },
+    {
+        "tipoDelito": "Allanamiento",
+        "fecha": "28/02/2024",
+        "hora": "11:30",
+        "lat": 19.51123857,
+        "lng": -99.10056174
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "10/03/2024",
+        "hora": "05:45",
+        "lat": 19.51182321,
+        "lng": -99.0987926
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "10/03/2024",
+        "hora": "19:00",
+        "lat": 19.51106918,
+        "lng": -99.09818977
+    },
+    {
+        "tipoDelito": "Usurpación",
+        "fecha": "04/03/2024",
+        "hora": "12:00",
+        "lat": 19.50620266,
+        "lng": -99.09273114
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "12/03/2024",
+        "hora": "04:00",
+        "lat": 19.5087375313,
+        "lng": -99.094820252
+    },
+    {
+        "tipoDelito": "Violación",
+        "fecha": "10/10/2022",
+        "hora": "14:00",
+        "lat": 19.5094826102,
+        "lng": -99.0976659879
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "21/03/2024",
+        "hora": "00:00",
+        "lat": 19.5121084515,
+        "lng": -99.0967297004
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "23/03/2024",
+        "hora": "08:01",
+        "lat": 19.50688624,
+        "lng": -99.09406498
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "23/03/2024",
+        "hora": "09:30",
+        "lat": 19.5102867,
+        "lng": -99.1000928
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "25/03/2024",
+        "hora": "12:00",
+        "lat": 19.5080924732,
+        "lng": -99.0939880484
+    },
+    {
+        "tipoDelito": "Usurpación",
+        "fecha": "17/03/2024",
+        "hora": "05:45",
+        "lat": 19.50859103,
+        "lng": -99.09463611
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "31/03/2024",
+        "hora": "21:00",
+        "lat": 19.51116967,
+        "lng": -99.09997545
+    },
+    {
+        "tipoDelito": "Fraude",
+        "fecha": "06/04/2024",
+        "hora": "22:42",
+        "lat": 19.50923434,
+        "lng": -99.09175314
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "11/04/2024",
+        "hora": "19:00",
+        "lat": 19.51145083,
+        "lng": -99.09584633
+    },
+    {
+        "tipoDelito": "Daño A La Propiedad",
+        "fecha": "13/04/2024",
+        "hora": "17:45",
+        "lat": 19.50762196,
+        "lng": -99.09198448
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "16/04/2024",
+        "hora": "19:00",
+        "lat": 19.51095288,
+        "lng": -99.09752477
+    },
+    {
+        "tipoDelito": "Electorales",
+        "fecha": "12/04/2024",
+        "hora": "11:00",
+        "lat": 19.50916692,
+        "lng": -99.09571007
+    },
+    {
+        "tipoDelito": "Narcomenudeo",
+        "fecha": "17/04/2024",
+        "hora": "13:30",
+        "lat": 19.50901859,
+        "lng": -99.09890279
+    },
+    {
+        "tipoDelito": "Daño A La Propiedad",
+        "fecha": "22/04/2024",
+        "hora": "15:00",
+        "lat": 19.50972386,
+        "lng": -99.09446441
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "23/04/2024",
+        "hora": "16:00",
+        "lat": 19.50966228,
+        "lng": -99.09424423
+    },
+    {
+        "tipoDelito": "Fraude",
+        "fecha": "28/04/2024",
+        "hora": "06:48",
+        "lat": 19.51147495,
+        "lng": -99.09900919
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "27/04/2024",
+        "hora": "04:00",
+        "lat": 19.50879497,
+        "lng": -99.09526641
+    },
+    {
+        "tipoDelito": "Fraude",
+        "fecha": "30/04/2024",
+        "hora": "12:00",
+        "lat": 19.51078729,
+        "lng": -99.09886759
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "30/04/2024",
+        "hora": "19:00",
+        "lat": 19.5121291363,
+        "lng": -99.0991841933
+    },
+    {
+        "tipoDelito": "Usurpación",
+        "fecha": "20/02/2024",
+        "hora": "08:00",
+        "lat": 19.51021086,
+        "lng": -99.09315392
+    },
+    {
+        "tipoDelito": "Abuso Sexual",
+        "fecha": "05/05/2024",
+        "hora": "11:10",
+        "lat": 19.5077396595,
+        "lng": -99.094428459
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "21/04/2024",
+        "hora": "00:00",
+        "lat": 19.5074620471,
+        "lng": -99.0931849522
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "25/05/2024",
+        "hora": "22:30",
+        "lat": 19.51152804,
+        "lng": -99.10019204
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "28/05/2024",
+        "hora": "05:50",
+        "lat": 19.5100848081,
+        "lng": -99.0942194928
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "28/05/2024",
+        "hora": "06:20",
+        "lat": 19.5094487202,
+        "lng": -99.094598611
+    },
+    {
+        "tipoDelito": "Electorales",
+        "fecha": "01/06/2024",
+        "hora": "12:00",
+        "lat": 19.50747627,
+        "lng": -99.09563731
+    },
+    {
+        "tipoDelito": "Daño A La Propiedad",
+        "fecha": "29/05/2024",
+        "hora": "12:00",
+        "lat": 19.51214176,
+        "lng": -99.09715645
+    },
+    {
+        "tipoDelito": "Daño A La Propiedad",
+        "fecha": "25/05/2024",
+        "hora": "22:30",
+        "lat": 19.51148064,
+        "lng": -99.09972332
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "10/06/2024",
+        "hora": "06:30",
+        "lat": 19.50914309,
+        "lng": -99.09579827
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "17/06/2024",
+        "hora": "18:30",
+        "lat": 19.50913068,
+        "lng": -99.09578534
+    },
+    {
+        "tipoDelito": "Daño A La Propiedad",
+        "fecha": "21/06/2024",
+        "hora": "06:50",
+        "lat": 19.5114803,
+        "lng": -99.10067332
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "17/03/2024",
+        "hora": "06:00",
+        "lat": 19.51069185,
+        "lng": -99.09985475
+    },
+    {
+        "tipoDelito": "Fraude",
+        "fecha": "01/07/2024",
+        "hora": "06:34",
+        "lat": 19.5112215,
+        "lng": -99.097941
+    },
+    {
+        "tipoDelito": "Ambiental",
+        "fecha": "02/07/2024",
+        "hora": "12:00",
+        "lat": 19.50769749,
+        "lng": -99.09252863
+    },
+    {
+        "tipoDelito": "Abuso De Autoridad",
+        "fecha": "04/07/2024",
+        "hora": "10:00",
+        "lat": 19.508974241,
+        "lng": -99.0982046521
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "01/07/2024",
+        "hora": "07:00",
+        "lat": 19.50860038,
+        "lng": -99.09317806
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "01/07/2024",
+        "hora": "07:00",
+        "lat": 19.50933041,
+        "lng": -99.09364142
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "01/07/2024",
+        "hora": "07:00",
+        "lat": 19.50919862,
+        "lng": -99.09338057
+    },
+    {
+        "tipoDelito": "Tentativa",
+        "fecha": "23/07/2024",
+        "hora": "17:48",
+        "lat": 19.5102688048,
+        "lng": -99.1002006002
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "22/07/2024",
+        "hora": "10:00",
+        "lat": 19.50630663,
+        "lng": -99.09267984
+    },
+    {
+        "tipoDelito": "Daño A La Propiedad",
+        "fecha": "21/07/2024",
+        "hora": "06:00",
+        "lat": 19.50904914,
+        "lng": -99.09314454
+    },
+    {
+        "tipoDelito": "Encubrimiento",
+        "fecha": "26/07/2024",
+        "hora": "13:50",
+        "lat": 19.51250266,
+        "lng": -99.09780353
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "20/07/2024",
+        "hora": "06:00",
+        "lat": 19.50795189,
+        "lng": -99.09239329
+    },
+    {
+        "tipoDelito": "Despojo",
+        "fecha": "31/07/2024",
+        "hora": "10:00",
+        "lat": 19.50979724,
+        "lng": -99.09757957
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "04/08/2024",
+        "hora": "19:00",
+        "lat": 19.50936343,
+        "lng": -99.09707128
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "03/08/2024",
+        "hora": "20:00",
+        "lat": 19.50959244,
+        "lng": -99.0956568
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "26/07/2024",
+        "hora": "13:30",
+        "lat": 19.51166395,
+        "lng": -99.09967444
+    },
+    {
+        "tipoDelito": "Lesiones Culposas",
+        "fecha": "10/08/2024",
+        "hora": "21:50",
+        "lat": 19.50937111,
+        "lng": -99.09093221
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "22/08/2024",
+        "hora": "00:00",
+        "lat": 19.51139469,
+        "lng": -99.09743074
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "01/09/2024",
+        "hora": "12:15",
+        "lat": 19.51197553,
+        "lng": -99.0969117
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "03/09/2024",
+        "hora": "11:00",
+        "lat": 19.51165256,
+        "lng": -99.09932904
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "10/08/2024",
+        "hora": "04:00",
+        "lat": 19.51061284,
+        "lng": -99.09794837
+    },
+    {
+        "tipoDelito": "Tentativa",
+        "fecha": "06/09/2024",
+        "hora": "16:24",
+        "lat": 19.5118409727,
+        "lng": -99.097311403
+    },
+    {
+        "tipoDelito": "Abuso De Confianza",
+        "fecha": "08/08/2024",
+        "hora": "12:00",
+        "lat": 19.51114755,
+        "lng": -99.1005253
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "11/09/2024",
+        "hora": "18:40",
+        "lat": 19.5105513207,
+        "lng": -99.0957357696
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "14/09/2024",
+        "hora": "08:15",
+        "lat": 19.51032715,
+        "lng": -99.09654558
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "10/09/2024",
+        "hora": "15:00",
+        "lat": 19.51230546,
+        "lng": -99.09843653
+    },
+    {
+        "tipoDelito": "Abuso Sexual",
+        "fecha": "05/06/2024",
+        "hora": "18:00",
+        "lat": 19.5120316641,
+        "lng": -99.0991579894
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "17/09/2024",
+        "hora": "20:00",
+        "lat": 19.5096353766,
+        "lng": -99.099527223
+    },
+    {
+        "tipoDelito": "Tentativa",
+        "fecha": "10/09/2024",
+        "hora": "12:00",
+        "lat": 19.5103076076,
+        "lng": -99.095699624
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "22/09/2024",
+        "hora": "10:00",
+        "lat": 19.51058786,
+        "lng": -99.09506105
+    },
+    {
+        "tipoDelito": "Fraude",
+        "fecha": "22/09/2024",
+        "hora": "09:00",
+        "lat": 19.51030335,
+        "lng": -99.09381922
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "29/09/2024",
+        "hora": "20:15",
+        "lat": 19.50958015,
+        "lng": -99.09893444
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "13/09/2024",
+        "hora": "12:30",
+        "lat": 19.507388,
+        "lng": -99.09271241
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "16/04/2024",
+        "hora": "00:00",
+        "lat": 19.5103496,
+        "lng": -99.09518908
+    },
+    {
+        "tipoDelito": "Daño A La Propiedad",
+        "fecha": "22/10/2024",
+        "hora": "16:54",
+        "lat": 19.50977743,
+        "lng": -99.09693331
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "24/10/2024",
+        "hora": "15:00",
+        "lat": 19.50887155,
+        "lng": -99.09238115
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "23/10/2024",
+        "hora": "13:00",
+        "lat": 19.50893944,
+        "lng": -99.09344748
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "30/10/2024",
+        "hora": "14:50",
+        "lat": 19.50823989,
+        "lng": -99.09766498
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "03/11/2024",
+        "hora": "18:00",
+        "lat": 19.50831703,
+        "lng": -99.09583996
+    },
+    {
+        "tipoDelito": "Abuso De Confianza",
+        "fecha": "18/08/2024",
+        "hora": "18:30",
+        "lat": 19.50849293,
+        "lng": -99.09714907
+    },
+    {
+        "tipoDelito": "Abuso De Autoridad",
+        "fecha": "05/11/2024",
+        "hora": "13:00",
+        "lat": 19.50837713,
+        "lng": -99.09183366
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "24/10/2024",
+        "hora": "20:57",
+        "lat": 19.51026483,
+        "lng": -99.09904962
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "14/11/2024",
+        "hora": "14:00",
+        "lat": 19.50918482,
+        "lng": -99.09544677
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "27/11/2024",
+        "hora": "22:10",
+        "lat": 19.51002175,
+        "lng": -99.10003191
+    },
+    {
+        "tipoDelito": "Abuso Sexual",
+        "fecha": "10/12/2024",
+        "hora": "17:30",
+        "lat": 19.51077441,
+        "lng": -99.09718993
+    },
+    {
+        "tipoDelito": "Usurpación",
+        "fecha": "31/05/2024",
+        "hora": "12:00",
+        "lat": 19.51125563,
+        "lng": -99.0977291
+    },
+    {
+        "tipoDelito": "Corrupción De Menores",
+        "fecha": "27/12/2024",
+        "hora": "05:00",
+        "lat": 19.51013004,
+        "lng": -99.10013927
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "02/12/2024",
+        "hora": "06:30",
+        "lat": 19.50810043,
+        "lng": -99.09496911
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "24/10/2024",
+        "hora": "12:00",
+        "lat": 19.50879719,
+        "lng": -99.09949647
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "13/12/2024",
+        "hora": "16:34",
+        "lat": 19.51012313,
+        "lng": -99.09933025
+    },
+    {
+        "tipoDelito": "Daño A La Propiedad",
+        "fecha": "19/01/2025",
+        "hora": "02:00",
+        "lat": 19.50731225,
+        "lng": -99.09412622
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "22/01/2025",
+        "hora": "00:00",
+        "lat": 19.51037524,
+        "lng": -99.09953583
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "28/11/2024",
+        "hora": "13:33",
+        "lat": 19.50940979,
+        "lng": -99.09661297
+    },
+    {
+        "tipoDelito": "Abuso De Confianza",
+        "fecha": "23/01/2025",
+        "hora": "10:30",
+        "lat": 19.50908622,
+        "lng": -99.09434035
+    },
+    {
+        "tipoDelito": "Fraude",
+        "fecha": "29/01/2025",
+        "hora": "03:25",
+        "lat": 19.50950707,
+        "lng": -99.09719367
+    },
+    {
+        "tipoDelito": "Contra La Intimidad Sexual",
+        "fecha": "05/05/2024",
+        "hora": "15:39",
+        "lat": 19.50821248,
+        "lng": -99.09685114
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "07/02/2025",
+        "hora": "14:35",
+        "lat": 19.50936264,
+        "lng": -99.09851164
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "09/02/2025",
+        "hora": "17:00",
+        "lat": 19.5076357,
+        "lng": -99.0941813
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "23/01/2025",
+        "hora": "10:48",
+        "lat": 19.50944102,
+        "lng": -99.09656346
+    },
+    {
+        "tipoDelito": "Robo",
+        "fecha": "14/02/2025",
+        "hora": "09:30",
+        "lat": 19.50837158,
+        "lng": -99.09147888
+    },
+    {
+        "tipoDelito": "Abuso Sexual",
+        "fecha": "14/02/2025",
+        "hora": "10:30",
+        "lat": 19.50817433,
+        "lng": -99.09529727
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "16/02/2025",
+        "hora": "19:30",
+        "lat": 19.50887239,
+        "lng": -99.09953451
+    },
+    {
+        "tipoDelito": "Daño A La Propiedad",
+        "fecha": "18/02/2025",
+        "hora": "19:05",
+        "lat": 19.51205011,
+        "lng": -99.09689963
+    },
+    {
+        "tipoDelito": "Amenazas",
+        "fecha": "21/02/2025",
+        "hora": "22:00",
+        "lat": 19.51237175,
+        "lng": -99.09828089
+    },
+    {
+        "tipoDelito": "Daño A La Propiedad",
+        "fecha": "27/02/2025",
+        "hora": "10:02",
+        "lat": 19.508297,
+        "lng": -99.09463584
+    },
+    {
+        "tipoDelito": "Fraude",
+        "fecha": "27/02/2025",
+        "hora": "04:05",
+        "lat": 19.51054637,
+        "lng": -99.09554001
+    },
+    {
+        "tipoDelito": "Lesiones Culposas",
+        "fecha": "03/03/2025",
+        "hora": "20:00",
+        "lat": 19.51128635,
+        "lng": -99.0956132
+    },
+    {
+        "tipoDelito": "Violencia Familiar",
+        "fecha": "07/03/2025",
+        "hora": "09:15",
+        "lat": 19.51176686,
+        "lng": -99.09876775
+    },
+    {
+        "tipoDelito": "Narcomenudeo",
+        "fecha": "12/03/2025",
+        "hora": "14:45",
+        "lat": 19.51230925,
+        "lng": -99.09863368
+    }
+]

@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Mapa de Zonas de Riesgo - CTM El Risco</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    #map {
+      height: 100vh;
+      width: 100%;
+    }
+
+    .leyenda {
+      padding: 10px;
+      background: white;
+      border-radius: 5px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      max-height: 80vh;
+      overflow-y: auto;
+      width: 300px;
+    }
+
+    .leyenda h4 {
+      margin: 0 0 10px;
+      font-size: 16px;
+    }
+
+    .leyenda-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+
+    .color-box {
+      width: 15px;
+      height: 15px;
+      margin-right: 8px;
+      border-radius: 3px;
+    }
+
+    .total-delitos {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: white;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      font-weight: bold;
+    }
+
+    .controles {
+      position: absolute;
+      top: 10px;
+      left: 50px;
+      background: white;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+    }
+
+    .control-btn {
+      margin: 5px 0;
+      padding: 5px 10px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      display: block;
+      width: 100%;
+    }
+
+    .control-btn:hover {
+      background: #0056b3;
+    }
+
+    .loading {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      z-index: 2000;
+    }
+
+    .error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="map"></div>
+  <div class="loading" id="loading">Cargando mapa y datos...</div>
+  <div class="total-delitos" id="total-delitos" style="display: none;"></div>
+  <div class="controles" style="display: none;" id="controles">
+    <button class="control-btn" id="btn-centrar">Centrar Mapa</button>
+    <button class="control-btn" id="btn-toggle-puntos">Mostrar/Ocultar Puntos</button>
+    <button class="control-btn" id="btn-toggle-zonas">Mostrar/Ocultar Zonas</button>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+  <script>
+    // Variables globales
+    let map;
+    let delitosData = [];
+    let puntosLayer;
+    let zonasRiesgoLayer;
+    let leyendaControl;
+    let mostrandoPuntos = false;
+    let mostrandoZonas = true;
+
+    // Datos de delitos incluidos directamente
+    const delitosRaw = [
+      { "tipoDelito": "Violencia Familiar", "fecha": "05/01/2022", "hora": "10:00", "lat": 19.5079885, "lng": -99.09539573 },
+      { "tipoDelito": "Fraude", "fecha": "05/01/2022", "hora": "15:17", "lat": 19.50876299, "lng": -99.09737123 },
+      { "tipoDelito": "Robo", "fecha": "13/01/2022", "hora": "08:00", "lat": 19.50854978, "lng": -99.09460522 },
+      { "tipoDelito": "Robo", "fecha": "17/01/2022", "hora": "14:15", "lat": 19.50745905, "lng": -99.09533948 },
+      { "tipoDelito": "Usurpación", "fecha": "21/12/2021", "hora": "12:00", "lat": 19.51121001, "lng": -99.09999719 },
+      { "tipoDelito": "Robo", "fecha": "15/01/2022", "hora": "08:30", "lat": 19.50988236, "lng": -99.0999949 },
+      { "tipoDelito": "Robo", "fecha": "24/01/2022", "hora": "09:00", "lat": 19.50661137, "lng": -99.09294337 },
+      { "tipoDelito": "Despojo", "fecha": "25/01/2022", "hora": "11:43", "lat": 19.50855013, "lng": -99.09159534 },
+      { "tipoDelito": "Violencia Familiar", "fecha": "24/01/2022", "hora": "19:58", "lat": 19.50841714, "lng": -99.09756801 },
+      { "tipoDelito": "Robo", "fecha": "02/02/2022", "hora": "14:00", "lat": 19.51132233, "lng": -99.0949139 },
+      { "tipoDelito": "Amenazas", "fecha": "03/02/2022", "hora": "20:00", "lat": 19.50938042, "lng": -99.09799509 },
+      { "tipoDelito": "Violencia Familiar", "fecha": "04/02/2022", "hora": "07:00", "lat": 19.51228879, "lng": -99.09879355 },
+      { "tipoDelito": "Robo", "fecha": "12/02/2022", "hora": "18:20", "lat": 19.50929779, "lng": -99.09092689 },
+      { "tipoDelito": "Lesiones Culposas", "fecha": "16/02/2022", "hora": "23:20", "lat": 19.50806499, "lng": -99.09268007 },
+      { "tipoDelito": "Violencia Familiar", "fecha": "24/01/2022", "hora": "16:00", "lat": 19.51204634, "lng": -99.09817212 },
+      { "tipoDelito": "Daño A La Propiedad", "fecha": "26/10/2021", "hora": "05:00", "lat": 19.51150184, "lng": -99.0993361 },
+      { "tipoDelito": "Allanamiento", "fecha": "02/03/2022", "hora": "05:25", "lat": 19.51202519, "lng": -99.09854852 },
+      { "tipoDelito": "Violencia Familiar", "fecha": "03/03/2022", "hora": "05:00", "lat": 19.50645653, "lng": -99.09253162 },
+      { "tipoDelito": "Robo", "fecha": "07/03/2022", "hora": "07:45", "lat": 19.51007109, "lng": -99.09924059 },
+      { "tipoDelito": "Violencia Familiar", "fecha": "05/03/2022", "hora": "08:30", "lat": 19.51017907, "lng": -99.10016094 },
+      { "tipoDelito": "Robo", "fecha": "08/03/2022", "hora": "07:06", "lat": 19.50656056, "lng": -99.09362666 },
+      { "tipoDelito": "Violencia Familiar", "fecha": "08/03/2022", "hora": "06:20", "lat": 19.50710194, "lng": -99.09314357 },
+      { "tipoDelito": "Tentativa", "fecha": "23/03/2022", "hora": "14:30", "lat": 19.50953499, "lng": -99.0977283 },
+      { "tipoDelito": "Violencia Familiar", "fecha": "20/03/2022", "hora": "12:00", "lat": 19.51065044, "lng": -99.09653513 },
+      { "tipoDelito": "Amenazas", "fecha": "03/04/2022", "hora": "09:30", "lat": 19.50853229, "lng": -99.09366488 },
+      { "tipoDelito": "Robo", "fecha": "03/04/2022", "hora": "12:30", "lat": 19.50990914, "lng": -99.09240279 },
+      { "tipoDelito": "Robo", "fecha": "06/04/2022", "hora": "02:00", "lat": 19.50853153, "lng": -99.09667198 },
+      { "tipoDelito": "Robo", "fecha": "06/04/2022", "hora": "15:40", "lat": 19.50729725, "lng": -99.09185082 },
+      { "tipoDelito": "Encubrimiento", "fecha": "11/04/2022", "hora": "23:20", "lat": 19.51210042, "lng": -99.09894705 },
+      { "tipoDelito": "Violencia Familiar", "fecha": "11/04/2022", "hora": "11:00", "lat": 19.5090308, "lng": -99.09507573 }
+    ];
+
+    // Polígono real de CTM El Risco
+    const poligonoElRisco = {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-99.09740966399839, 19.51266487533441],
+          [-99.10056001114475, 19.51184350019888],
+          [-99.1006093896991, 19.511303564087626],
+          [-99.09965400636638, 19.509148468250586],
+          [-99.09932498626866, 19.509227827856975],
+          [-99.098853531969, 19.509016322113567],
+          [-99.09863095442408, 19.509346968554595],
+          [-99.0981457328141, 19.509095591825343],
+          [-99.09843057741668, 19.508495805177503],
+          [-99.09604558848774, 19.50725339452788],
+          [-99.09533437072858, 19.5074291381071],
+          [-99.09286947300322, 19.506017748674992],
+          [-99.09259666715131, 19.505876914674985],
+          [-99.09040664577094, 19.5095740415083],
+          [-99.09493725520933, 19.51130173772033],
+          [-99.09740966399839, 19.51266487533441]
+        ]]
+      }
+    };
+
+    // Función para mostrar error
+    function mostrarError(mensaje) {
+      const loading = document.getElementById('loading');
+      loading.innerHTML = mensaje;
+      loading.classList.add('error');
+      console.error(mensaje);
+    }
+
+    // Verificar si las librerías están cargadas
+    function verificarLibrerias() {
+      if (typeof L === 'undefined') {
+        mostrarError('Error: No se pudo cargar la librería Leaflet');
+        return false;
+      }
+      if (typeof turf === 'undefined') {
+        mostrarError('Error: No se pudo cargar la librería Turf.js');
+        return false;
+      }
+      return true;
+    }
+
+    // Inicializar el mapa
+    function initMap() {
+      try {
+        if (!verificarLibrerias()) return;
+
+        map = L.map('map').setView([19.510, -99.096], 15);
+
+        // Mapa base
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Grupos de capas
+        puntosLayer = L.layerGroup();
+        zonasRiesgoLayer = L.layerGroup().addTo(map);
+
+        return true;
+      } catch (error) {
+        mostrarError('Error inicializando el mapa: ' + error.message);
+        return false;
+      }
+    }
+
+    // Procesar datos de delitos
+    function procesarDelitos() {
+      try {
+        document.getElementById('loading').innerHTML = 'Procesando datos de delitos...';
+
+        // Filtrar delitos dentro del polígono
+        const turfPolygon = turf.polygon(poligonoElRisco.geometry.coordinates);
+        const delitosFiltrados = delitosRaw.filter(delito => {
+          const punto = turf.point([delito.lng, delito.lat]);
+          return turf.booleanPointInPolygon(punto, turfPolygon);
+        });
+
+        delitosData = delitosFiltrados;
+
+        console.log(`Delitos procesados: ${delitosData.length}`);
+
+        if (delitosData.length === 0) {
+          mostrarError('No se encontraron delitos en el área especificada');
+          return;
+        }
+
+        // Crear visualizaciones
+        crearPuntosDelitos();
+        crearZonasRiesgoSimples();
+        actualizarEstadisticas();
+
+        // Ocultar loading y mostrar controles
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('total-delitos').style.display = 'block';
+        document.getElementById('controles').style.display = 'block';
+
+      } catch (error) {
+        mostrarError('Error procesando datos: ' + error.message);
+      }
+    }
+
+    // Crear zonas de riesgo simplificadas (círculos alrededor de concentraciones)
+    function crearZonasRiesgoSimples() {
+      try {
+        // Agrupar delitos por proximidad
+        const grupos = [];
+        const radio = 100; // 100 metros de radio
+
+        delitosData.forEach(delito => {
+          let grupoEncontrado = false;
+
+          for (let grupo of grupos) {
+            const distancia = turf.distance(
+              turf.point([delito.lng, delito.lat]),
+              turf.point([grupo.centro.lng, grupo.centro.lat]),
+              { units: 'meters' }
+            );
+
+            if (distancia <= radio) {
+              grupo.delitos.push(delito);
+              grupoEncontrado = true;
+              break;
+            }
+          }
+
+          if (!grupoEncontrado) {
+            grupos.push({
+              centro: { lat: delito.lat, lng: delito.lng },
+              delitos: [delito]
+            });
+          }
+        });
+
+        // Crear círculos para cada grupo
+        grupos.forEach(grupo => {
+          const cantidad = grupo.delitos.length;
+          let color, nivelRiesgo;
+
+          if (cantidad >= 5) {
+            color = '#ff0000';
+            nivelRiesgo = 'Muy Alto';
+          } else if (cantidad >= 3) {
+            color = '#ff6666';
+            nivelRiesgo = 'Alto';
+          } else if (cantidad >= 2) {
+            color = '#ff9999';
+            nivelRiesgo = 'Medio';
+          } else {
+            color = '#ffcc99';
+            nivelRiesgo = 'Bajo';
+          }
+
+          const circle = L.circle([grupo.centro.lat, grupo.centro.lng], {
+            radius: radio,
+            fillColor: color,
+            fillOpacity: 0.4,
+            color: '#666',
+            weight: 2,
+            opacity: 0.8
+          }).bindPopup(`
+            <strong>Zona de Riesgo: ${nivelRiesgo}</strong><br>
+            Delitos registrados: ${cantidad}<br>
+            Radio: ${radio} metros
+          `);
+
+          zonasRiesgoLayer.addLayer(circle);
+        });
+
+        // Crear leyenda
+        crearLeyendaZonas();
+
+      } catch (error) {
+        console.error('Error creando zonas de riesgo:', error);
+        // Continuar sin zonas de riesgo
+      }
+    }
+
+    // Crear puntos de delitos individuales
+    function crearPuntosDelitos() {
+      try {
+        const coloresDelitos = {
+          'Violencia Familiar': '#e41a1c',
+          'Robo': '#377eb8',
+          'Amenazas': '#4daf4a',
+          'Daño A La Propiedad': '#984ea3',
+          'Fraude': '#ff7f00',
+          'Usurpación': '#ffff33',
+          'Tentativa': '#f781bf',
+          'Lesiones Culposas': '#66c2a5',
+          'Despojo': '#fc8d62',
+          'Allanamiento': '#8da0cb',
+          'Encubrimiento': '#ffd92f'
+        };
+
+        delitosData.forEach(delito => {
+          const color = coloresDelitos[delito.tipoDelito] || '#000000';
+
+          const marker = L.circleMarker([delito.lat, delito.lng], {
+            radius: 5,
+            fillColor: color,
+            color: '#000',
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.8
+          }).bindPopup(`
+            <strong>${delito.tipoDelito}</strong><br>
+            Fecha: ${delito.fecha}<br>
+            Hora: ${delito.hora}<br>
+            Coordenadas: ${delito.lat.toFixed(6)}, ${delito.lng.toFixed(6)}
+          `);
+
+          puntosLayer.addLayer(marker);
+        });
+
+      } catch (error) {
+        console.error('Error creando puntos:', error);
+      }
+    }
+
+    // Crear leyenda
+    function crearLeyendaZonas() {
+      try {
+        if (leyendaControl) {
+          map.removeControl(leyendaControl);
+        }
+
+        leyendaControl = L.control({ position: 'bottomleft' });
+        leyendaControl.onAdd = function () {
+          const div = L.DomUtil.create('div', 'leyenda');
+          div.innerHTML = '<h4>Zonas de Riesgo</h4>';
+
+          const niveles = [
+            { nivel: 'Muy Alto', color: '#ff0000', desc: '5+ delitos' },
+            { nivel: 'Alto', color: '#ff6666', desc: '3-4 delitos' },
+            { nivel: 'Medio', color: '#ff9999', desc: '2 delitos' },
+            { nivel: 'Bajo', color: '#ffcc99', desc: '1 delito' }
+          ];
+
+          niveles.forEach(item => {
+            div.innerHTML += `
+              <div class="leyenda-item">
+                <div class="color-box" style="background: ${item.color}"></div>
+                <span>${item.nivel} (${item.desc})</span>
+              </div>
+            `;
+          });
+
+          return div;
+        };
+        leyendaControl.addTo(map);
+
+      } catch (error) {
+        console.error('Error creando leyenda:', error);
+      }
+    }
+
+    // Actualizar estadísticas
+    function actualizarEstadisticas() {
+      try {
+        const totalDelitos = delitosData.length;
+        const tiposDelitos = [...new Set(delitosData.map(d => d.tipoDelito))].length;
+
+        document.getElementById('total-delitos').innerHTML = `
+          Total de delitos: ${totalDelitos}<br>
+          Tipos de delitos: ${tiposDelitos}
+        `;
+      } catch (error) {
+        console.error('Error actualizando estadísticas:', error);
+      }
+    }
+
+    // Event listeners
+    function setupEventListeners() {
+      try {
+        document.getElementById('btn-centrar').addEventListener('click', function () {
+          const poligonoLayer = L.geoJSON(poligonoElRisco, {
+            style: { color: 'blue', fillOpacity: 0.1 }
+          });
+          map.fitBounds(poligonoLayer.getBounds());
+        });
+
+        document.getElementById('btn-toggle-puntos').addEventListener('click', function () {
+          if (mostrandoPuntos) {
+            map.removeLayer(puntosLayer);
+            mostrandoPuntos = false;
+          } else {
+            map.addLayer(puntosLayer);
+            mostrandoPuntos = true;
+          }
+        });
+
+        document.getElementById('btn-toggle-zonas').addEventListener('click', function () {
+          if (mostrandoZonas) {
+            map.removeLayer(zonasRiesgoLayer);
+            mostrandoZonas = false;
+          } else {
+            map.addLayer(zonasRiesgoLayer);
+            mostrandoZonas = true;
+          }
+        });
+
+      } catch (error) {
+        console.error('Error configurando eventos:', error);
+      }
+    }
+
+    // Inicialización principal
+    function inicializar() {
+      try {
+        // Verificar que las librerías estén disponibles
+        if (!verificarLibrerias()) {
+          setTimeout(inicializar, 1000); // Reintentar en 1 segundo
+          return;
+        }
+
+        // Inicializar mapa
+        if (!initMap()) return;
+
+        // Añadir el polígono al mapa
+        const poligonoLayer = L.geoJSON(poligonoElRisco, {
+          style: {
+            color: 'blue',
+            fillOpacity: 0.1,
+            weight: 2
+          }
+        }).addTo(map);
+
+        // Ajustar la vista al polígono
+        map.fitBounds(poligonoLayer.getBounds());
+
+        // Procesar datos después de un pequeño retraso
+        setTimeout(() => {
+          procesarDelitos();
+          setupEventListeners();
+        }, 500);
+
+      } catch (error) {
+        mostrarError('Error de inicialización: ' + error.message);
+      }
+    }
+
+    // Esperar a que el DOM esté listo
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', inicializar);
+    } else {
+      inicializar();
+    }
+  </script>
+</body>
+
+</html>
