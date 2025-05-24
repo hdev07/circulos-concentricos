@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Mapa de Zonas de Riesgo - CTM El Risco</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
   <style>
@@ -13,10 +14,35 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
+    /* Optimizaciones móviles globales */
+    html {
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+      touch-action: manipulation;
+    }
+
     body {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
       padding: 0;
+      -webkit-overflow-scrolling: touch;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+    }
+
+    /* Permitir selección en elementos de texto específicos */
+    .leyenda,
+    .estadisticas,
+    .loading,
+    .notificacion,
+    .resultados-filtro {
+      user-select: text;
+      -webkit-user-select: text;
+      -moz-user-select: text;
+      -ms-user-select: text;
     }
 
     .container {
@@ -383,38 +409,203 @@
       font-size: 1.1rem;
     }
 
-    /* Responsivo */
-    @media (max-width: 768px) {
+    /* Mobile First - Optimización completa para móviles */
+
+    /* Pantallas muy pequeñas (hasta 480px) */
+    @media (max-width: 480px) {
       .container {
-        padding: 10px;
-        /* Reducimos padding en móviles */
+        padding: 5px;
       }
 
-      .mapa-container {
-        margin: 0 -10px;
-        /* Ajustamos el margen negativo para móviles */
+      .header {
+        margin: 0 auto 15px auto;
+        padding: 15px;
+        border-radius: 15px;
+      }
+
+      .header h1 {
+        font-size: 1.8rem;
+        margin-bottom: 8px;
+      }
+
+      .subtitle {
+        font-size: 1rem;
+        margin-bottom: 20px;
       }
 
       .filtros-container {
         grid-template-columns: 1fr;
+        gap: 15px;
+        margin-bottom: 15px;
       }
 
-      .header h1 {
-        font-size: 2rem;
+      .filtro-card {
+        padding: 15px;
+        border-radius: 12px;
+      }
+
+      .filtro-card h3 {
+        font-size: 1.1rem;
+        margin-bottom: 12px;
+      }
+
+      .tipos-grid {
+        max-height: 150px;
+        padding: 12px;
+        grid-template-columns: 1fr;
+      }
+
+      .tipo-item {
+        padding: 8px 5px;
+        font-size: 0.85rem;
+      }
+
+      .tipo-item input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
       }
 
       .botones-container {
         flex-direction: column;
+        gap: 12px;
+        margin-bottom: 15px;
+      }
+
+      .btn {
+        padding: 15px 20px;
+        font-size: 1rem;
+        border-radius: 20px;
+        min-height: 50px;
+        justify-content: center;
+      }
+
+      .mapa-container {
+        margin: 0 -5px;
+        border-radius: 0;
+        padding: 15px;
+      }
+
+      .mapa-header {
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 15px;
+      }
+
+      .mapa-title {
+        font-size: 1.4rem;
+        text-align: center;
       }
 
       .controles-mapa {
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        width: 100%;
+      }
+
+      .control-btn {
+        padding: 12px 8px;
+        font-size: 0.8rem;
+        border-radius: 12px;
+        min-height: 45px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         justify-content: center;
+        text-align: center;
+      }
+
+      #map {
+        height: 60vh;
+        border-radius: 12px;
+      }
+
+      .estadisticas {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        right: auto;
+        top: auto;
+        width: calc(100% - 40px);
+        max-width: 300px;
+        background: rgba(255, 255, 255, 0.98);
+        border: 2px solid #667eea;
+      }
+
+      .loading {
+        padding: 20px;
+        border-radius: 15px;
+      }
+
+      .loading h3 {
+        font-size: 1.2rem;
+      }
+
+      .notificacion {
+        top: 10px;
+        padding: 12px 20px;
+        font-size: 0.9rem;
+        max-width: calc(100% - 20px);
+        border-radius: 20px;
+      }
+    }
+
+    /* Tablets y pantallas medianas (481px - 768px) */
+    @media (min-width: 481px) and (max-width: 768px) {
+      .container {
+        padding: 10px;
+      }
+
+      .mapa-container {
+        margin: 0 -10px;
+        border-radius: 0;
+      }
+
+      .filtros-container {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .header h1 {
+        font-size: 2.2rem;
+      }
+
+      .subtitle {
+        font-size: 1.1rem;
+      }
+
+      .botones-container {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .btn {
+        padding: 14px 25px;
+        font-size: 1.05rem;
+        min-height: 52px;
+      }
+
+      .controles-mapa {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+
+      .control-btn {
+        padding: 12px 10px;
+        font-size: 0.85rem;
+        min-height: 48px;
       }
 
       .mapa-header {
         flex-direction: column;
         text-align: center;
+        gap: 15px;
+      }
+
+      .mapa-title {
+        font-size: 1.6rem;
       }
 
       .estadisticas {
@@ -425,7 +616,71 @@
       }
 
       #map {
+        height: 55vh;
+      }
+    }
+
+    /* Pantallas grandes (768px+) - Mantenemos el diseño original */
+    @media (min-width: 769px) {
+      .controles-mapa {
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .control-btn {
+        min-width: 120px;
+      }
+
+      #map {
+        height: 70vh;
+      }
+    }
+
+    /* Mejoras para dispositivos táctiles */
+    @media (hover: none) and (pointer: coarse) {
+      .control-btn {
+        min-height: 48px;
+        font-size: 0.9rem;
+      }
+
+      .btn {
+        min-height: 50px;
+      }
+
+      .tipo-item input[type="checkbox"] {
+        min-width: 22px;
+        min-height: 22px;
+      }
+
+      .filtro-card select {
+        min-height: 48px;
+        font-size: 1rem;
+      }
+    }
+
+    /* Orientación horizontal en móviles */
+    @media (max-width: 768px) and (orientation: landscape) {
+      #map {
         height: 50vh;
+      }
+
+      .header {
+        margin-bottom: 10px;
+      }
+
+      .filtros-container {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+
+      .botones-container {
+        flex-direction: row;
+        gap: 10px;
+      }
+
+      .mapa-header {
+        margin-bottom: 10px;
       }
     }
   </style>

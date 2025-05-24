@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Test Mobile - Mapa de Seguridad</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .test-container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 15px;
+      margin-bottom: 20px;
+    }
+
+    .button {
+      background: white;
+      color: #333;
+      padding: 15px 20px;
+      border: none;
+      border-radius: 10px;
+      margin: 10px;
+      min-height: 50px;
+      width: calc(100% - 20px);
+      font-size: 16px;
+    }
+
+    @media (max-width: 480px) {
+      .test-container {
+        padding: 15px;
+        margin: 10px 0;
+      }
+
+      .button {
+        padding: 18px 20px;
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="test-container">
+    <h1>🗺️ Test Vista Móvil</h1>
+    <p>Esta es una página de prueba para verificar la optimización móvil.</p>
+    <button class="button" onclick="alert('Botón táctil funcionando!')">✨ Probar Toque</button>
+    <button class="button" onclick="window.location.href='index.html'">🚀 Ir al Mapa Principal</button>
+  </div>
+
+  <div class="test-container">
+    <h2>📱 Información del Dispositivo</h2>
+    <p id="info"></p>
+  </div>
+
+  <script>
+    document.getElementById('info').innerHTML = `
+            <strong>Ancho de pantalla:</strong> ${window.screen.width}px<br>
+            <strong>Alto de pantalla:</strong> ${window.screen.height}px<br>
+            <strong>Viewport:</strong> ${window.innerWidth}x${window.innerHeight}<br>
+            <strong>Ratio de píxeles:</strong> ${window.devicePixelRatio}<br>
+            <strong>User Agent:</strong> ${navigator.userAgent.substring(0, 50)}...
+        `;
+  </script>
+</body>
+
+</html>
