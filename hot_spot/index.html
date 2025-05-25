@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Mapa de Polígonos - CTM El Risco</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 0;
+    }
+
+    .container {
+      max-width: none;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .header {
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      margin: 0 auto 20px auto;
+      text-align: center;
+    }
+
+    .header h1 {
+      color: #2c3e50;
+      font-size: 2.2rem;
+      margin-bottom: 5px;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      color: #7f8c8d;
+      font-size: 1rem;
+      margin-bottom: 12px;
+    }
+
+    .mapa-container {
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      position: relative;
+      margin: 0 -20px;
+      border-radius: 0;
+    }
+
+    .mapa-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .mapa-title {
+      color: #2c3e50;
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .controles-mapa {
+      display: flex;
+      gap: 10px;
+    }
+
+    .control-btn {
+      padding: 10px 15px;
+      background: #f8f9fa;
+      border: 2px solid #e9ecef;
+      border-radius: 15px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      color: #495057;
+    }
+
+    .control-btn:hover {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
+      transform: translateY(-1px);
+    }
+
+    #map {
+      height: 80vh;
+      width: 100%;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .leyenda {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      width: 280px;
+      backdrop-filter: blur(5px);
+      font-size: 0.9rem;
+      z-index: 1000;
+    }
+
+    .leyenda h4 {
+      margin: 0 0 15px;
+      font-size: 1.1rem;
+      color: #2c3e50;
+      border-bottom: 2px solid #667eea;
+      padding-bottom: 8px;
+      text-align: center;
+    }
+
+    .leyenda-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+      padding: 5px;
+      border-radius: 8px;
+      transition: background 0.2s ease;
+    }
+
+    .leyenda-item:hover {
+      background: #f8f9fa;
+    }
+
+    .color-box {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+      border-radius: 4px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      flex-shrink: 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        padding: 10px;
+      }
+
+      .header {
+        padding: 15px;
+        margin-bottom: 15px;
+      }
+
+      .header h1 {
+        font-size: 1.8rem;
+      }
+
+      .mapa-container {
+        margin: 0 -10px;
+        padding: 15px;
+      }
+
+      .mapa-header {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .mapa-title {
+        font-size: 1.4rem;
+        text-align: center;
+      }
+
+      .controles-mapa {
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .control-btn {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+      }
+
+      #map {
+        height: 70vh;
+      }
+
+      .leyenda {
+        position: fixed;
+        bottom: 10px;
+        left: 10px;
+        right: 10px;
+        width: auto;
+        max-width: 300px;
+        margin: 0 auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- Header con título -->
+    <div class="header">
+      <h1>🗺️ Mapa de Polígonos</h1>
+      <p class="subtitle">CTM El Risco - Visualización de áreas geográficas</p>
+    </div>
+
+    <!-- Container del mapa -->
+    <div class="mapa-container">
+      <div class="mapa-header">
+        <h2 class="mapa-title">🏘️ Mapa Interactivo</h2>
+        <div class="controles-mapa">
+          <button class="control-btn" id="btn-centrar">🎯 Centrar</button>
+          <button class="control-btn" id="btn-cambiar-mapa">🗺️ Cambiar Mapa</button>
+          <button class="control-btn" id="btn-toggle-leyenda">🔍 Leyenda</button>
+          <button class="control-btn" id="btn-toggle-circulos">🔥 Mostrar Calor</button>
+        </div>
+      </div>
+
+      <div id="map"></div>
+
+      <!-- Leyenda -->
+      <div class="leyenda" id="leyenda">
+        <h4>📍 Leyenda</h4>
+        <div class="leyenda-item">
+          <div class="color-box" style="background-color: rgba(102, 126, 234, 0.3); border-color: #667eea;"></div>
+          <span>CTM El Risco</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script src="delitos_data.js"></script>
+  <script>
+    // Variables globales
+    let map;
+    let currentMapType = 'osm';
+    let poligonoLayer;
+    let circulos = [];
+    let mostrandoCirculos = true;
+
+    // Polígono de CTM El Risco
+    const poligonoElRisco = {
+      "type": "Feature",
+      "properties": {
+        "name": "CTM El Risco",
+        "description": "Área de CTM El Risco"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-99.09740966399839, 19.51266487533441],
+          [-99.10056001114475, 19.51184350019888],
+          [-99.1006093896991, 19.511303564087626],
+          [-99.09965400636638, 19.509148468250586],
+          [-99.09932498626866, 19.509227827856975],
+          [-99.098853531969, 19.509016322113567],
+          [-99.09863095442408, 19.509346968554595],
+          [-99.0981457328141, 19.509095591825343],
+          [-99.09843057741668, 19.508495805177503],
+          [-99.09604558848774, 19.50725339452788],
+          [-99.09533437072858, 19.5074291381071],
+          [-99.09286947300322, 19.506017748674992],
+          [-99.09259666715131, 19.505876914674985],
+          [-99.09040664577094, 19.5095740415083],
+          [-99.09493725520933, 19.51130173772033],
+          [-99.09740966399839, 19.51266487533441]
+        ]]
+      }
+    };
+
+    // Configuración de mapas base
+    const mapLayers = {
+      osm: {
+        layer: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '© OpenStreetMap contributors'
+        }),
+        name: 'OpenStreetMap'
+      },
+      satellite: {
+        layer: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+          attribution: '© Esri'
+        }),
+        name: 'Satélite'
+      },
+      terrain: {
+        layer: L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+          attribution: '© OpenTopoMap contributors'
+        }),
+        name: 'Terreno'
+      }
+    };
+
+    // Función para verificar si un punto está dentro del polígono
+    function puntoEnPoligono(lat, lng, poligono) {
+      const coords = poligono.geometry.coordinates[0];
+      let dentro = false;
+
+      for (let i = 0, j = coords.length - 1; i < coords.length; j = i++) {
+        const xi = coords[i][0], yi = coords[i][1];
+        const xj = coords[j][0], yj = coords[j][1];
+
+        if (((yi > lat) !== (yj > lat)) && (lng < (xj - xi) * (lat - yi) / (yj - yi) + xi)) {
+          dentro = !dentro;
+        }
+      }
+
+      return dentro;
+    }
+
+    // Función para calcular las zonas más calientes
+    function calcularZonasCalientes() {
+      console.log('📊 Calculando zonas más calientes...');
+
+      // Filtrar delitos que están dentro del polígono
+      const delitosEnPoligono = DELITOS_DATA.filter(delito =>
+        puntoEnPoligono(delito.lat, delito.lng, poligonoElRisco)
+      );
+
+      console.log(`🔍 Delitos en polígono: ${delitosEnPoligono.length} de ${DELITOS_DATA.length} totales`);
+
+      // Crear una cuadrícula para agrupar delitos por proximidad
+      const tamanoCelda = 0.001; // Aproximadamente 100 metros
+      const celdas = {};
+
+      delitosEnPoligono.forEach(delito => {
+        const celdaX = Math.floor(delito.lat / tamanoCelda);
+        const celdaY = Math.floor(delito.lng / tamanoCelda);
+        const celdaKey = `${celdaX},${celdaY}`;
+
+        if (!celdas[celdaKey]) {
+          celdas[celdaKey] = {
+            delitos: [],
+            lat: 0,
+            lng: 0,
+            tipos: {}
+          };
+        }
+
+        celdas[celdaKey].delitos.push(delito);
+        celdas[celdaKey].lat += delito.lat;
+        celdas[celdaKey].lng += delito.lng;
+
+        // Contar tipos de delitos
+        if (!celdas[celdaKey].tipos[delito.tipoDelito]) {
+          celdas[celdaKey].tipos[delito.tipoDelito] = 0;
+        }
+        celdas[celdaKey].tipos[delito.tipoDelito]++;
+      });
+
+      // Calcular centros y ordenar por cantidad de delitos
+      const zonasCalientes = Object.keys(celdas)
+        .map(key => {
+          const celda = celdas[key];
+          const cantidad = celda.delitos.length;
+
+          return {
+            lat: celda.lat / cantidad,
+            lng: celda.lng / cantidad,
+            cantidad: cantidad,
+            tipos: celda.tipos,
+            tipoMasComun: Object.keys(celda.tipos).reduce((a, b) =>
+              celda.tipos[a] > celda.tipos[b] ? a : b
+            )
+          };
+        })
+        .filter(zona => zona.cantidad >= 2) // Solo zonas con al menos 2 delitos
+        .sort((a, b) => b.cantidad - a.cantidad)
+        .slice(0, 10); // Top 10
+
+      console.log('🔥 Top 10 zonas más calientes:', zonasCalientes);
+      return zonasCalientes;
+    }
+
+    // Función para obtener color según intensidad
+    function obtenerColorIntensidad(cantidad, maxCantidad) {
+      const intensidad = cantidad / maxCantidad;
+
+      if (intensidad >= 0.8) return '#ff4757'; // Rojo muy intenso
+      if (intensidad >= 0.6) return '#ff6b7a'; // Rojo
+      if (intensidad >= 0.4) return '#ffa726'; // Naranja
+      if (intensidad >= 0.2) return '#ffeb3b'; // Amarillo
+      return '#4caf50'; // Verde
+    }
+
+    // Función para obtener emoji según tipo de delito más común
+    function obtenerEmojiDelito(tipoDelito) {
+      const emojis = {
+        'Robo': '🔓',
+        'Violencia Familiar': '👨‍👩‍👧‍👦',
+        'Fraude': '💳',
+        'Amenazas': '⚠️',
+        'Narcomenudeo': '💊',
+        'Abuso Sexual': '🚫',
+        'Lesiones Dolosas': '🤕',
+        'Usurpación': '🏠',
+        'Daño A La Propiedad': '🔨',
+        'Tentativa': '⚡',
+        'Extorsión': '💰',
+        'Despojo': '📦',
+        'Abuso De Confianza': '🤝',
+        'Encubrimiento': '🕵️',
+        'Allanamiento': '🚪'
+      };
+
+      return emojis[tipoDelito] || '📍';
+    }
+
+    // Función para agregar círculos de calor
+    function agregarCirculosCalor() {
+      // Limpiar círculos existentes
+      circulos.forEach(circulo => map.removeLayer(circulo));
+      circulos = [];
+
+      if (!mostrandoCirculos) return;
+
+      const zonasCalientes = calcularZonasCalientes();
+
+      if (zonasCalientes.length === 0) {
+        console.log('⚠️ No se encontraron zonas calientes');
+        return;
+      }
+
+      const maxCantidad = zonasCalientes[0].cantidad;
+
+      zonasCalientes.forEach((zona, index) => {
+        const color = obtenerColorIntensidad(zona.cantidad, maxCantidad);
+        const emoji = obtenerEmojiDelito(zona.tipoMasComun);
+        const radio = Math.max(30, zona.cantidad * 8); // Radio proporcional a la cantidad
+
+        // Crear círculo
+        const circulo = L.circle([zona.lat, zona.lng], {
+          color: color,
+          fillColor: color,
+          fillOpacity: 0.4,
+          radius: radio,
+          weight: 3
+        });
+
+        // Crear contenido del popup
+        const tiposTexto = Object.keys(zona.tipos)
+          .map(tipo => `${tipo}: ${zona.tipos[tipo]}`)
+          .join('<br>');
+
+        const popupContent = `
+          <div style="text-align: center; padding: 10px; min-width: 200px;">
+            <h3 style="margin: 0 0 10px 0; color: #2c3e50;">
+              ${emoji} Zona Caliente #${index + 1}
+            </h3>
+            <div style="background: ${color}; color: white; padding: 8px; border-radius: 5px; margin-bottom: 10px;">
+              <strong>${zona.cantidad} delitos registrados</strong>
+            </div>
+            <div style="text-align: left; font-size: 0.9rem;">
+              <strong>Delito más común:</strong><br>
+              ${zona.tipoMasComun} (${zona.tipos[zona.tipoMasComun]} casos)
+              <br><br>
+              <strong>Distribución de delitos:</strong><br>
+              ${tiposTexto}
+            </div>
+          </div>
+        `;
+
+        circulo.bindPopup(popupContent);
+
+        // Tooltip al pasar el mouse
+        circulo.bindTooltip(
+          `${emoji} Zona #${index + 1}: ${zona.cantidad} delitos`,
+          { permanent: false, direction: 'top' }
+        );
+
+        // Agregar al mapa y al array
+        circulo.addTo(map);
+        circulos.push(circulo);
+      });
+
+      console.log(`✅ ${zonasCalientes.length} círculos de calor agregados`);
+
+      // Actualizar leyenda
+      actualizarLeyenda(zonasCalientes, maxCantidad);
+    }
+
+    // Función para actualizar la leyenda
+    function actualizarLeyenda(zonasCalientes, maxCantidad) {
+      const leyenda = document.getElementById('leyenda');
+
+      let contenidoLeyenda = `
+        <h4>📍 Leyenda</h4>
+        <div class="leyenda-item">
+          <div class="color-box" style="background-color: rgba(102, 126, 234, 0.3); border-color: #667eea;"></div>
+          <span>CTM El Risco</span>
+        </div>
+      `;
+
+      if (mostrandoCirculos && zonasCalientes.length > 0) {
+        contenidoLeyenda += `
+          <div style="margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px;">
+            <h5 style="margin: 0 0 10px 0;">🔥 Zonas de Calor</h5>
+        `;
+
+        // Niveles de intensidad
+        const niveles = [
+          { min: 0.8, color: '#ff4757', texto: 'Muy Alto', emoji: '🔴' },
+          { min: 0.6, color: '#ff6b7a', texto: 'Alto', emoji: '🟠' },
+          { min: 0.4, color: '#ffa726', texto: 'Medio', emoji: '🟡' },
+          { min: 0.2, color: '#ffeb3b', texto: 'Bajo', emoji: '🟢' },
+          { min: 0, color: '#4caf50', texto: 'Muy Bajo', emoji: '🟢' }
+        ];
+
+        niveles.forEach(nivel => {
+          contenidoLeyenda += `
+            <div class="leyenda-item">
+              <div class="color-box" style="background-color: ${nivel.color};"></div>
+              <span>${nivel.emoji} Riesgo ${nivel.texto}</span>
+            </div>
+          `;
+        });
+
+        contenidoLeyenda += `
+          <div style="margin-top: 10px; font-size: 0.8rem; color: #666;">
+            Máximo: ${maxCantidad} delitos por zona
+          </div>
+        `;
+
+        contenidoLeyenda += '</div>';
+      }
+
+      leyenda.innerHTML = contenidoLeyenda;
+    }
+
+    // Inicializar mapa
+    function initMap() {
+      // Crear mapa centrado en CTM El Risco
+      const center = [19.509, -99.095];
+      map = L.map('map').setView(center, 15);
+
+      // Agregar capa base inicial
+      mapLayers[currentMapType].layer.addTo(map);
+
+      // Agregar polígono
+      addPolygon();
+
+      // Agregar círculos de calor
+      agregarCirculosCalor();
+
+      // Configurar controles
+      setupControls();
+    }
+
+    // Agregar polígono al mapa
+    function addPolygon() {
+      const style = {
+        fillColor: '#667eea',
+        weight: 3,
+        opacity: 1,
+        color: '#667eea',
+        fillOpacity: 0.3
+      };
+
+      poligonoLayer = L.geoJSON(poligonoElRisco, {
+        style: style,
+        onEachFeature: function (feature, layer) {
+          if (feature.properties && feature.properties.name) {
+            layer.bindPopup(`
+              <div style="text-align: center; padding: 10px;">
+                <h3 style="margin: 0 0 10px 0; color: #2c3e50;">${feature.properties.name}</h3>
+                <p style="margin: 0; color: #7f8c8d;">${feature.properties.description}</p>
+              </div>
+            `);
+          }
+        }
+      }).addTo(map);
+
+      // Ajustar vista al polígono
+      map.fitBounds(poligonoLayer.getBounds(), { padding: [20, 20] });
+    }
+
+    // Configurar controles
+    function setupControls() {
+      // Botón centrar
+      document.getElementById('btn-centrar').addEventListener('click', function () {
+        if (poligonoLayer) {
+          map.fitBounds(poligonoLayer.getBounds(), { padding: [20, 20] });
+        }
+      });
+
+      // Botón cambiar mapa
+      document.getElementById('btn-cambiar-mapa').addEventListener('click', function () {
+        const mapTypes = Object.keys(mapLayers);
+        const currentIndex = mapTypes.indexOf(currentMapType);
+        const nextIndex = (currentIndex + 1) % mapTypes.length;
+        currentMapType = mapTypes[nextIndex];
+
+        // Remover capa actual
+        map.eachLayer(function (layer) {
+          if (layer instanceof L.TileLayer) {
+            map.removeLayer(layer);
+          }
+        });
+
+        // Agregar nueva capa
+        mapLayers[currentMapType].layer.addTo(map);
+
+        // Actualizar texto del botón
+        this.innerHTML = `🗺️ ${mapLayers[currentMapType].name}`;
+      });
+
+      // Botón toggle leyenda
+      document.getElementById('btn-toggle-leyenda').addEventListener('click', function () {
+        const leyenda = document.getElementById('leyenda');
+        if (leyenda.style.display === 'none') {
+          leyenda.style.display = 'block';
+          this.innerHTML = '🔍 Ocultar Leyenda';
+        } else {
+          leyenda.style.display = 'none';
+          this.innerHTML = '🔍 Mostrar Leyenda';
+        }
+      });
+
+      // Botón toggle círculos de calor
+      document.getElementById('btn-toggle-circulos').addEventListener('click', function () {
+        mostrandoCirculos = !mostrandoCirculos;
+
+        if (mostrandoCirculos) {
+          agregarCirculosCalor();
+          this.innerHTML = '🔥 Ocultar Calor';
+        } else {
+          circulos.forEach(circulo => map.removeLayer(circulo));
+          circulos = [];
+          this.innerHTML = '🔥 Mostrar Calor';
+
+          // Actualizar leyenda sin círculos
+          const leyenda = document.getElementById('leyenda');
+          leyenda.innerHTML = `
+            <h4>📍 Leyenda</h4>
+            <div class="leyenda-item">
+              <div class="color-box" style="background-color: rgba(102, 126, 234, 0.3); border-color: #667eea;"></div>
+              <span>CTM El Risco</span>
+            </div>
+          `;
+        }
+      });
+    }
+
+    // Inicializar cuando se carga la página
+    document.addEventListener('DOMContentLoaded', function () {
+      initMap();
+    });
+  </script>
+</body>
+
+</html>
