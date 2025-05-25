@@ -283,9 +283,10 @@
     }
 
     .controles-mapa {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+      width: 100%;
     }
 
     .control-btn {
@@ -374,9 +375,10 @@
       background: rgba(255, 255, 255, 0.95);
       border-radius: 15px;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      max-height: 300px;
+      max-height: 400px;
       overflow-y: auto;
-      width: 280px;
+      width: 300px;
+      backdrop-filter: blur(5px);
     }
 
     .leyenda h4 {
@@ -385,6 +387,25 @@
       color: #2c3e50;
       border-bottom: 2px solid #667eea;
       padding-bottom: 8px;
+      text-align: center;
+    }
+
+    .leyenda-section {
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .leyenda-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    .leyenda-section strong {
+      display: block;
+      margin-bottom: 8px;
+      color: #2c3e50;
+      font-size: 0.95rem;
     }
 
     .leyenda-item {
@@ -739,6 +760,7 @@
     /* Pantallas grandes (768px+) - Diseño optimizado para que el mapa sea principal */
     @media (min-width: 769px) {
       .controles-mapa {
+        display: flex;
         flex-wrap: wrap;
         gap: 10px;
       }
@@ -911,6 +933,85 @@
       color: white !important;
       border-color: #ff6b7a !important;
     }
+
+    /* Estilos para tooltips de zonas cercanas */
+    .zona-tooltip {
+      background: rgba(0, 0, 0, 0.8) !important;
+      color: white !important;
+      border: none !important;
+      border-radius: 8px !important;
+      font-size: 12px !important;
+      font-weight: 500 !important;
+      padding: 6px 10px !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    .zona-tooltip::before {
+      border-top-color: rgba(0, 0, 0, 0.8) !important;
+    }
+
+    /* Estilos para iconos de zonas cercanas */
+    .icono-zona {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      background: rgba(255, 255, 255, 0.9) !important;
+      border: 2px solid #333 !important;
+      border-radius: 50% !important;
+      font-size: 18px !important;
+      width: 32px !important;
+      height: 32px !important;
+      text-align: center !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+      backdrop-filter: blur(5px) !important;
+      transition: all 0.3s ease !important;
+    }
+
+    .icono-zona:hover {
+      transform: scale(1.2) !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+      z-index: 1000 !important;
+    }
+
+    /* Estilos específicos por tipo de zona */
+    .icono-parque {
+      border-color: #28a745 !important;
+      background: rgba(40, 167, 69, 0.1) !important;
+    }
+
+    .icono-escuela {
+      border-color: #ffc107 !important;
+      background: rgba(255, 193, 7, 0.1) !important;
+    }
+
+    .icono-baldio {
+      border-color: #6c757d !important;
+      background: rgba(108, 117, 125, 0.1) !important;
+    }
+
+    .icono-bomberos {
+      border-color: #dc3545 !important;
+      background: rgba(220, 53, 69, 0.1) !important;
+    }
+
+    .icono-iglesia {
+      border-color: #6f42c1 !important;
+      background: rgba(111, 66, 193, 0.1) !important;
+    }
+
+    /* Responsive para iconos en móviles */
+    @media (max-width: 768px) {
+      .icono-zona {
+        font-size: 16px !important;
+        width: 28px !important;
+        height: 28px !important;
+        border-width: 1.5px !important;
+      }
+
+      .icono-zona:hover {
+        transform: scale(1.1) !important;
+      }
+    }
   </style>
 </head>
 
@@ -966,6 +1067,7 @@
           <button class="control-btn" id="btn-centrar">🎯 Centrar</button>
           <button class="control-btn" id="btn-toggle-puntos">📍 Puntos</button>
           <button class="control-btn" id="btn-toggle-zonas">🔵 Zonas</button>
+          <button class="control-btn" id="btn-toggle-zonas-cercanas">🏘️ Zonas Cercanas</button>
           <button class="control-btn" id="btn-cambiar-mapa">🗺️ Cambiar Mapa</button>
           <button class="control-btn" id="btn-toggle-estadisticas">📊 Estadísticas</button>
           <button class="control-btn" id="btn-toggle-leyenda">🔍 Leyenda</button>
@@ -1004,6 +1106,7 @@
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
   <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
   <script src="delitos_data.js"></script>
+  <script src="poligonoz_zonas.js"></script>
   <script>
     // Variables globales
     let map;
@@ -1011,9 +1114,12 @@
     let delitosOriginales = []; // Datos sin filtrar
     let puntosLayer;
     let zonasRiesgoLayer;
+    let zonasCercanasLayer;  // Nueva capa para zonas cercanas
+    let iconosZonasLayer;    // Nueva capa para iconos de zonas cercanas
     let leyendaControl;
     let mostrandoPuntos = true;  // Cambiado: Puntos activos por defecto
     let mostrandoZonas = false;  // Cambiado: Zonas desactivadas por defecto
+    let mostrandoZonasCercanas = false;  // Nueva variable para zonas cercanas
     let mostrandoEstadisticas = true;  // Se ajustará según el dispositivo
     let mostrandoLeyenda = true;       // Se ajustará según el dispositivo
     let currentTileLayer;
@@ -1024,6 +1130,7 @@
       ano: '',
       nivelRiesgo: 1
     };
+    let estadisticasZonasCercanas = {}; // Estadísticas de las zonas cercanas
 
     // Configuraciones de diferentes mapas
     const tiposMapas = [
@@ -1149,6 +1256,8 @@
         // Crear las capas pero solo agregar al mapa las que están activas
         puntosLayer = L.layerGroup();
         zonasRiesgoLayer = L.layerGroup();
+        zonasCercanasLayer = L.layerGroup();  // Nueva capa para zonas cercanas
+        iconosZonasLayer = L.layerGroup();    // Nueva capa para iconos de zonas cercanas
 
         // Agregar capas al mapa según el estado inicial
         if (mostrandoPuntos) {
@@ -1157,10 +1266,15 @@
         if (mostrandoZonas) {
           zonasRiesgoLayer.addTo(map);
         }
+        if (mostrandoZonasCercanas) {
+          zonasCercanasLayer.addTo(map);
+          iconosZonasLayer.addTo(map);  // Agregar iconos junto con las zonas
+        }
 
         console.log('Mapa inicializado con estado:', {
           puntos: mostrandoPuntos ? 'visible' : 'oculto',
-          zonas: mostrandoZonas ? 'visible' : 'oculto'
+          zonas: mostrandoZonas ? 'visible' : 'oculto',
+          zonasCercanas: mostrandoZonasCercanas ? 'visible' : 'oculto'
         });
 
         return true;
@@ -1215,6 +1329,7 @@
         // Crear visualizaciones
         crearPuntosDelitos();
         crearZonasRiesgoSimples();
+        crearZonasCercanas();  // Crear zonas cercanas
         actualizarEstadisticas();
 
         // Inicializar filtros
@@ -1384,6 +1499,12 @@
     // Crear leyenda
     function crearLeyendaZonas() {
       try {
+        // Si tenemos zonas cercanas activas, usar la leyenda combinada
+        if (mostrandoZonasCercanas) {
+          // La leyenda se creará desde crearZonasCercanas
+          return;
+        }
+
         // Primero remover la leyenda existente
         if (leyendaControl) {
           map.removeControl(leyendaControl);
@@ -1481,6 +1602,46 @@
             botonEl.classList.remove('inactivo');
             botonEl.classList.add('activo');
             mostrarNotificacion('🔵 Zonas de riesgo mostradas');
+          }
+
+          // Actualizar leyenda
+          if (mostrandoZonasCercanas) {
+            crearLeyendaZonasCercanas(estadisticasZonasCercanas);
+          } else {
+            crearLeyendaZonas();
+          }
+        });
+
+        document.getElementById('btn-toggle-zonas-cercanas').addEventListener('click', function () {
+          const botonEl = document.getElementById('btn-toggle-zonas-cercanas');
+          if (mostrandoZonasCercanas) {
+            map.removeLayer(zonasCercanasLayer);
+            map.removeLayer(iconosZonasLayer);  // Remover iconos también
+            mostrandoZonasCercanas = false;
+            botonEl.classList.remove('activo');
+            botonEl.classList.add('inactivo');
+            mostrarNotificacion('🏘️ Zonas cercanas ocultadas');
+
+            // Volver a la leyenda original de zonas de riesgo si están activas
+            if (mostrandoZonas) {
+              crearLeyendaZonas();
+            } else if (mostrandoLeyenda) {
+              // Si no hay zonas de riesgo, quitar la leyenda
+              if (leyendaControl) {
+                map.removeControl(leyendaControl);
+                leyendaControl = null;
+              }
+            }
+          } else {
+            map.addLayer(zonasCercanasLayer);
+            map.addLayer(iconosZonasLayer);    // Agregar iconos también
+            mostrandoZonasCercanas = true;
+            botonEl.classList.remove('inactivo');
+            botonEl.classList.add('activo');
+            mostrarNotificacion('🏘️ Zonas cercanas e iconos mostrados');
+
+            // Crear leyenda combinada
+            crearLeyendaZonasCercanas(estadisticasZonasCercanas);
           }
         });
 
@@ -1773,6 +1934,8 @@
         // Limpiar capas existentes
         puntosLayer.clearLayers();
         zonasRiesgoLayer.clearLayers();
+        zonasCercanasLayer.clearLayers();  // Limpiar zonas cercanas
+        iconosZonasLayer.clearLayers();    // Limpiar iconos de zonas cercanas
         if (leyendaControl) {
           map.removeControl(leyendaControl);
         }
@@ -1781,6 +1944,7 @@
         if (delitosData.length > 0) {
           crearPuntosDelitos();
           crearZonasRiesgoSimples();
+          crearZonasCercanas();  // Recrear zonas cercanas
           actualizarEstadisticas();
         }
 
@@ -1819,12 +1983,15 @@
         // Limpiar capas y recrear
         puntosLayer.clearLayers();
         zonasRiesgoLayer.clearLayers();
+        zonasCercanasLayer.clearLayers();  // Limpiar zonas cercanas
+        iconosZonasLayer.clearLayers();    // Limpiar iconos de zonas cercanas
         if (leyendaControl) {
           map.removeControl(leyendaControl);
         }
 
         crearPuntosDelitos();
         crearZonasRiesgoSimples();
+        crearZonasCercanas();  // Recrear zonas cercanas
         actualizarEstadisticas();
 
         // Limpiar resultados
@@ -1965,15 +2132,17 @@
         mostrandoLeyenda = !mostrandoLeyenda;
 
         if (mostrandoLeyenda) {
-          // Solo recrear la leyenda si hay datos y zonas visibles
-          if (delitosData.length > 0) {
+          // Recrear la leyenda apropiada según lo que esté visible
+          if (mostrandoZonasCercanas) {
+            crearLeyendaZonasCercanas(estadisticasZonasCercanas);
+          } else if (mostrandoZonas && delitosData.length > 0) {
             crearLeyendaZonas();
           }
           botonEl.classList.remove('inactivo');
           botonEl.classList.add('activo');
           mostrarNotificacion('🔍 Leyenda mostrada');
         } else {
-          // Solo remover la leyenda, no las zonas
+          // Remover la leyenda
           if (leyendaControl) {
             map.removeControl(leyendaControl);
             leyendaControl = null;
@@ -2030,9 +2199,20 @@
           btnLeyenda.classList.remove('activo');
         }
 
+        // Botón de zonas cercanas
+        const btnZonasCercanas = document.getElementById('btn-toggle-zonas-cercanas');
+        if (mostrandoZonasCercanas) {
+          btnZonasCercanas.classList.add('activo');
+          btnZonasCercanas.classList.remove('inactivo');
+        } else {
+          btnZonasCercanas.classList.add('inactivo');
+          btnZonasCercanas.classList.remove('activo');
+        }
+
         console.log('Estado inicial de botones configurado:', {
           puntos: mostrandoPuntos,
           zonas: mostrandoZonas,
+          zonasCercanas: mostrandoZonasCercanas,
           estadisticas: mostrandoEstadisticas,
           leyenda: mostrandoLeyenda
         });
@@ -2040,8 +2220,9 @@
         // Informar al usuario sobre el estado inicial
         const estadoInicial = [];
         if (mostrandoZonas) estadoInicial.push('🔵 Zonas activas');
+        if (mostrandoZonasCercanas) estadoInicial.push('🏘️ Zonas cercanas activas');
         if (mostrandoPuntos) estadoInicial.push('📍 Puntos activos');
-        if (!mostrandoZonas && !mostrandoPuntos) estadoInicial.push('❌ Todo desactivado');
+        if (!mostrandoZonas && !mostrandoPuntos && !mostrandoZonasCercanas) estadoInicial.push('❌ Todo desactivado');
 
         if (estadoInicial.length > 0) {
           setTimeout(() => {
@@ -2219,6 +2400,318 @@
         salirFullscreen();
       }
     }
+
+    // Crear zonas cercanas desde el archivo poligonoz_zonas.js
+    function crearZonasCercanas() {
+      try {
+        // Verificar que el archivo esté cargado
+        if (typeof poligonos === 'undefined' || !poligonos || poligonos.length === 0) {
+          console.warn('Archivo poligonoz_zonas.js no encontrado o vacío');
+          mostrarNotificacion('⚠️ No se pudieron cargar las zonas cercanas', 3000);
+          return;
+        }
+
+        // Limpiar la capa antes de agregar nuevos polígonos
+        zonasCercanasLayer.clearLayers();
+        iconosZonasLayer.clearLayers();  // Limpiar iconos también
+
+        let poligonosAgregados = 0;
+        const estadisticasZonas = {
+          parques: 0,
+          escuelas: 0,
+          baldios: 0,
+          bomberos: 0,
+          iglesia: 0,
+          otros: 0
+        };
+
+        // Función para categorizar polígonos por color
+        function categorizarPorColor(fillColor) {
+          const color = fillColor.toLowerCase();
+
+          // Verificar si es verde (parques/áreas verdes)
+          if (color.includes('#57985d') || color.includes('#488e49') || color.includes('#28802e') ||
+            color.includes('#378b50') || color.includes('#388a3e') || color.includes('#43936a') ||
+            color.includes('#50a551') || color.includes('#4d9d4f') || color.includes('#3b874e') ||
+            color.includes('#347447') || color.includes('#3b883a') || color.includes('#3c8b5a') ||
+            color.includes('#337a4e') || color.includes('#377647') || color.includes('#43845f') ||
+            color.includes('#4b8b5e') || color.includes('#3f8d44') || color.includes('#52985e') ||
+            color.includes('#4e9041') || color.includes('#4c944d') || color.includes('#4c9458')) {
+            return {
+              tipo: 'parque',
+              color: '#28a745', // Verde consistente
+              emoji: '🌳',
+              nombre: 'Área Verde/Parque'
+            };
+          }
+
+          // Verificar si es amarillo (escuelas)
+          if (color.includes('#a5a654') || color.includes('#c4ca72') || color.includes('#828f42') ||
+            color.includes('#9fa14a') || color.includes('#c4ca72')) {
+            return {
+              tipo: 'escuela',
+              color: '#ffc107', // Amarillo consistente
+              emoji: '🏫',
+              nombre: 'Escuela'
+            };
+          }
+
+          // Verificar si es gris/negro (zonas baldías)
+          if (color.includes('#2b2b36') || color.includes('#353741') || color.includes('#3f4150')) {
+            return {
+              tipo: 'baldio',
+              color: '#6c757d', // Gris consistente
+              emoji: '🏗️',
+              nombre: 'Zona Baldía'
+            };
+          }
+
+          // Verificar si es rojo (bomberos)
+          if (color.includes('#c34646')) {
+            return {
+              tipo: 'bomberos',
+              color: '#dc3545', // Rojo consistente
+              emoji: '🚒',
+              nombre: 'Estación de Bomberos'
+            };
+          }
+
+          // Verificar si es morado (otros servicios)
+          if (color.includes('#594087')) {
+            return {
+              tipo: 'iglesia',
+              color: '#6f42c1', // Morado consistente
+              emoji: '🏠',
+              nombre: 'Iglesia'
+            };
+          }
+
+          // Otros casos
+          return {
+            tipo: 'otros',
+            color: '#17a2b8', // Azul para otros
+            emoji: '📍',
+            nombre: 'Zona de Interés'
+          };
+        }
+
+        // Procesar cada feature collection
+        poligonos.forEach((featureCollection, index) => {
+          if (featureCollection.features && Array.isArray(featureCollection.features)) {
+            featureCollection.features.forEach((feature, featureIndex) => {
+              try {
+                if (feature.geometry && feature.geometry.type === 'Polygon') {
+
+                  // Obtener propiedades del polígono
+                  const properties = feature.properties || {};
+                  const fillColorOriginal = properties.fill || '#3388ff';
+
+                  // Categorizar por color
+                  const categoria = categorizarPorColor(fillColorOriginal);
+                  estadisticasZonas[categoria.tipo]++;
+
+                  // Crear el polígono de Leaflet con color categorizado
+                  const polygon = L.polygon(feature.geometry.coordinates[0].map(coord => [coord[1], coord[0]]), {
+                    fillColor: categoria.color,
+                    color: categoria.color,
+                    weight: 2,
+                    opacity: 0.8,
+                    fillOpacity: 0.4
+                  });
+
+                  // Crear popup con información categorizada
+                  let popupContent = `
+                    <div style="text-align: center; font-size: 14px;">
+                      <strong>${categoria.emoji} ${categoria.nombre}</strong><br>
+                      <span style="background: ${categoria.color}; color: white; padding: 2px 8px; border-radius: 5px; font-size: 12px;">
+                        ${categoria.tipo.toUpperCase()}
+                      </span><br><br>
+                  `;
+
+                  // Agregar propiedades específicas si existen
+                  if (properties.Escuela && properties.Escuela.trim()) {
+                    popupContent += `<br>🏫 Escuela: ${properties.Escuela}`;
+                  }
+                  if (properties.Parque || properties.parque) {
+                    const nombreParque = properties.Parque || properties.parque;
+                    if (nombreParque.trim()) {
+                      popupContent += `<br>🌳 Parque: ${nombreParque}`;
+                    }
+                  }
+
+                  popupContent += `
+                      <br><br><small>Zona #${poligonosAgregados + 1} - Categorizada automáticamente</small>
+                    </div>
+                  `;
+
+                  polygon.bindPopup(popupContent);
+
+                  // Agregar tooltip al pasar el mouse
+                  polygon.bindTooltip(`${categoria.emoji} ${categoria.nombre}`, {
+                    permanent: false,
+                    direction: 'center',
+                    className: 'zona-tooltip'
+                  });
+
+                  // Agregar el polígono a la capa
+                  zonasCercanasLayer.addLayer(polygon);
+
+                  // Crear icono en el centro del polígono
+                  try {
+                    // Calcular el centroide del polígono
+                    const coords = feature.geometry.coordinates[0];
+                    let latSum = 0, lngSum = 0;
+
+                    coords.forEach(coord => {
+                      latSum += coord[1];
+                      lngSum += coord[0];
+                    });
+
+                    const centroLat = latSum / coords.length;
+                    const centroLng = lngSum / coords.length;
+
+                    // Crear icono personalizado
+                    const iconoPersonalizado = L.divIcon({
+                      html: categoria.emoji,
+                      className: `icono-zona icono-${categoria.tipo}`,
+                      iconSize: [32, 32],
+                      iconAnchor: [16, 16]
+                    });
+
+                    // Crear marker con el icono
+                    const iconoMarker = L.marker([centroLat, centroLng], {
+                      icon: iconoPersonalizado,
+                      zIndexOffset: 1000
+                    });
+
+                    // Agregar tooltip al icono
+                    iconoMarker.bindTooltip(`${categoria.emoji} ${categoria.nombre}`, {
+                      permanent: false,
+                      direction: 'top',
+                      className: 'zona-tooltip'
+                    });
+
+                    // Agregar el mismo popup que el polígono
+                    iconoMarker.bindPopup(popupContent);
+
+                    // Agregar el icono a la capa de iconos
+                    iconosZonasLayer.addLayer(iconoMarker);
+
+                  } catch (iconError) {
+                    console.warn('Error creando icono para polígono:', iconError);
+                  }
+
+                  poligonosAgregados++;
+                }
+              } catch (featureError) {
+                console.warn(`Error procesando feature ${featureIndex}:`, featureError);
+              }
+            });
+          }
+        });
+
+        console.log(`✅ Zonas cercanas creadas: ${poligonosAgregados} polígonos`);
+        console.log('📊 Estadísticas por tipo:', estadisticasZonas);
+
+        // Guardar estadísticas globalmente
+        estadisticasZonasCercanas = estadisticasZonas;
+
+        if (poligonosAgregados > 0) {
+          mostrarNotificacion(`✅ ${poligonosAgregados} zonas cercanas cargadas con iconos`, 3000);
+
+          // Crear leyenda específica para zonas cercanas
+          crearLeyendaZonasCercanas(estadisticasZonas);
+        } else {
+          mostrarNotificacion('⚠️ No se encontraron zonas válidas', 3000);
+        }
+
+      } catch (error) {
+        console.error('Error creando zonas cercanas:', error);
+        mostrarNotificacion('❌ Error cargando zonas cercanas', 3000);
+      }
+    }
+
+    // Crear leyenda específica para zonas cercanas
+    function crearLeyendaZonasCercanas(estadisticas) {
+      try {
+        // Solo crear la leyenda si debe estar visible
+        if (!mostrandoLeyenda) {
+          return;
+        }
+
+        // Primero remover la leyenda existente
+        if (leyendaControl) {
+          map.removeControl(leyendaControl);
+        }
+
+        leyendaControl = L.control({ position: 'bottomleft' });
+        leyendaControl.onAdd = function () {
+          const div = L.DomUtil.create('div', 'leyenda');
+
+          // Título principal
+          div.innerHTML = '<h4>🗂️ Leyenda del Mapa</h4>';
+
+          // Sección de zonas de riesgo (delitos)
+          if (mostrandoZonas) {
+            div.innerHTML += '<div style="border-bottom: 1px solid #eee; margin-bottom: 10px; padding-bottom: 8px;"><strong>🔍 Niveles de Seguridad</strong></div>';
+
+            const nivelesSeguridad = [
+              { nivel: 'Seguro', color: '#26de81', desc: '1 delito', emoji: '🟢' },
+              { nivel: 'Precaución', color: '#ffa726', desc: '2 delitos', emoji: '🟡' },
+              { nivel: 'Peligroso', color: '#ff6b7a', desc: '3-4 delitos', emoji: '🟠' },
+              { nivel: 'Muy Peligroso', color: '#ff4757', desc: '5+ delitos', emoji: '🔴' }
+            ];
+
+            nivelesSeguridad.forEach(item => {
+              div.innerHTML += `
+                <div class="leyenda-item">
+                  <div class="color-box" style="background: ${item.color}"></div>
+                  <span>${item.emoji} ${item.nivel} (${item.desc})</span>
+                </div>
+              `;
+            });
+          }
+
+          // Sección de zonas cercanas
+          if (mostrandoZonasCercanas) {
+            div.innerHTML += '<div style="border-bottom: 1px solid #eee; margin: 10px 0; padding-bottom: 8px;"><strong>🏘️ Zonas de Interés</strong></div>';
+
+            const categoriasZonas = [
+              { tipo: 'parque', nombre: 'Áreas Verdes/Parques', color: '#28a745', emoji: '🌳', cantidad: estadisticas.parques },
+              { tipo: 'escuela', nombre: 'Escuelas', color: '#ffc107', emoji: '🏫', cantidad: estadisticas.escuelas },
+              { tipo: 'baldio', nombre: 'Zonas Baldías', color: '#6c757d', emoji: '🏗️', cantidad: estadisticas.baldios },
+              { tipo: 'bomberos', nombre: 'Estación de Bomberos', color: '#dc3545', emoji: '🚒', cantidad: estadisticas.bomberos },
+              { tipo: 'iglesia', nombre: 'Iglesias', color: '#6f42c1', emoji: '🏠', cantidad: estadisticas.iglesia },
+              { tipo: 'otros', nombre: 'Zonas de Servicios', color: '#17a2b8', emoji: '📍', cantidad: estadisticas.otros }
+            ];
+
+            categoriasZonas.forEach(item => {
+              if (item.cantidad > 0) {
+                div.innerHTML += `
+                  <div class="leyenda-item">
+                    <div class="color-box" style="background: ${item.color}"></div>
+                    <span>${item.emoji} ${item.nombre} (${item.cantidad})</span>
+                  </div>
+                `;
+              }
+            });
+          }
+
+          // Si no hay nada que mostrar
+          if (!mostrandoZonas && !mostrandoZonasCercanas) {
+            div.innerHTML += '<div style="text-align: center; color: #666; font-style: italic;">Activa las capas para ver la leyenda</div>';
+          }
+
+          return div;
+        };
+        leyendaControl.addTo(map);
+
+      } catch (error) {
+        console.error('Error creando leyenda de zonas cercanas:', error);
+      }
+    }
+
+    // Crear puntos de delitos individuales
   </script>
 </body>
 
