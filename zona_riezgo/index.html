@@ -2457,7 +2457,8 @@
           }
 
           // Verificar si es gris/negro (zonas baldías)
-          if (color.includes('#2b2b36') || color.includes('#353741') || color.includes('#3f4150')) {
+          if (color.includes('#2b2b36') || color.includes('#353741') || color.includes('#3f4150') ||
+            color.includes('#fff') || color.includes('#ffffff')) {
             return {
               tipo: 'baldio',
               color: '#6c757d', // Gris consistente
