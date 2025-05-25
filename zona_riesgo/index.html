@@ -1106,7 +1106,7 @@
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
   <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
   <script src="delitos_data.js"></script>
-  <script src="poligonoz_zonas.js"></script>
+  <script src="poligonos_zonas.js"></script>
   <script>
     // Variables globales
     let map;
@@ -2446,12 +2446,12 @@
       }
     }
 
-    // Crear zonas cercanas desde el archivo poligonoz_zonas.js
+    // Crear zonas cercanas desde el archivo poligonos_zonas.js
     function crearZonasCercanas() {
       try {
         // Verificar que el archivo esté cargado
         if (typeof poligonos === 'undefined' || !poligonos || poligonos.length === 0) {
-          console.warn('Archivo poligonoz_zonas.js no encontrado o vacío');
+          console.warn('Archivo poligonos_zonas.js no encontrado o vacío');
           mostrarNotificacion('⚠️ No se pudieron cargar las zonas cercanas', 3000);
           return;
         }
