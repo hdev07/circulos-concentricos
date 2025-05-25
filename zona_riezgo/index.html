@@ -1518,23 +1518,70 @@
         leyendaControl = L.control({ position: 'bottomleft' });
         leyendaControl.onAdd = function () {
           const div = L.DomUtil.create('div', 'leyenda');
-          div.innerHTML = '<h4>🔍 Niveles de Seguridad</h4>';
 
-          const niveles = [
-            { nivel: 'Seguro', color: '#26de81', desc: '1 delito', emoji: '🟢' },
-            { nivel: 'Precaución', color: '#ffa726', desc: '2 delitos', emoji: '🟡' },
-            { nivel: 'Peligroso', color: '#ff6b7a', desc: '3-4 delitos', emoji: '🟠' },
-            { nivel: 'Muy Peligroso', color: '#ff4757', desc: '5+ delitos', emoji: '🔴' }
+          // Título principal
+          div.innerHTML = '<h4>🗂️ Leyenda del Mapa</h4>';
+
+          // Sección de zonas de riesgo (delitos) - solo si están activas
+          if (mostrandoZonas) {
+            div.innerHTML += '<div style="border-bottom: 1px solid #eee; margin-bottom: 10px; padding-bottom: 8px;"><strong>🔍 Niveles de Seguridad</strong></div>';
+
+            const niveles = [
+              { nivel: 'Seguro', color: '#26de81', desc: '1 delito', emoji: '🟢' },
+              { nivel: 'Precaución', color: '#ffa726', desc: '2 delitos', emoji: '🟡' },
+              { nivel: 'Peligroso', color: '#ff6b7a', desc: '3-4 delitos', emoji: '🟠' },
+              { nivel: 'Muy Peligroso', color: '#ff4757', desc: '5+ delitos', emoji: '🔴' }
+            ];
+
+            niveles.forEach(item => {
+              div.innerHTML += `
+                <div class="leyenda-item">
+                  <div class="color-box" style="background: ${item.color}"></div>
+                  <span>${item.emoji} ${item.nivel} (${item.desc})</span>
+                </div>
+              `;
+            });
+          }
+
+          // Sección de zonas de interés (escuelas y parques) - siempre visible
+          div.innerHTML += '<div style="border-bottom: 1px solid #eee; margin: 10px 0; padding-bottom: 8px;"><strong>🏘️ Zonas de Interés</strong></div>';
+
+          // Obtener estadísticas actuales de zonas cercanas si están disponibles
+          const estadisticasActuales = estadisticasZonasCercanas || {
+            parques: 0,
+            escuelas: 0,
+            baldios: 0,
+            bomberos: 0,
+            iglesia: 0,
+            otros: 0
+          };
+
+          const categoriasZonas = [
+            { tipo: 'parque', nombre: 'Áreas Verdes/Parques', color: '#28a745', emoji: '🌳', cantidad: estadisticasActuales.parques },
+            { tipo: 'escuela', nombre: 'Escuelas', color: '#ffc107', emoji: '🏫', cantidad: estadisticasActuales.escuelas },
+            { tipo: 'baldio', nombre: 'Zonas Baldías', color: '#6c757d', emoji: '🏗️', cantidad: estadisticasActuales.baldios },
+            { tipo: 'bomberos', nombre: 'Estación de Bomberos', color: '#dc3545', emoji: '🚒', cantidad: estadisticasActuales.bomberos },
+            { tipo: 'iglesia', nombre: 'Iglesias', color: '#6f42c1', emoji: '🏠', cantidad: estadisticasActuales.iglesia },
+            { tipo: 'otros', nombre: 'Zonas de Servicios', color: '#17a2b8', emoji: '📍', cantidad: estadisticasActuales.otros }
           ];
 
-          niveles.forEach(item => {
+          // Mostrar todas las categorías, incluso si tienen 0 elementos
+          categoriasZonas.forEach(item => {
+            const cantidadTexto = item.cantidad > 0 ? `(${item.cantidad})` : '(0)';
+            const estiloItem = item.cantidad === 0 ? 'opacity: 0.5;' : '';
+
             div.innerHTML += `
-              <div class="leyenda-item">
+              <div class="leyenda-item" style="${estiloItem}">
                 <div class="color-box" style="background: ${item.color}"></div>
-                <span>${item.emoji} ${item.nivel} (${item.desc})</span>
+                <span>${item.emoji} ${item.nombre} ${cantidadTexto}</span>
               </div>
             `;
           });
+
+          // Nota informativa
+          if (!mostrandoZonasCercanas) {
+            div.innerHTML += '<div style="margin-top: 10px; padding: 8px; background: #f8f9fa; border-radius: 5px; font-size: 12px; color: #666; text-align: center;">💡 Activa "Zonas Cercanas" para ver estos elementos en el mapa</div>';
+          }
 
           return div;
         };
@@ -1626,11 +1673,8 @@
             if (mostrandoZonas) {
               crearLeyendaZonas();
             } else if (mostrandoLeyenda) {
-              // Si no hay zonas de riesgo, quitar la leyenda
-              if (leyendaControl) {
-                map.removeControl(leyendaControl);
-                leyendaControl = null;
-              }
+              // Crear leyenda básica con zonas de interés aunque no haya zonas de riesgo
+              crearLeyendaZonas();
             }
           } else {
             map.addLayer(zonasCercanasLayer);
@@ -2135,7 +2179,8 @@
           // Recrear la leyenda apropiada según lo que esté visible
           if (mostrandoZonasCercanas) {
             crearLeyendaZonasCercanas(estadisticasZonasCercanas);
-          } else if (mostrandoZonas && delitosData.length > 0) {
+          } else {
+            // Siempre crear la leyenda, incluso si no hay zonas de riesgo activas
             crearLeyendaZonas();
           }
           botonEl.classList.remove('inactivo');
@@ -2429,14 +2474,53 @@
         function categorizarPorColor(fillColor) {
           const color = fillColor.toLowerCase();
 
-          // Verificar si es verde (parques/áreas verdes)
-          if (color.includes('#57985d') || color.includes('#488e49') || color.includes('#28802e') ||
+          // Debug: mostrar el color original
+          console.log('🎨 Analizando color:', fillColor, '-> normalizado:', color);
+
+          // Verificaciones específicas para colores exactos que hemos visto
+          if (color === '#4c9458') {
+            console.log('🟢 DETECTADO COLOR ESPECÍFICO #4c9458 - ES PARQUE');
+            return {
+              tipo: 'parque',
+              color: '#28a745',
+              emoji: '🌳',
+              nombre: 'Área Verde/Parque'
+            };
+          }
+
+          if (color === '#fff') {
+            console.log('⚪ DETECTADO COLOR ESPECÍFICO #fff - ES BALDÍO');
+            return {
+              tipo: 'baldio',
+              color: '#6c757d',
+              emoji: '🏗️',
+              nombre: 'Zona Baldía'
+            };
+          }
+
+          if (color === '#a5a654' || color === '#c4ca72' || color === '#828f42') {
+            console.log('🟡 DETECTADO COLOR ESPECÍFICO DE ESCUELA');
+            return {
+              tipo: 'escuela',
+              color: '#ffc107',
+              emoji: '🏫',
+              nombre: 'Escuela'
+            };
+          }
+
+          // Verificar si es verde (parques/áreas verdes) - más flexible
+          if (color.includes('green') || color.includes('verde') ||
+            color.includes('#57985d') || color.includes('#488e49') || color.includes('#28802e') ||
             color.includes('#378b50') || color.includes('#388a3e') || color.includes('#43936a') ||
             color.includes('#50a551') || color.includes('#4d9d4f') || color.includes('#3b874e') ||
             color.includes('#347447') || color.includes('#3b883a') || color.includes('#3c8b5a') ||
             color.includes('#337a4e') || color.includes('#377647') || color.includes('#43845f') ||
             color.includes('#4b8b5e') || color.includes('#3f8d44') || color.includes('#52985e') ||
-            color.includes('#4e9041') || color.includes('#4c944d') || color.includes('#4c9458')) {
+            color.includes('#4e9041') || color.includes('#4c944d') || color.includes('#4c9458') ||
+            // Agregar más variaciones de verde
+            color.includes('#2e7d32') || color.includes('#4caf50') || color.includes('#66bb6a') ||
+            color.includes('#81c784') || color.includes('#a5d6a7') || color.includes('#c8e6c9')) {
+            console.log('✅ DETECTADO COMO PARQUE por color verde');
             return {
               tipo: 'parque',
               color: '#28a745', // Verde consistente
@@ -2445,9 +2529,14 @@
             };
           }
 
-          // Verificar si es amarillo (escuelas)
-          if (color.includes('#a5a654') || color.includes('#c4ca72') || color.includes('#828f42') ||
-            color.includes('#9fa14a') || color.includes('#c4ca72')) {
+          // Verificar si es amarillo (escuelas) - más flexible
+          if (color.includes('yellow') || color.includes('amarillo') ||
+            color.includes('#a5a654') || color.includes('#c4ca72') || color.includes('#828f42') ||
+            color.includes('#9fa14a') || color.includes('#c4ca72') ||
+            // Agregar más variaciones de amarillo
+            color.includes('#ffeb3b') || color.includes('#fff176') || color.includes('#ffee58') ||
+            color.includes('#ffc107') || color.includes('#ffb300') || color.includes('#ffa000')) {
+            console.log('✅ DETECTADO COMO ESCUELA por color amarillo');
             return {
               tipo: 'escuela',
               color: '#ffc107', // Amarillo consistente
@@ -2456,9 +2545,15 @@
             };
           }
 
-          // Verificar si es gris/negro (zonas baldías)
-          if (color.includes('#2b2b36') || color.includes('#353741') || color.includes('#3f4150') ||
-            color.includes('#fff') || color.includes('#ffffff')) {
+          // Verificar si es gris/negro/blanco (zonas baldías) - más flexible
+          if (color.includes('gray') || color.includes('grey') || color.includes('gris') ||
+            color.includes('#2b2b36') || color.includes('#353741') || color.includes('#3f4150') ||
+            color.includes('#fff') || color.includes('#ffffff') ||
+            // Agregar más variaciones de gris
+            color.includes('#9e9e9e') || color.includes('#757575') || color.includes('#616161') ||
+            color.includes('#424242') || color.includes('#212121') || color.includes('#000000') ||
+            color.includes('#f5f5f5') || color.includes('#eeeeee') || color.includes('#e0e0e0')) {
+            console.log('✅ DETECTADO COMO BALDÍO por color gris/blanco');
             return {
               tipo: 'baldio',
               color: '#6c757d', // Gris consistente
@@ -2467,8 +2562,14 @@
             };
           }
 
-          // Verificar si es rojo (bomberos)
-          if (color.includes('#c34646')) {
+          // Verificar si es rojo (bomberos) - más flexible
+          if (color.includes('red') || color.includes('rojo') ||
+            color.includes('#c34646') ||
+            // Agregar más variaciones de rojo
+            color.includes('#f44336') || color.includes('#e53935') || color.includes('#d32f2f') ||
+            color.includes('#c62828') || color.includes('#b71c1c') || color.includes('#ff5722') ||
+            color.includes('#dc3545') || color.includes('#ff1744')) {
+            console.log('✅ DETECTADO COMO BOMBEROS por color rojo');
             return {
               tipo: 'bomberos',
               color: '#dc3545', // Rojo consistente
@@ -2477,8 +2578,14 @@
             };
           }
 
-          // Verificar si es morado (otros servicios)
-          if (color.includes('#594087')) {
+          // Verificar si es morado/púrpura (iglesias) - más flexible
+          if (color.includes('purple') || color.includes('violet') || color.includes('morado') ||
+            color.includes('#594087') ||
+            // Agregar más variaciones de morado
+            color.includes('#9c27b0') || color.includes('#8e24aa') || color.includes('#7b1fa2') ||
+            color.includes('#6a1b9a') || color.includes('#4a148c') || color.includes('#673ab7') ||
+            color.includes('#6f42c1') || color.includes('#5e35b1')) {
+            console.log('✅ DETECTADO COMO IGLESIA por color morado');
             return {
               tipo: 'iglesia',
               color: '#6f42c1', // Morado consistente
@@ -2487,7 +2594,23 @@
             };
           }
 
-          // Otros casos
+          // Verificar si es azul (otros servicios) - más flexible
+          if (color.includes('blue') || color.includes('azul') ||
+            // Agregar variaciones de azul
+            color.includes('#2196f3') || color.includes('#1976d2') || color.includes('#1565c0') ||
+            color.includes('#0d47a1') || color.includes('#03a9f4') || color.includes('#00bcd4') ||
+            color.includes('#17a2b8') || color.includes('#007bff')) {
+            console.log('✅ DETECTADO COMO OTROS por color azul');
+            return {
+              tipo: 'otros',
+              color: '#17a2b8', // Azul para otros
+              emoji: '📍',
+              nombre: 'Zona de Servicios'
+            };
+          }
+
+          // Si no coincide con ningún color conocido, categorizar como "otros" y mostrar debug
+          console.warn('❌ COLOR NO RECONOCIDO:', fillColor, '-> Categorizando como "otros"');
           return {
             tipo: 'otros',
             color: '#17a2b8', // Azul para otros
@@ -2507,9 +2630,110 @@
                   const properties = feature.properties || {};
                   const fillColorOriginal = properties.fill || '#3388ff';
 
-                  // Categorizar por color
-                  const categoria = categorizarPorColor(fillColorOriginal);
-                  estadisticasZonas[categoria.tipo]++;
+                  // Debug detallado para cada polígono
+                  console.log(`\n--- PROCESANDO POLÍGONO ${poligonosAgregados + 1} ---`);
+                  console.log('Propiedades completas:', properties);
+                  console.log('Color fill:', fillColorOriginal);
+                  console.log('¿Tiene propiedad Escuela?', properties.hasOwnProperty('Escuela'), '- Valor:', properties.Escuela);
+                  console.log('¿Tiene propiedad Parque?', properties.hasOwnProperty('Parque'), '- Valor:', properties.Parque);
+                  console.log('¿Tiene propiedad parque?', properties.hasOwnProperty('parque'), '- Valor:', properties.parque);
+
+                  // Función adicional para categorizar por propiedades
+                  function categorizarPorPropiedades(props) {
+                    // Buscar en todas las propiedades palabras clave
+                    const propiedadesTexto = JSON.stringify(props).toLowerCase();
+
+                    // Detectar escuelas - si la propiedad existe, es una escuela
+                    if (props.hasOwnProperty('Escuela') || props.hasOwnProperty('escuela') ||
+                      props.school ||
+                      propiedadesTexto.includes('escuela') || propiedadesTexto.includes('school') ||
+                      propiedadesTexto.includes('primaria') || propiedadesTexto.includes('secundaria') ||
+                      propiedadesTexto.includes('colegio') || propiedadesTexto.includes('instituto')) {
+                      console.log('✅ DETECTADO COMO ESCUELA por propiedades');
+                      return {
+                        tipo: 'escuela',
+                        color: '#ffc107',
+                        emoji: '🏫',
+                        nombre: 'Escuela'
+                      };
+                    }
+
+                    // Detectar parques - si la propiedad existe, es un parque
+                    if (props.hasOwnProperty('Parque') || props.hasOwnProperty('parque') ||
+                      props.park ||
+                      propiedadesTexto.includes('parque') || propiedadesTexto.includes('park') ||
+                      propiedadesTexto.includes('jardín') || propiedadesTexto.includes('jardin') ||
+                      propiedadesTexto.includes('área verde') || propiedadesTexto.includes('verde')) {
+                      console.log('✅ DETECTADO COMO PARQUE por propiedades');
+                      return {
+                        tipo: 'parque',
+                        color: '#28a745',
+                        emoji: '🌳',
+                        nombre: 'Área Verde/Parque'
+                      };
+                    }
+
+                    // Detectar bomberos
+                    if (propiedadesTexto.includes('bombero') || propiedadesTexto.includes('fire') ||
+                      propiedadesTexto.includes('emergencia') || propiedadesTexto.includes('rescate')) {
+                      console.log('✅ DETECTADO COMO BOMBEROS por propiedades');
+                      return {
+                        tipo: 'bomberos',
+                        color: '#dc3545',
+                        emoji: '🚒',
+                        nombre: 'Estación de Bomberos'
+                      };
+                    }
+
+                    // Detectar iglesias
+                    if (propiedadesTexto.includes('iglesia') || propiedadesTexto.includes('church') ||
+                      propiedadesTexto.includes('templo') || propiedadesTexto.includes('capilla') ||
+                      propiedadesTexto.includes('parroquia') || propiedadesTexto.includes('religioso')) {
+                      console.log('✅ DETECTADO COMO IGLESIA por propiedades');
+                      return {
+                        tipo: 'iglesia',
+                        color: '#6f42c1',
+                        emoji: '🏠',
+                        nombre: 'Iglesia'
+                      };
+                    }
+
+                    console.log('❌ NO detectado por propiedades, intentando por color...');
+                    return null; // No se encontró categoría por propiedades
+                  }
+
+                  // Intentar categorizar primero por propiedades, luego por color
+                  let categoria = categorizarPorPropiedades(properties);
+                  if (!categoria) {
+                    categoria = categorizarPorColor(fillColorOriginal);
+                    console.log('✅ CATEGORIZADO POR COLOR como:', categoria.tipo);
+                  } else {
+                    console.log('✅ CATEGORIZADO POR PROPIEDADES como:', categoria.tipo);
+                  }
+
+                  // Corregir el incremento de estadísticas
+                  const tipoCategoria = categoria.tipo;
+                  if (tipoCategoria === 'parque') {
+                    estadisticasZonas.parques++;
+                    console.log(`📊 INCREMENTANDO parques: ahora es ${estadisticasZonas.parques}`);
+                  } else if (tipoCategoria === 'escuela') {
+                    estadisticasZonas.escuelas++;
+                    console.log(`📊 INCREMENTANDO escuelas: ahora es ${estadisticasZonas.escuelas}`);
+                  } else if (tipoCategoria === 'baldio') {
+                    estadisticasZonas.baldios++;
+                    console.log(`📊 INCREMENTANDO baldios: ahora es ${estadisticasZonas.baldios}`);
+                  } else if (tipoCategoria === 'bomberos') {
+                    estadisticasZonas.bomberos++;
+                    console.log(`📊 INCREMENTANDO bomberos: ahora es ${estadisticasZonas.bomberos}`);
+                  } else if (tipoCategoria === 'iglesia') {
+                    estadisticasZonas.iglesia++;
+                    console.log(`📊 INCREMENTANDO iglesia: ahora es ${estadisticasZonas.iglesia}`);
+                  } else if (tipoCategoria === 'otros') {
+                    estadisticasZonas.otros++;
+                    console.log(`📊 INCREMENTANDO otros: ahora es ${estadisticasZonas.otros}`);
+                  }
+
+                  console.log('📈 Estado actual de estadísticas:', estadisticasZonas);
 
                   // Crear el polígono de Leaflet con color categorizado
                   const polygon = L.polygon(feature.geometry.coordinates[0].map(coord => [coord[1], coord[0]]), {
@@ -2614,6 +2838,16 @@
         console.log(`✅ Zonas cercanas creadas: ${poligonosAgregados} polígonos`);
         console.log('📊 Estadísticas por tipo:', estadisticasZonas);
 
+        // Resumen detallado para debug
+        console.log('🔍 RESUMEN DETALLADO DE ZONAS:');
+        console.log(`🌳 Parques/Áreas Verdes: ${estadisticasZonas.parques}`);
+        console.log(`🏫 Escuelas: ${estadisticasZonas.escuelas}`);
+        console.log(`🏗️ Zonas Baldías: ${estadisticasZonas.baldios}`);
+        console.log(`🚒 Estaciones de Bomberos: ${estadisticasZonas.bomberos}`);
+        console.log(`🏠 Iglesias: ${estadisticasZonas.iglesia}`);
+        console.log(`📍 Otros Servicios: ${estadisticasZonas.otros}`);
+        console.log(`📊 Total procesado: ${poligonosAgregados} polígonos`);
+
         // Guardar estadísticas globalmente
         estadisticasZonasCercanas = estadisticasZonas;
 
@@ -2687,14 +2921,16 @@
             ];
 
             categoriasZonas.forEach(item => {
-              if (item.cantidad > 0) {
-                div.innerHTML += `
-                  <div class="leyenda-item">
-                    <div class="color-box" style="background: ${item.color}"></div>
-                    <span>${item.emoji} ${item.nombre} (${item.cantidad})</span>
-                  </div>
-                `;
-              }
+              // Mostrar todos los elementos para debug, incluso los que tienen 0
+              const cantidadTexto = item.cantidad > 0 ? `(${item.cantidad})` : '(0)';
+              const estiloItem = item.cantidad === 0 ? 'opacity: 0.5;' : '';
+
+              div.innerHTML += `
+                <div class="leyenda-item" style="${estiloItem}">
+                  <div class="color-box" style="background: ${item.color}"></div>
+                  <span>${item.emoji} ${item.nombre} ${cantidadTexto}</span>
+                </div>
+              `;
             });
           }
 
