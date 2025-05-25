@@ -3,90 +3,1121 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Mapa de Delitos - CTM El Risco</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
   <style>
-    body {
+    * {
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Optimizaciones móviles globales */
+    html {
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+      touch-action: manipulation;
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 0;
+      -webkit-overflow-scrolling: touch;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+    }
+
+    /* Permitir selección en elementos de texto específicos */
+    .leyenda,
+    .estadisticas,
+    .loading,
+    .notificacion,
+    .resultados-filtro {
+      user-select: text;
+      -webkit-user-select: text;
+      -moz-user-select: text;
+      -ms-user-select: text;
+    }
+
+    .container {
+      max-width: none;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .header {
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      margin: 0 auto 20px auto;
+    }
+
+    .header h1 {
+      color: #2c3e50;
+      font-size: 2.2rem;
+      text-align: center;
+      margin-bottom: 5px;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #7f8c8d;
+      font-size: 1rem;
+      margin-bottom: 12px;
+    }
+
+    .filtros-container {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+      margin-bottom: 10px;
+    }
+
+    .filtro-card {
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 15px;
+      border: 2px solid #e9ecef;
+      transition: all 0.3s ease;
+    }
+
+    .filtro-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      border-color: #667eea;
+    }
+
+    .filtro-card h3 {
+      color: #2c3e50;
+      font-size: 1rem;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .filtro-card select {
+      width: 100%;
+      padding: 8px;
+      border: 2px solid #e9ecef;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      background: white;
+      transition: border-color 0.3s ease;
+    }
+
+    .filtro-card select:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    /* Estilos para la nueva columna de tipos de delito */
+    .filtro-tipos-delito {
+      flex: 2;
+    }
+
+    .tipos-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      max-height: 200px;
+      overflow-y: auto;
+      padding: 10px;
+      background: white;
+      border-radius: 8px;
+      border: 2px solid #e9ecef;
+    }
+
+    /* Estilos para los chips */
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      background: #f8f9fa;
+      border: 2px solid #e9ecef;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      user-select: none;
+      min-height: 36px;
+    }
+
+    .chip:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .chip.activo {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white;
+      border-color: #667eea;
+    }
+
+    .chip.maestro {
+      background: rgba(102, 126, 234, 0.1);
+      border-color: #667eea;
+      font-weight: bold;
+      color: #2c3e50;
+      margin-bottom: 8px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .chip.maestro.activo {
+      background: #667eea;
+      color: white;
+    }
+
+    /* Estilos para la columna de otros filtros */
+    .filtro-otros {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .filtro-grupo {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .filtro-grupo h3 {
+      color: #2c3e50;
+      font-size: 1rem;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .filtro-grupo select {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      background: white;
+      transition: border-color 0.3s ease;
+    }
+
+    .filtro-grupo select:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .botones-container {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 15px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-secondary {
+      background: #6c757d;
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: #5a6268;
+      transform: translateY(-2px);
+    }
+
+    .mapa-container {
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      position: relative;
+      margin: 0 -20px;
+      border-radius: 0;
+    }
+
+    .mapa-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .mapa-title {
+      color: #2c3e50;
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .controles-mapa {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+      width: 100%;
+    }
+
+    .control-btn {
+      padding: 10px 15px;
+      background: #f8f9fa;
+      border: 2px solid #e9ecef;
+      border-radius: 15px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      color: #495057;
+    }
+
+    .control-btn:hover {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
+      transform: translateY(-1px);
+    }
+
+    .control-btn.activo {
+      background: #28a745;
+      color: white;
+      border-color: #28a745;
+    }
+
+    .control-btn.inactivo {
+      background: #dc3545;
+      color: white;
+      border-color: #dc3545;
+      opacity: 0.8;
     }
 
     #map {
-      height: 100vh;
+      height: 80vh;
       width: 100%;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .estadisticas {
+      position: absolute;
+      top: 90px;
+      right: 30px;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 20px 20px 20px 20px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      min-width: 220px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .estadisticas h4 {
+      color: #2c3e50;
+      margin: 0 0 15px 0;
+      font-size: 1.2rem;
+      text-align: center;
+      border-bottom: 2px solid #667eea;
+      padding-bottom: 8px;
+    }
+
+    .stat-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+      padding: 5px 0;
+    }
+
+    .stat-number {
+      font-weight: 700;
+      color: #667eea;
+      font-size: 1.1rem;
+      background: rgba(102, 126, 234, 0.1);
+      padding: 4px 8px;
+      border-radius: 8px;
     }
 
     .leyenda {
       padding: 10px;
-      background: white;
-      border-radius: 5px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-      max-height: 80vh;
-      overflow-y: auto;
-      width: 300px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      max-height: none;
+      /* Eliminar límite de altura */
+      overflow-y: visible;
+      /* Eliminar scroll */
+      width: 280px;
+      /* Ancho fijo más compacto */
+      backdrop-filter: blur(5px);
+      font-size: 0.85rem;
+      /* Texto más pequeño */
     }
 
     .leyenda h4 {
       margin: 0 0 10px;
-      font-size: 16px;
+      font-size: 1rem;
+      /* Título más pequeño */
+      color: #2c3e50;
+      border-bottom: 2px solid #667eea;
+      padding-bottom: 6px;
+      text-align: center;
     }
 
     .leyenda-item {
       display: flex;
       align-items: center;
-      margin-bottom: 5px;
+      margin-bottom: 4px;
+      /* Espaciado reducido */
+      padding: 3px;
+      border-radius: 6px;
+      transition: background 0.2s ease;
+      font-size: 0.8rem;
+      /* Texto más compacto */
+      line-height: 1.2;
+    }
+
+    .leyenda-item:hover {
+      background: #f8f9fa;
     }
 
     .color-box {
-      width: 15px;
-      height: 15px;
+      width: 16px;
+      /* Más pequeño */
+      height: 16px;
+      /* Más pequeño */
       margin-right: 8px;
+      /* Menos margen */
+      border-radius: 4px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      flex-shrink: 0;
+      /* No se encoge */
+    }
+
+    .leyenda-item span {
+      font-size: 0.75rem;
+      /* Texto aún más pequeño */
+      line-height: 1.1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      flex: 1;
+    }
+
+    .loading {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      z-index: 2000;
+      text-align: center;
+    }
+
+    .loading h3 {
+      color: #2c3e50;
+      margin-bottom: 15px;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #667eea;
       border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
     }
 
-    .total-delitos {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: white;
-      padding: 10px;
-      border-radius: 5px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-      z-index: 1000;
-      font-weight: bold;
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
     }
 
-    .controles {
-      position: absolute;
-      top: 10px;
-      left: 50px;
-      background: white;
-      padding: 10px;
-      border-radius: 5px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-      z-index: 1000;
+    .error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 2px solid #f5c6cb;
+    }
+
+    .notificacion {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 15px 25px;
+      border-radius: 25px;
+      z-index: 2000;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    .resultados-filtro {
+      background: #e8f4fd;
+      border: 1px solid #bee5eb;
+      border-radius: 10px;
+      padding: 15px;
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .resultados-filtro strong {
+      color: #2c3e50;
+      font-size: 1.1rem;
+    }
+
+    /* Mobile First - Optimización completa para móviles */
+
+    /* Pantallas muy pequeñas (hasta 480px) */
+    @media (max-width: 480px) {
+      .container {
+        padding: 5px;
+      }
+
+      .header {
+        margin: 0 auto 10px auto;
+        padding: 12px;
+        border-radius: 12px;
+      }
+
+      .header h1 {
+        font-size: 1.6rem;
+        margin-bottom: 5px;
+      }
+
+      .subtitle {
+        font-size: 0.9rem;
+        margin-bottom: 12px;
+      }
+
+      .filtros-container {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+
+      .filtro-card {
+        padding: 12px;
+        border-radius: 10px;
+      }
+
+      .filtro-card h3 {
+        font-size: 1rem;
+        margin-bottom: 8px;
+      }
+
+      .tipos-chips {
+        max-height: 150px;
+        padding: 8px;
+        gap: 6px;
+      }
+
+      .chip {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+        min-height: 32px;
+      }
+
+      .chip.maestro {
+        margin-bottom: 6px;
+        padding: 8px 12px;
+      }
+
+      .filtro-otros {
+        gap: 12px;
+      }
+
+      .filtro-grupo h3 {
+        font-size: 0.95rem;
+        margin-bottom: 6px;
+      }
+
+      .filtro-grupo select {
+        padding: 8px;
+        font-size: 0.9rem;
+      }
+
+      .botones-container {
+        flex-direction: row;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+
+      .btn {
+        padding: 12px 15px;
+        font-size: 0.9rem;
+        border-radius: 15px;
+        min-height: 42px;
+        justify-content: center;
+        flex: 1;
+      }
+
+      .mapa-container {
+        margin: 0 -5px;
+        border-radius: 0;
+        padding: 12px;
+      }
+
+      .mapa-header {
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+
+      .mapa-title {
+        font-size: 1.3rem;
+        text-align: center;
+      }
+
+      .controles-mapa {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+        width: 100%;
+      }
+
+      .control-btn {
+        padding: 10px 6px;
+        font-size: 0.75rem;
+        border-radius: 10px;
+        min-height: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+
+      #map {
+        height: 65vh;
+        border-radius: 10px;
+      }
+
+      .estadisticas {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        right: auto;
+        top: auto;
+        width: calc(100% - 40px);
+        max-width: 300px;
+        background: rgba(255, 255, 255, 0.98);
+        border: 2px solid #667eea;
+      }
+
+      /* Leyenda optimizada para móviles */
+      .leyenda {
+        width: calc(100% - 20px);
+        max-width: 250px;
+        padding: 8px;
+        font-size: 0.75rem;
+        position: fixed;
+        bottom: 10px;
+        left: 10px;
+        right: 10px;
+        margin: 0 auto;
+        max-height: 40vh;
+        overflow-y: auto;
+        z-index: 1001;
+      }
+
+      .leyenda h4 {
+        font-size: 0.9rem;
+        margin-bottom: 6px;
+        padding-bottom: 4px;
+      }
+
+      .leyenda-item {
+        margin-bottom: 2px;
+        padding: 2px;
+        font-size: 0.7rem;
+      }
+
+      .color-box {
+        width: 12px;
+        height: 12px;
+        margin-right: 6px;
+      }
+
+      .leyenda-item span {
+        font-size: 0.65rem;
+        line-height: 1;
+      }
+
+      .loading {
+        padding: 20px;
+        border-radius: 15px;
+      }
+
+      .loading h3 {
+        font-size: 1.2rem;
+      }
+
+      .notificacion {
+        top: 10px;
+        padding: 12px 20px;
+        font-size: 0.9rem;
+        max-width: calc(100% - 20px);
+        border-radius: 20px;
+      }
+    }
+
+    /* Tablets y pantallas medianas (481px - 768px) */
+    @media (min-width: 481px) and (max-width: 768px) {
+      .container {
+        padding: 8px;
+      }
+
+      .header {
+        padding: 15px;
+        margin-bottom: 12px;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        margin-bottom: 6px;
+      }
+
+      .subtitle {
+        font-size: 1rem;
+        margin-bottom: 15px;
+      }
+
+      .mapa-container {
+        margin: 0 -8px;
+        border-radius: 0;
+        padding: 15px;
+      }
+
+      .filtros-container {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+
+      .filtro-card {
+        padding: 12px;
+        border-radius: 10px;
+      }
+
+      .filtro-card h3 {
+        font-size: 1rem;
+        margin-bottom: 8px;
+      }
+
+      .tipos-chips {
+        max-height: 160px;
+        padding: 10px;
+        gap: 6px;
+      }
+
+      .chip {
+        padding: 6px 10px;
+        font-size: 0.85rem;
+        min-height: 34px;
+      }
+
+      .filtro-otros {
+        gap: 12px;
+      }
+
+      .botones-container {
+        flex-direction: row;
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+
+      .btn {
+        padding: 12px 20px;
+        font-size: 1rem;
+        min-height: 45px;
+        flex: 1;
+      }
+
+      .mapa-header {
+        margin-bottom: 12px;
+        gap: 12px;
+      }
+
+      .mapa-title {
+        font-size: 1.5rem;
+      }
+
+      .controles-mapa {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+      }
+
+      .control-btn {
+        padding: 10px 8px;
+        font-size: 0.8rem;
+        min-height: 42px;
+      }
+
+      #map {
+        height: 55vh;
+      }
+
+      /* Leyenda optimizada para tablets */
+      .leyenda {
+        width: 260px;
+        padding: 9px;
+        font-size: 0.8rem;
+        max-height: 50vh;
+        overflow-y: auto;
+      }
+
+      .leyenda h4 {
+        font-size: 0.95rem;
+        margin-bottom: 8px;
+        padding-bottom: 5px;
+      }
+
+      .leyenda-item {
+        margin-bottom: 3px;
+        padding: 2px;
+        font-size: 0.75rem;
+      }
+
+      .color-box {
+        width: 14px;
+        height: 14px;
+        margin-right: 7px;
+      }
+
+      .leyenda-item span {
+        font-size: 0.7rem;
+        line-height: 1.1;
+      }
+    }
+
+    /* Pantallas grandes (768px+) - Diseño optimizado para que el mapa sea principal */
+    @media (min-width: 769px) {
+      .controles-mapa {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .control-btn {
+        min-width: 120px;
+      }
+
+      #map {
+        height: 80vh;
+      }
+    }
+
+    /* Mejoras para dispositivos táctiles */
+    @media (hover: none) and (pointer: coarse) {
+      .control-btn {
+        min-height: 48px;
+        font-size: 0.9rem;
+      }
+
+      .btn {
+        min-height: 50px;
+      }
+
+      .filtro-card select {
+        min-height: 48px;
+        font-size: 1rem;
+      }
+    }
+
+    /* Orientación horizontal en móviles */
+    @media (max-width: 768px) and (orientation: landscape) {
+      #map {
+        height: 50vh;
+      }
+
+      .header {
+        margin-bottom: 10px;
+      }
+
+      .filtros-container {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+
+      .botones-container {
+        flex-direction: row;
+        gap: 10px;
+      }
+
+      .mapa-header {
+        margin-bottom: 10px;
+      }
+    }
+
+    /* Pantallas muy grandes (1200px+) - Mapa súper protagonista */
+    @media (min-width: 1200px) {
+      .tipos-chips {
+        max-height: 180px;
+      }
+
+      .chip {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+      }
+
+      .chip.maestro {
+        padding: 8px 12px;
+        margin-bottom: 6px;
+      }
+
+      .filtro-card {
+        padding: 12px;
+      }
+
+      .filtro-card h3 {
+        font-size: 0.95rem;
+        margin-bottom: 6px;
+      }
+
+      .filtro-grupo h3 {
+        font-size: 0.9rem;
+        margin-bottom: 6px;
+      }
+
+      .filtro-grupo select {
+        padding: 8px;
+        font-size: 0.85rem;
+      }
+
+      #map {
+        height: 85vh;
+      }
+
+      .header {
+        padding: 18px;
+      }
+
+      .botones-container {
+        margin-bottom: 8px;
+      }
+
+      /* Leyenda optimizada para pantallas grandes */
+      .leyenda {
+        width: 300px;
+        padding: 12px;
+        font-size: 0.85rem;
+        max-height: 70vh;
+        overflow-y: auto;
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+      }
+
+      .leyenda h4 {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+        padding-bottom: 6px;
+      }
+
+      .leyenda-item {
+        margin-bottom: 4px;
+        padding: 3px;
+        font-size: 0.8rem;
+      }
+
+      .color-box {
+        width: 16px;
+        height: 16px;
+        margin-right: 8px;
+      }
+
+      .leyenda-item span {
+        font-size: 0.75rem;
+        line-height: 1.2;
+      }
     }
   </style>
 </head>
 
 <body>
-  <div id="map"></div>
-  <div class="total-delitos" id="total-delitos"></div>
-  <div class="controles">
-    <button id="btn-centrar">Centrar Mapa</button>
+  <div class="container">
+    <!-- Header con título -->
+    <div class="header">
+      <h1>🗺️ Mapa de Delitos</h1>
+      <p class="subtitle">CTM El Risco - Análisis de seguridad con círculos concéntricos</p>
+
+      <!-- Filtros principales -->
+      <div class="filtros-container">
+        <div class="filtro-card filtro-tipos-delito">
+          <h3>📊 Tipos de Delito</h3>
+          <div class="tipos-chips" id="tipos-delito">
+            <!-- Se llenarán dinámicamente como chips -->
+          </div>
+        </div>
+
+        <div class="filtro-card filtro-otros">
+          <div class="filtro-grupo">
+            <h3>🗓️ Año</h3>
+            <select id="filtro-ano">
+              <option value="">Todos los años</option>
+              <!-- Se llenarán dinámicamente -->
+            </select>
+          </div>
+
+          <div class="filtro-grupo">
+            <h3>📈 Visualización</h3>
+            <select id="modo-visualizacion">
+              <option value="concentracion">🎯 Por concentración</option>
+              <option value="porcentaje">📊 Por porcentaje</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botones de acción -->
+      <div class="botones-container">
+        <button class="btn btn-primary" id="btn-aplicar-filtros">✨ Aplicar Filtros</button>
+        <button class="btn btn-secondary" id="btn-limpiar-filtros">🧹 Limpiar Todo</button>
+      </div>
+
+      <!-- Resultados de filtros -->
+      <div class="resultados-filtro" id="resultados-filtro" style="display: none;">
+        <!-- Se mostrará información de los filtros aplicados -->
+      </div>
+    </div>
+
+    <!-- Container del mapa -->
+    <div class="mapa-container">
+      <div class="mapa-header">
+        <h2 class="mapa-title">🏘️ Mapa Interactivo</h2>
+        <div class="controles-mapa">
+          <button class="control-btn" id="btn-centrar">🎯 Centrar</button>
+          <button class="control-btn" id="btn-cambiar-mapa">🗺️ Cambiar Mapa</button>
+          <button class="control-btn" id="btn-toggle-estadisticas">📊 Estadísticas</button>
+          <button class="control-btn" id="btn-toggle-leyenda">🔍 Leyenda</button>
+          <button class="control-btn" id="btn-exportar-imagen">📸 Exportar</button>
+        </div>
+      </div>
+
+      <div id="map"></div>
+
+      <!-- Estadísticas flotantes -->
+      <div class="estadisticas" id="estadisticas" style="display: none;">
+        <h4>📊 Estadísticas</h4>
+        <div class="stat-item">
+          <span>Total delitos:</span>
+          <span class="stat-number" id="total-delitos-num">0</span>
+        </div>
+        <div class="stat-item">
+          <span>Tipos únicos:</span>
+          <span class="stat-number" id="tipos-delitos-num">0</span>
+        </div>
+        <div class="stat-item">
+          <span>Filtrados:</span>
+          <span class="stat-number" id="delitos-mostrados">0</span>
+        </div>
+        <div class="stat-item">
+          <span>Círculos:</span>
+          <span class="stat-number" id="circulos-mostrados">0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading" id="loading">
+    <h3>🔄 Cargando mapa...</h3>
+    <div class="spinner"></div>
+    <p>Preparando datos de delitos</p>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
   <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+  <script src="https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://unpkg.com/leaflet-image@0.4.0/leaflet-image.js"></script>
+  <script src="zona_riezgo/delitos_data.js"></script>
   <script>
-    // Inicializar el mapa
-    const map = L.map('map').setView([19.510, -99.096], 15);
+    // Variables globales
+    let map;
+    let delitosData = [];
+    let delitosOriginales = [];
+    let delitosAgrupados = [];
+    let circulosLayer;
+    let leyendaControl;
+    let mostrandoEstadisticas = true;
+    let mostrandoLeyenda = true;
+    let currentTileLayer;
+    let tipoMapaActual = 0;
+    let filtrosActivos = {
+      tiposDelito: [],
+      ano: '',
+      modoVisualizacion: 'concentracion'
+    };
 
-    // Mapa base
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
+    // Configuraciones de diferentes mapas
+    const tiposMapas = [
+      {
+        nombre: 'OpenStreetMap',
+        url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      },
+      {
+        nombre: 'Google Maps Estándar',
+        url: 'https://mt1.google.com/vt/lyrs=r&x={x}&y={y}&z={z}',
+        attribution: '&copy; <a href="https://www.google.com/maps">Google Maps</a>'
+      },
+      {
+        nombre: 'Google Maps Satélite',
+        url: 'https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',
+        attribution: '&copy; <a href="https://www.google.com/maps">Google Maps</a>'
+      },
+      {
+        nombre: 'Google Maps Híbrido',
+        url: 'https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}',
+        attribution: '&copy; <a href="https://www.google.com/maps">Google Maps</a>'
+      }
+    ];
 
     // Polígono real de CTM El Risco
     const poligonoElRisco = {
@@ -114,302 +1145,1171 @@
       }
     };
 
-    // Añadir el polígono al mapa
-    const poligonoLayer = L.geoJSON(poligonoElRisco, {
-      style: {
-        color: 'blue',
-        fillOpacity: 0.1
-      }
-    }).addTo(map);
-
-    // Ajustar la vista al polígono
-    map.fitBounds(poligonoLayer.getBounds());
-
-    // Delitos
-    const delitos = [
-      { nombre: "Violencia Familiar", cantidad: 31 },
-      { nombre: "Robo", cantidad: 19 },
-      { nombre: "Amenazas", cantidad: 12 },
-      { nombre: "Daño A La Propiedad", cantidad: 7 },
-      { nombre: "Fraude", cantidad: 6 },
-      { nombre: "Usurpación", cantidad: 4 },
-      { nombre: "Abuso De Autoridad", cantidad: 3 },
-      { nombre: "Tentativa", cantidad: 3 },
-      { nombre: "Electorales", cantidad: 2 },
-      { nombre: "Lesiones Culposas", cantidad: 2 },
-      { nombre: "Despojo", cantidad: 2 },
-      { nombre: "Allanamiento", cantidad: 1 },
-      { nombre: "Contra La Intimidad Sexual", cantidad: 1 },
-      { nombre: "Corrupción De Menores", cantidad: 1 },
-      { nombre: "Encubrimiento", cantidad: 1 },
-      { nombre: "Ambiental", cantidad: 1 },
-      { nombre: "Narcomenudeo", cantidad: 1 }
-    ];
-
     // Colores para los delitos
     const colores = [
       '#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00',
       '#ffff33', '#a65628', '#f781bf', '#999999', '#66c2a5',
       '#fc8d62', '#8da0cb', '#e78ac3', '#a6d854', '#ffd92f',
-      '#e5c494', '#b3b3b3'
+      '#e5c494', '#b3b3b3', '#1f77b4', '#ff7f0e', '#2ca02c'
     ];
 
-    // Ordenar delitos por cantidad (de mayor a menor)
-    delitos.sort((a, b) => b.cantidad - a.cantidad);
+    // Función para obtener los datos de delitos
+    function obtenerDelitosData() {
+      try {
+        if (typeof DELITOS_DATA !== 'undefined' && DELITOS_DATA.length > 0) {
+          console.log(`Delitos cargados: ${DELITOS_DATA.length}`);
+          return DELITOS_DATA;
+        } else {
+          throw new Error('No se encontraron datos de delitos');
+        }
+      } catch (error) {
+        console.error('Error obteniendo datos de delitos:', error);
+        mostrarError('Error obteniendo datos de delitos: ' + error.message);
+        return [];
+      }
+    }
 
-    // Calcular el total de delitos
-    const totalDelitos = delitos.reduce((sum, delito) => sum + delito.cantidad, 0);
-    document.getElementById('total-delitos').innerText = `Total de delitos: ${totalDelitos}`;
+    // Función para mostrar error
+    function mostrarError(mensaje) {
+      const loading = document.getElementById('loading');
+      loading.innerHTML = `
+        <h3>❌ Error</h3>
+        <p>${mensaje}</p>
+      `;
+      loading.classList.add('error');
+      console.error(mensaje);
+    }
 
-    // Calcular el centro del polígono
-    const turfPolygon = turf.polygon(poligonoElRisco.geometry.coordinates);
-    const centro = turf.centroid(turfPolygon);
-    const centroCoordenadas = [centro.geometry.coordinates[1], centro.geometry.coordinates[0]]; // Leaflet usa [lat, lng]
+    // Función para mostrar notificación
+    function mostrarNotificacion(mensaje, duracion = 3000) {
+      let notificacion = document.getElementById('notificacion-general');
+      if (!notificacion) {
+        notificacion = document.createElement('div');
+        notificacion.id = 'notificacion-general';
+        notificacion.className = 'notificacion';
+        document.body.appendChild(notificacion);
+      }
 
-    console.log('Centro del polígono:', centroCoordenadas);
+      notificacion.textContent = mensaje;
+      notificacion.style.display = 'block';
 
-    // Calcular el área del polígono para determinar tamaños óptimos
-    const areaPoligono = turf.area(turfPolygon); // Área en metros cuadrados
-    const areaPoligonoKm2 = areaPoligono / 1000000; // Convertir a km²
+      setTimeout(() => {
+        notificacion.style.display = 'none';
+      }, duracion);
+    }
 
-    console.log(`Área del polígono: ${areaPoligono.toFixed(0)} m² (${areaPoligonoKm2.toFixed(3)} km²)`);
+    // Verificar si las librerías están cargadas
+    function verificarLibrerias() {
+      if (typeof L === 'undefined') {
+        mostrarError('Error: No se pudo cargar la librería Leaflet');
+        return false;
+      }
+      if (typeof turf === 'undefined') {
+        mostrarError('Error: No se pudo cargar la librería Turf.js');
+        return false;
+      }
+      return true;
+    }
 
-    // Calcular tamaños de círculo basados en el área del polígono
-    // Queremos que los círculos cubran aproximadamente el 90% del área total (buen equilibrio)
-    const factorCobertura = 0.9;
-    const areaObjetivo = areaPoligono * factorCobertura;
-    const areaPromedioPorCirculo = areaObjetivo / delitos.length;
-    const radioPromedio = Math.sqrt(areaPromedioPorCirculo / Math.PI);
+    // Inicializar el mapa
+    function initMap() {
+      try {
+        if (!verificarLibrerias()) return;
 
-    console.log(`Radio promedio calculado: ${radioPromedio.toFixed(1)} metros`);
+        map = L.map('map').setView([19.510, -99.096], 15);
+        currentTileLayer = L.tileLayer(tiposMapas[tipoMapaActual].url, {
+          maxZoom: 20,
+          attribution: tiposMapas[tipoMapaActual].attribution
+        }).addTo(map);
 
-    // Crear leyenda
-    const leyenda = L.control({ position: 'bottomleft' });
-    leyenda.onAdd = function () {
-      const div = L.DomUtil.create('div', 'leyenda');
-      div.innerHTML = '<h4>Tipos de Delitos</h4>';
+        circulosLayer = L.layerGroup().addTo(map);
 
-      delitos.forEach((delito, i) => {
-        const porcentaje = ((delito.cantidad / totalDelitos) * 100).toFixed(1);
-        div.innerHTML += `
-          <div class="leyenda-item">
-            <div class="color-box" style="background: ${colores[i % colores.length]}"></div>
-            <span>${delito.nombre} (${delito.cantidad}) - ${porcentaje}%</span>
-          </div>
+        console.log('Mapa inicializado correctamente');
+        return true;
+      } catch (error) {
+        mostrarError('Error inicializando el mapa: ' + error.message);
+        return false;
+      }
+    }
+
+    // Procesar datos de delitos
+    function procesarDelitos() {
+      try {
+        document.getElementById('loading').innerHTML = `
+          <h3>📊 Cargando datos...</h3>
+          <div class="spinner"></div>
+          <p>Procesando información de delitos</p>
         `;
+
+        const delitosRaw = obtenerDelitosData();
+
+        if (delitosRaw.length === 0) {
+          mostrarError('No se pudieron cargar los datos de delitos');
+          return;
+        }
+
+        document.getElementById('loading').innerHTML = `
+          <h3>🔍 Analizando zona...</h3>
+          <div class="spinner"></div>
+          <p>Filtrando delitos en el área</p>
+        `;
+
+        // Filtrar delitos dentro del polígono
+        const turfPolygon = turf.polygon(poligonoElRisco.geometry.coordinates);
+        const delitosFiltrados = delitosRaw.filter(delito => {
+          const punto = turf.point([delito.lng, delito.lat]);
+          return turf.booleanPointInPolygon(punto, turfPolygon);
+        });
+
+        delitosData = delitosFiltrados;
+        delitosOriginales = [...delitosData];
+
+        console.log(`Delitos procesados: ${delitosData.length}`);
+
+        if (delitosData.length === 0) {
+          mostrarError('No se encontraron delitos en el área especificada');
+          return;
+        }
+
+        // Agrupar delitos por tipo
+        agruparDelitos();
+
+        // Crear visualizaciones
+        crearCirculosConcentricos();
+        actualizarEstadisticas();
+
+        // Inicializar filtros
+        inicializarFiltros();
+
+        // Ocultar loading y mostrar interfaz
+        document.getElementById('loading').style.display = 'none';
+
+        // Configurar estados iniciales según dispositivo
+        configurarEstadosIniciales();
+
+        // Inicializar estado de botones
+        inicializarEstadoBotones();
+
+        // Mostrar notificación de éxito
+        mostrarNotificacion('✅ Mapa cargado correctamente');
+
+        setTimeout(() => {
+          mostrarNotificacion(`🛰️ Vista: ${tiposMapas[tipoMapaActual].nombre}`, 3000);
+        }, 1500);
+
+        if (esMobile()) {
+          setTimeout(() => {
+            mostrarNotificacion('📱 Modo móvil: Usa los botones para mostrar estadísticas/leyenda', 4000);
+          }, 3000);
+        }
+
+      } catch (error) {
+        mostrarError('Error procesando datos: ' + error.message);
+      }
+    }
+
+    // Agrupar delitos por tipo
+    function agruparDelitos() {
+      const grupos = {};
+
+      delitosData.forEach(delito => {
+        if (!grupos[delito.tipoDelito]) {
+          grupos[delito.tipoDelito] = [];
+        }
+        grupos[delito.tipoDelito].push(delito);
       });
 
-      return div;
-    };
-    leyenda.addTo(map);
+      delitosAgrupados = Object.keys(grupos).map(tipo => ({
+        nombre: tipo,
+        cantidad: grupos[tipo].length,
+        delitos: grupos[tipo]
+      }));
 
-    // Distribuir círculos por todo el polígono para maximizar cobertura
+      // Ordenar por cantidad (de mayor a menor)
+      delitosAgrupados.sort((a, b) => b.cantidad - a.cantidad);
+    }
+
+    // Crear círculos concéntricos (lógica original mantenida)
+    function crearCirculosConcentricos() {
+      try {
+        circulosLayer.clearLayers();
+
+        if (delitosAgrupados.length === 0) {
+          console.log('No hay delitos agrupados para mostrar');
+          return;
+        }
+
+        // Calcular el centro del polígono
+        const turfPolygon = turf.polygon(poligonoElRisco.geometry.coordinates);
+        const centro = turf.centroid(turfPolygon);
+        const centroCoordenadas = [centro.geometry.coordinates[1], centro.geometry.coordinates[0]];
+
+        // Calcular el área del polígono para determinar tamaños óptimos
+        const areaPoligono = turf.area(turfPolygon);
+        const factorCobertura = 0.9;
+        const areaObjetivo = areaPoligono * factorCobertura;
+        const areaPromedioPorCirculo = areaObjetivo / delitosAgrupados.length;
+        const radioPromedio = Math.sqrt(areaPromedioPorCirculo / Math.PI);
+
+        console.log(`Radio promedio calculado: ${radioPromedio.toFixed(1)} metros`);
+
+        // Distribuir círculos (lógica mejorada para evitar solapamiento)
+        const puntosDistribuidos = distribuirCirculos();
+        const totalDelitos = delitosAgrupados.reduce((sum, grupo) => sum + grupo.cantidad, 0);
+
+        // Crear círculos
+        delitosAgrupados.forEach((grupo, i) => {
+          if (i < puntosDistribuidos.length) {
+            const punto = puntosDistribuidos[i];
+            const coordenadas = [punto.geometry.coordinates[1], punto.geometry.coordinates[0]];
+
+            // Usar el radio calculado en distribuirCirculos() que ya evita solapamiento
+            let radio;
+            if (window.radiosCalculados && window.radiosCalculados[i]) {
+              radio = window.radiosCalculados[i];
+            } else {
+              // Fallback al cálculo original si no hay radios calculados
+              const modoVisualizacion = document.getElementById('modo-visualizacion').value;
+
+              if (modoVisualizacion === 'porcentaje') {
+                const porcentajeDelito = (grupo.cantidad / totalDelitos) * 100;
+                const radioBase = radioPromedio * 0.7;
+                const radioMaxTeórico = radioPromedio * 2.0;
+                const porcentajeMaximo = (delitosAgrupados[0].cantidad / totalDelitos) * 100;
+                const factorPorcentaje = porcentajeDelito / porcentajeMaximo;
+                radio = radioBase + factorPorcentaje * (radioMaxTeórico - radioBase);
+              } else {
+                const cantidadMaxima = delitosAgrupados[0].cantidad;
+                const factorConcentracion = grupo.cantidad / cantidadMaxima;
+                const radioBase = radioPromedio * 0.5;
+                const radioMax = radioPromedio * 2.5;
+                radio = radioBase + factorConcentracion * (radioMax - radioBase);
+              }
+
+              if (radio > radioPromedio * 3) {
+                radio = radioPromedio * 3;
+              }
+            }
+
+            const porcentaje = ((grupo.cantidad / totalDelitos) * 100).toFixed(1);
+
+            // Crear el círculo
+            const circle = L.circle(coordenadas, {
+              radius: radio,
+              color: colores[i % colores.length],
+              fillColor: colores[i % colores.length],
+              fillOpacity: 0.6,
+              weight: 2,
+              opacity: 0.8
+            }).bindPopup(`
+              <div style="text-align: center; font-size: 14px;">
+                <strong>${grupo.nombre}</strong><br>
+                <br>📊 ${grupo.cantidad} casos (${porcentaje}%)<br>
+                📏 Radio: ${radio.toFixed(1)}m<br>
+                🎯 Modo: ${document.getElementById('modo-visualizacion').value === 'porcentaje' ? 'Porcentaje' : 'Concentración'}<br>
+                🔒 Sin solapamiento garantizado<br>
+                <small>Haz clic para ver detalles</small>
+          </div>
+            `);
+
+            circulosLayer.addLayer(circle);
+          }
+        });
+
+        // Crear leyenda
+        crearLeyenda();
+
+        // Actualizar estadísticas
+        document.getElementById('circulos-mostrados').textContent = Math.min(delitosAgrupados.length, puntosDistribuidos.length);
+
+        console.log(`Círculos creados: ${Math.min(delitosAgrupados.length, puntosDistribuidos.length)}`);
+
+      } catch (error) {
+        console.error('Error creando círculos concéntricos:', error);
+      }
+    }
+
+    // Distribuir círculos (lógica mejorada para evitar solapamiento)
     function distribuirCirculos() {
+      const turfPolygon = turf.polygon(poligonoElRisco.geometry.coordinates);
       const bbox = turf.bbox(turfPolygon);
       const [minX, minY, maxX, maxY] = bbox;
 
-      // Calcular dimensiones del polígono
       const anchoPoligono = maxX - minX;
       const altoPoligono = maxY - minY;
-
-      // Determinar el número de filas y columnas para una distribución óptima
-      const numDelitos = delitos.length;
+      const numDelitos = delitosAgrupados.length;
       const aspectRatio = anchoPoligono / altoPoligono;
 
-      // Calcular filas y columnas basado en el aspect ratio
-      let filas = Math.ceil(Math.sqrt(numDelitos / aspectRatio));
-      let columnas = Math.ceil(numDelitos / filas);
+      // Calcular el área del polígono para determinar tamaños óptimos
+      const areaPoligono = turf.area(turfPolygon);
+      const factorCobertura = 0.95; // Aumentado para mejor cobertura
+      const areaObjetivo = areaPoligono * factorCobertura;
+      const areaPromedioPorCirculo = areaObjetivo / delitosAgrupados.length;
+      const radioPromedio = Math.sqrt(areaPromedioPorCirculo / Math.PI);
 
-      // Ajustar si es necesario
-      while (filas * columnas < numDelitos) {
-        if (columnas * aspectRatio < filas) {
-          columnas++;
+      // Calcular radios estimados manteniendo la lógica de porcentajes pero con mejor cobertura
+      const totalDelitos = delitosAgrupados.reduce((sum, grupo) => sum + grupo.cantidad, 0);
+      const radiosEstimados = delitosAgrupados.map((grupo, i) => {
+        const modoVisualizacion = document.getElementById('modo-visualizacion').value;
+        let radio;
+
+        if (modoVisualizacion === 'porcentaje') {
+          const porcentajeDelito = (grupo.cantidad / totalDelitos) * 100;
+          const radioBase = radioPromedio * 0.8; // Aumentado para mejor cobertura
+          const radioMaxTeórico = radioPromedio * 2.5; // Aumentado
+          const porcentajeMaximo = (delitosAgrupados[0].cantidad / totalDelitos) * 100;
+          const factorPorcentaje = porcentajeDelito / porcentajeMaximo;
+          radio = radioBase + factorPorcentaje * (radioMaxTeórico - radioBase);
         } else {
-          filas++;
+          const cantidadMaxima = delitosAgrupados[0].cantidad;
+          const factorConcentracion = grupo.cantidad / cantidadMaxima;
+          const radioBase = radioPromedio * 0.7; // Aumentado
+          const radioMax = radioPromedio * 2.8; // Aumentado
+          radio = radioBase + factorConcentracion * (radioMax - radioBase);
         }
+
+        // Límite máximo ajustado para mejor cobertura
+        if (radio > radioPromedio * 3.2) {
+          radio = radioPromedio * 3.2;
+        }
+
+        // Límite mínimo para visibilidad
+        if (radio < radioPromedio * 0.5) {
+          radio = radioPromedio * 0.5;
+        }
+
+        return radio;
+      });
+
+      // Función para verificar si dos círculos se solapan
+      function verificarSolapamiento(punto1, radio1, punto2, radio2, margenSeguridad = 1.02) {
+        const distancia = turf.distance(punto1, punto2, { units: 'meters' });
+        const distanciaMinima = (radio1 + radio2) * margenSeguridad;
+        return distancia < distanciaMinima;
       }
 
-      console.log(`Distribuyendo en ${filas} filas y ${columnas} columnas`);
+      // Generar puntos candidatos con grilla más densa
+      let filas = Math.ceil(Math.sqrt(numDelitos / aspectRatio)) * 5; // Grilla aún más densa
+      let columnas = Math.ceil(numDelitos / filas) * 5;
 
-      // Calcular distancias mínimas basadas en el radio promedio
-      const distanciaMinimaDensa = radioPromedio * 0.15; // Separación moderada
-      const distanciaMinimaAleatoria = radioPromedio * 0.1; // Poca separación
-
-      // Generar puntos candidatos en una grilla
       const puntosCandidatos = [];
       const espaciadoX = anchoPoligono / (columnas + 1);
       const espaciadoY = altoPoligono / (filas + 1);
 
+      // Método 1: Grilla regular más densa
       for (let fila = 1; fila <= filas; fila++) {
         for (let col = 1; col <= columnas; col++) {
           const x = minX + col * espaciadoX;
           const y = minY + fila * espaciadoY;
 
-          // Añadir algo de variación aleatoria para evitar patrones demasiado rígidos
-          const variacionX = (Math.random() - 0.5) * espaciadoX * 0.3;
-          const variacionY = (Math.random() - 0.5) * espaciadoY * 0.3;
+          // Variación mínima para mantener distribución ordenada
+          const variacionX = (Math.random() - 0.5) * espaciadoX * 0.03;
+          const variacionY = (Math.random() - 0.5) * espaciadoY * 0.03;
 
           const punto = turf.point([x + variacionX, y + variacionY]);
 
-          // Verificar si el punto está dentro del polígono
           if (turf.booleanPointInPolygon(punto, turfPolygon)) {
             puntosCandidatos.push(punto);
           }
         }
       }
 
-      console.log(`Puntos candidatos generados: ${puntosCandidatos.length}`);
+      // Método 2: Múltiples anillos concéntricos para mejor cobertura
+      const centro = turf.centroid(turfPolygon);
+      const radioMaxPoligono = Math.min(anchoPoligono, altoPoligono) / 2 * 0.95;
 
-      // Si no tenemos suficientes puntos, generar más con una grilla más densa
-      if (puntosCandidatos.length < numDelitos) {
-        console.log('Generando puntos adicionales con grilla más densa...');
+      for (let nivel = 0; nivel <= 8; nivel++) { // Más niveles, incluyendo el centro
+        if (nivel === 0) {
+          // Punto central
+          if (turf.booleanPointInPolygon(centro, turfPolygon)) {
+            puntosCandidatos.push(centro);
+          }
+        } else {
+          const radioNivel = (radioMaxPoligono / 8) * nivel;
+          const puntosEnNivel = Math.max(12, nivel * 10); // Más puntos por nivel
 
-        // Aumentar la densidad de la grilla
-        const filasDensas = filas * 2;
-        const columnasDensas = columnas * 2;
-        const espaciadoXDenso = anchoPoligono / (columnasDensas + 1);
-        const espaciadoYDenso = altoPoligono / (filasDensas + 1);
-
-        for (let fila = 1; fila <= filasDensas; fila++) {
-          for (let col = 1; col <= columnasDensas; col++) {
-            const x = minX + col * espaciadoXDenso;
-            const y = minY + fila * espaciadoYDenso;
+          for (let i = 0; i < puntosEnNivel; i++) {
+            const angulo = (2 * Math.PI * i) / puntosEnNivel;
+            const x = centro.geometry.coordinates[0] + Math.cos(angulo) * radioNivel / 111320;
+            const y = centro.geometry.coordinates[1] + Math.sin(angulo) * radioNivel / 110540;
 
             const punto = turf.point([x, y]);
 
             if (turf.booleanPointInPolygon(punto, turfPolygon)) {
-              // Verificar que no esté muy cerca de puntos existentes
-              const muyProximo = puntosCandidatos.some(p => {
-                const distancia = turf.distance(punto, p, { units: 'meters' });
-                return distancia < distanciaMinimaDensa;
-              });
-
-              if (!muyProximo) {
-                puntosCandidatos.push(punto);
-              }
-            }
-          }
-        }
-      }
-
-      // Si aún no tenemos suficientes puntos, generar algunos aleatorios
-      while (puntosCandidatos.length < numDelitos) {
-        console.log('Generando puntos aleatorios adicionales...');
-
-        for (let intento = 0; intento < 100 && puntosCandidatos.length < numDelitos; intento++) {
-          const x = minX + Math.random() * anchoPoligono;
-          const y = minY + Math.random() * altoPoligono;
-          const punto = turf.point([x, y]);
-
-          if (turf.booleanPointInPolygon(punto, turfPolygon)) {
-            // Verificar distancia mínima
-            const muyProximo = puntosCandidatos.some(p => {
-              const distancia = turf.distance(punto, p, { units: 'meters' });
-              return distancia < distanciaMinimaAleatoria;
-            });
-
-            if (!muyProximo) {
               puntosCandidatos.push(punto);
             }
           }
         }
       }
 
-      // Seleccionar los mejores puntos para maximizar la distribución
+      console.log(`Puntos candidatos generados: ${puntosCandidatos.length}`);
+
+      // Algoritmo greedy mejorado para seleccionar puntos sin solapamiento
       const puntosSeleccionados = [];
+      const radiosSeleccionados = [];
 
-      if (puntosCandidatos.length <= numDelitos) {
-        puntosSeleccionados.push(...puntosCandidatos);
-      } else {
-        // Algoritmo greedy para seleccionar puntos que maximicen la distancia entre ellos
-        puntosSeleccionados.push(puntosCandidatos[0]);
+      // Ordenar delitos por tamaño (más grandes primero) para mejor distribución
+      const delitosOrdenados = delitosAgrupados.map((grupo, index) => ({
+        grupo,
+        indice: index,
+        radio: radiosEstimados[index]
+      })).sort((a, b) => b.radio - a.radio);
 
-        while (puntosSeleccionados.length < numDelitos) {
-          let mejorPunto = null;
-          let mejorDistanciaMinima = 0;
+      for (const { grupo, indice, radio } of delitosOrdenados) {
+        let mejorPunto = null;
+        let mejorPuntuacion = -1;
 
-          for (const candidato of puntosCandidatos) {
-            if (puntosSeleccionados.includes(candidato)) continue;
+        // Buscar el mejor punto que maximice cobertura sin solapamiento excesivo
+        for (const candidato of puntosCandidatos) {
+          // Verificar que el círculo esté mayormente dentro del polígono (más permisivo)
+          const puntoConMargen = turf.buffer(candidato, radio * 0.7, { units: 'meters' }); // Margen más permisivo
+          const dentroDelPoligono = turf.booleanContains(turfPolygon, puntoConMargen) ||
+            turf.booleanOverlap(turfPolygon, puntoConMargen);
 
-            // Calcular la distancia mínima a los puntos ya seleccionados
-            const distanciaMinima = Math.min(...puntosSeleccionados.map(p =>
-              turf.distance(candidato, p, { units: 'meters' })
-            ));
+          if (!dentroDelPoligono) continue;
 
-            if (distanciaMinima > mejorDistanciaMinima) {
-              mejorDistanciaMinima = distanciaMinima;
+          // Verificar solapamiento con margen más permisivo
+          let seSolapa = false;
+          for (let i = 0; i < puntosSeleccionados.length; i++) {
+            if (verificarSolapamiento(candidato, radio, puntosSeleccionados[i], radiosSeleccionados[i])) {
+              seSolapa = true;
+              break;
+            }
+          }
+
+          if (!seSolapa) {
+            // Calcular puntuación para maximizar cobertura
+            const distanciaAlCentro = turf.distance(candidato, centro, { units: 'meters' });
+            const factorCentro = 1 - (distanciaAlCentro / radioMaxPoligono);
+
+            // Calcular cobertura de área no ocupada
+            let factorCobertura = 1;
+            if (puntosSeleccionados.length > 0) {
+              const distanciaMinima = Math.min(...puntosSeleccionados.map(p =>
+                turf.distance(candidato, p, { units: 'meters' })
+              ));
+
+              // Preferir puntos que llenen huecos pero no estén demasiado cerca
+              const distanciaOptima = radio * 2.1; // Distancia óptima reducida
+              factorCobertura = 1 - Math.abs(distanciaMinima - distanciaOptima) / distanciaOptima;
+              factorCobertura = Math.max(0.2, factorCobertura); // Mínimo más alto
+            }
+
+            // Puntuación balanceada: cobertura (70%) + centralidad (30%)
+            const puntuacion = factorCobertura * 0.7 + factorCentro * 0.3;
+
+            if (puntuacion > mejorPuntuacion) {
+              mejorPuntuacion = puntuacion;
               mejorPunto = candidato;
             }
           }
+        }
 
-          if (mejorPunto) {
-            puntosSeleccionados.push(mejorPunto);
-          } else {
-            // Si no encontramos un punto óptimo, tomar el siguiente disponible
-            const siguientePunto = puntosCandidatos.find(p => !puntosSeleccionados.includes(p));
-            if (siguientePunto) {
-              puntosSeleccionados.push(siguientePunto);
+        // Si encontramos un punto válido, agregarlo
+        if (mejorPunto) {
+          puntosSeleccionados.push(mejorPunto);
+          radiosSeleccionados.push(radio);
+
+          // Remover puntos muy cercanos pero mantener opciones para llenar huecos
+          const indicesARemover = [];
+          puntosCandidatos.forEach((punto, idx) => {
+            const distancia = turf.distance(mejorPunto, punto, { units: 'meters' });
+            if (distancia < radio * 0.6) { // Zona de exclusión más pequeña
+              indicesARemover.push(idx);
             }
+          });
+
+          indicesARemover.reverse().forEach(idx => {
+            puntosCandidatos.splice(idx, 1);
+          });
+        } else {
+          // Si no encontramos punto válido, intentar con radio ligeramente reducido
+          const radioReducido = radio * 0.95; // Reducción menor
+
+          for (const candidato of puntosCandidatos) {
+            const puntoConMargen = turf.buffer(candidato, radioReducido * 0.7, { units: 'meters' });
+            const dentroDelPoligono = turf.booleanContains(turfPolygon, puntoConMargen) ||
+              turf.booleanOverlap(turfPolygon, puntoConMargen);
+
+            if (!dentroDelPoligono) continue;
+
+            let seSolapa = false;
+            for (let i = 0; i < puntosSeleccionados.length; i++) {
+              if (verificarSolapamiento(candidato, radioReducido, puntosSeleccionados[i], radiosSeleccionados[i])) {
+                seSolapa = true;
+                break;
+              }
+            }
+
+            if (!seSolapa) {
+              puntosSeleccionados.push(candidato);
+              radiosSeleccionados.push(radioReducido);
+              radiosEstimados[indice] = radioReducido;
+              console.log(`Radio ajustado para ${grupo.nombre}: ${radioReducido.toFixed(1)}m`);
+              break;
+            }
+          }
+        }
+
+        // Último recurso: colocar en posición disponible más cercana al centro
+        if (puntosSeleccionados.length <= indice) {
+          console.warn(`Buscando posición de último recurso para ${grupo.nombre}`);
+
+          const radioMinimo = radioPromedio * 0.25; // Radio más pequeño para asegurar colocación
+
+          // Buscar en espiral más amplia desde el centro
+          for (let vuelta = 1; vuelta <= 12; vuelta++) {
+            for (let angulo = 0; angulo < 360; angulo += 20) { // Más posiciones por vuelta
+              const radianes = (angulo * Math.PI) / 180;
+              const distanciaDelCentro = radioPromedio * vuelta * 0.3;
+
+              const x = centro.geometry.coordinates[0] + Math.cos(radianes) * distanciaDelCentro / 111320;
+              const y = centro.geometry.coordinates[1] + Math.sin(radianes) * distanciaDelCentro / 110540;
+
+              const puntoRespaldo = turf.point([x, y]);
+
+              if (turf.booleanPointInPolygon(puntoRespaldo, turfPolygon)) {
+                let seSolapa = false;
+
+                for (let i = 0; i < puntosSeleccionados.length; i++) {
+                  if (verificarSolapamiento(puntoRespaldo, radioMinimo, puntosSeleccionados[i], radiosSeleccionados[i], 1.01)) {
+                    seSolapa = true;
+                    break;
+                  }
+                }
+
+                if (!seSolapa) {
+                  puntosSeleccionados.push(puntoRespaldo);
+                  radiosSeleccionados.push(radioMinimo);
+                  radiosEstimados[indice] = radioMinimo;
+                  console.log(`Posición de último recurso para ${grupo.nombre}: ${radioMinimo.toFixed(1)}m`);
+                  break;
+                }
+              }
+            }
+            if (puntosSeleccionados.length > indice) break;
+          }
+        }
+
+        // Si aún no se pudo colocar, usar algoritmo súper agresivo
+        if (puntosSeleccionados.length <= indice) {
+          console.warn(`Algoritmo súper agresivo para ${grupo.nombre}`);
+
+          const radioSuperMinimo = radioPromedio * 0.15; // Radio súper pequeño
+          let colocado = false;
+
+          // Intentar en cualquier punto disponible del polígono
+          for (let intento = 0; intento < 500 && !colocado; intento++) {
+            const x = minX + Math.random() * anchoPoligono;
+            const y = minY + Math.random() * altoPoligono;
+            const puntoAleatorio = turf.point([x, y]);
+
+            if (turf.booleanPointInPolygon(puntoAleatorio, turfPolygon)) {
+              let seSolapa = false;
+
+              for (let i = 0; i < puntosSeleccionados.length; i++) {
+                if (verificarSolapamiento(puntoAleatorio, radioSuperMinimo, puntosSeleccionados[i], radiosSeleccionados[i], 1.005)) {
+                  seSolapa = true;
+                  break;
+                }
+              }
+
+              if (!seSolapa) {
+                puntosSeleccionados.push(puntoAleatorio);
+                radiosSeleccionados.push(radioSuperMinimo);
+                radiosEstimados[indice] = radioSuperMinimo;
+                console.log(`Algoritmo súper agresivo para ${grupo.nombre}: ${radioSuperMinimo.toFixed(1)}m`);
+                colocado = true;
+              }
+            }
+          }
+
+          // Si todavía no se pudo colocar, forzar colocación
+          if (!colocado) {
+            console.warn(`Forzando colocación para ${grupo.nombre}`);
+
+            // Usar el centro del polígono con radio mínimo
+            const radioForzado = radioPromedio * 0.1;
+
+            // Desplazar ligeramente del centro para evitar solapamiento total
+            const desplazamiento = puntosSeleccionados.length * 0.0001;
+            const puntoForzado = turf.point([
+              centro.geometry.coordinates[0] + desplazamiento,
+              centro.geometry.coordinates[1] + desplazamiento
+            ]);
+
+            puntosSeleccionados.push(puntoForzado);
+            radiosSeleccionados.push(radioForzado);
+            radiosEstimados[indice] = radioForzado;
+            console.log(`Colocación forzada para ${grupo.nombre}: ${radioForzado.toFixed(1)}m`);
           }
         }
       }
 
-      console.log(`Puntos finales seleccionados: ${puntosSeleccionados.length}`);
-      return puntosSeleccionados;
+      console.log(`Puntos finales seleccionados: ${puntosSeleccionados.length} de ${numDelitos} solicitados`);
+      console.log('Radios finales:', radiosSeleccionados.map(r => r.toFixed(1)));
+
+      // Calcular cobertura total del polígono
+      const areaCubierta = radiosSeleccionados.reduce((total, radio) => total + Math.PI * radio * radio, 0);
+      const porcentajeCobertura = ((areaCubierta / areaPoligono) * 100).toFixed(1);
+      console.log(`Cobertura del polígono: ${porcentajeCobertura}%`);
+
+      // Reordenar puntos según el orden original de delitos
+      const puntosOrdenados = new Array(numDelitos);
+      const radiosOrdenados = new Array(numDelitos);
+
+      delitosOrdenados.forEach((item, idx) => {
+        if (idx < puntosSeleccionados.length) {
+          puntosOrdenados[item.indice] = puntosSeleccionados[idx];
+          radiosOrdenados[item.indice] = radiosSeleccionados[idx];
+        }
+      });
+
+      // Actualizar radios estimados globalmente para usar en la creación de círculos
+      window.radiosCalculados = radiosOrdenados;
+
+      return puntosOrdenados.filter(p => p !== undefined);
     }
 
-    // Obtener puntos distribuidos
-    const puntosDistribuidos = distribuirCirculos();
-
-    // Asignar un punto a cada delito, empezando por los más grandes
-    delitos.forEach((delito, i) => {
-      if (i < puntosDistribuidos.length) {
-        const punto = puntosDistribuidos[i];
-        const coordenadas = [punto.geometry.coordinates[1], punto.geometry.coordinates[0]]; // Leaflet usa [lat, lng]
-
-        // Calcular la distancia mínima al borde del polígono para determinar el radio máximo seguro
-        const puntoTurf = turf.point(punto.geometry.coordinates);
-        const bordePoligono = turf.polygonToLine(turfPolygon);
-        const distanciaAlBorde = turf.pointToLineDistance(puntoTurf, bordePoligono, { units: 'meters' });
-
-        // Calcular el radio basado en el porcentaje de delitos y el área del polígono
-        const porcentajeDelito = (delito.cantidad / totalDelitos) * 100;
-
-        // Usar radios equilibrados basados en el área
-        const radioBase = radioPromedio * 0.7; // Radio mínimo (70% del promedio)
-        const radioMaxTeórico = radioPromedio * 2.0; // Radio máximo (200% del promedio)
-
-        // Calcular radio directamente proporcional al porcentaje
-        const porcentajeMaximo = (delitos[0].cantidad / totalDelitos) * 100;
-        const factorPorcentaje = porcentajeDelito / porcentajeMaximo;
-        const radioCalculado = radioBase + factorPorcentaje * (radioMaxTeórico - radioBase);
-
-        // Ser mucho más permisivo con la limitación - priorizar el tamaño sobre mantenerse dentro
-        let radio = radioCalculado;
-        // Solo limitar en casos extremos donde el círculo sería más grande que la mitad del polígono
-        if (radioCalculado > radioPromedio * 3) {
-          radio = radioPromedio * 3;
+    // Crear leyenda
+    function crearLeyenda() {
+      try {
+        if (leyendaControl) {
+          map.removeControl(leyendaControl);
         }
 
-        console.log(`Delito: ${delito.nombre}, Porcentaje: ${porcentajeDelito.toFixed(1)}%, Radio calculado: ${radioCalculado.toFixed(1)}m, Distancia al borde: ${distanciaAlBorde.toFixed(1)}m, Radio final: ${radio.toFixed(1)}m`);
+        if (!mostrandoLeyenda) {
+          return;
+        }
 
-        // Crear el círculo
-        L.circle(coordenadas, {
-          radius: radio,
-          color: colores[i % colores.length],
-          fillColor: colores[i % colores.length],
-          fillOpacity: 0.6,
-          weight: 2,
-          opacity: 0.8
-        }).bindPopup(`<strong>${delito.nombre}</strong><br>${delito.cantidad} casos (${((delito.cantidad / totalDelitos) * 100).toFixed(1)}%)<br>Radio: ${radio.toFixed(1)}m`)
-          .addTo(map);
+        leyendaControl = L.control({ position: 'bottomleft' });
+        leyendaControl.onAdd = function () {
+          const div = L.DomUtil.create('div', 'leyenda');
+          div.innerHTML = '<h4>🔍 Tipos de Delitos</h4>';
+
+          const totalDelitos = delitosAgrupados.reduce((sum, grupo) => sum + grupo.cantidad, 0);
+
+          delitosAgrupados.forEach((grupo, i) => {
+            const porcentaje = ((grupo.cantidad / totalDelitos) * 100).toFixed(1);
+            div.innerHTML += `
+              <div class="leyenda-item">
+                <div class="color-box" style="background: ${colores[i % colores.length]}"></div>
+                <span>${grupo.nombre} (${grupo.cantidad}) - ${porcentaje}%</span>
+              </div>
+            `;
+          });
+
+          return div;
+        };
+        leyendaControl.addTo(map);
+
+      } catch (error) {
+        console.error('Error creando leyenda:', error);
       }
-    });
+    }
 
-    // Botón para centrar el mapa
-    document.getElementById('btn-centrar').addEventListener('click', function () {
-      map.fitBounds(poligonoLayer.getBounds());
-    });
+    // Actualizar estadísticas
+    function actualizarEstadisticas() {
+      try {
+        const totalDelitos = delitosData.length;
+        const tiposDelitos = delitosAgrupados.length;
+        const totalOriginales = delitosOriginales.length;
+
+        document.getElementById('total-delitos-num').textContent = totalOriginales;
+        document.getElementById('tipos-delitos-num').textContent = tiposDelitos;
+        document.getElementById('delitos-mostrados').textContent = totalDelitos;
+      } catch (error) {
+        console.error('Error actualizando estadísticas:', error);
+      }
+    }
+
+    // Inicializar filtros
+    function inicializarFiltros() {
+      try {
+        // Obtener todos los tipos de delito únicos
+        const tiposUnicos = [...new Set(delitosOriginales.map(d => d.tipoDelito))].sort();
+        const tiposContainer = document.getElementById('tipos-delito');
+        tiposContainer.innerHTML = '';
+
+        // Crear chip maestro
+        const chipMaestro = document.createElement('div');
+        chipMaestro.className = 'chip maestro activo';
+        chipMaestro.id = 'chip-maestro-tipos';
+        chipMaestro.innerHTML = '✅ Todos los tipos';
+        chipMaestro.addEventListener('click', function () {
+          const estaActivo = this.classList.contains('activo');
+
+          if (estaActivo) {
+            this.classList.remove('activo');
+            this.innerHTML = '❌ Ningún tipo';
+          } else {
+            this.classList.add('activo');
+            this.innerHTML = '✅ Todos los tipos';
+          }
+
+          const chipsIndividuales = document.querySelectorAll('.chip:not(.maestro):not(.limpiar)');
+          chipsIndividuales.forEach(chip => {
+            if (estaActivo) {
+              chip.classList.remove('activo');
+            } else {
+              chip.classList.add('activo');
+            }
+          });
+
+          mostrarNotificacion(!estaActivo ? '✅ Todos los tipos seleccionados' : '❌ Todos los tipos deseleccionados');
+        });
+        tiposContainer.appendChild(chipMaestro);
+
+        // Crear chip para limpiar
+        const chipLimpiar = document.createElement('div');
+        chipLimpiar.className = 'chip limpiar';
+        chipLimpiar.innerHTML = '🧹 Resetear Todo';
+        chipLimpiar.style.background = '#e74c3c';
+        chipLimpiar.style.color = 'white';
+        chipLimpiar.style.borderColor = '#e74c3c';
+        chipLimpiar.style.marginBottom = '8px';
+        chipLimpiar.style.width = '100%';
+        chipLimpiar.style.justifyContent = 'center';
+        chipLimpiar.addEventListener('click', limpiarFiltros);
+        tiposContainer.appendChild(chipLimpiar);
+
+        // Crear chips individuales
+        tiposUnicos.forEach(tipo => {
+          const chip = document.createElement('div');
+          chip.className = 'chip activo';
+          chip.dataset.tipo = tipo;
+          chip.innerHTML = tipo;
+
+          chip.addEventListener('click', function () {
+            this.classList.toggle('activo');
+            actualizarChipMaestro();
+          });
+
+          tiposContainer.appendChild(chip);
+        });
+
+        // Obtener años únicos
+        const anos = [...new Set(delitosOriginales.map(d => {
+          if (typeof d.fecha === 'string' && d.fecha.includes('/')) {
+            return d.fecha.split('/')[2];
+          }
+          return new Date(d.fecha).getFullYear().toString();
+        }).filter(ano => ano && ano !== 'NaN'))].sort();
+
+        const anoSelect = document.getElementById('filtro-ano');
+        while (anoSelect.children.length > 1) {
+          anoSelect.removeChild(anoSelect.lastChild);
+        }
+
+        anos.forEach(ano => {
+          const option = document.createElement('option');
+          option.value = ano;
+          option.textContent = ano;
+          anoSelect.appendChild(option);
+        });
+
+        console.log('Filtros inicializados correctamente');
+      } catch (error) {
+        console.error('Error inicializando filtros:', error);
+      }
+    }
+
+    // Actualizar chip maestro
+    function actualizarChipMaestro() {
+      try {
+        const chipMaestro = document.getElementById('chip-maestro-tipos');
+        const chipsIndividuales = document.querySelectorAll('.chip:not(.maestro):not(.limpiar)');
+
+        const todosActivos = Array.from(chipsIndividuales).every(chip => chip.classList.contains('activo'));
+        const algunoActivo = Array.from(chipsIndividuales).some(chip => chip.classList.contains('activo'));
+
+        if (todosActivos) {
+          chipMaestro.classList.add('activo');
+          chipMaestro.innerHTML = '✅ Todos los tipos';
+        } else if (algunoActivo) {
+          chipMaestro.classList.remove('activo');
+          chipMaestro.innerHTML = '◐ Algunos tipos';
+        } else {
+          chipMaestro.classList.remove('activo');
+          chipMaestro.innerHTML = '❌ Ningún tipo';
+        }
+      } catch (error) {
+        console.error('Error actualizando chip maestro:', error);
+      }
+    }
+
+    // Aplicar filtros
+    function aplicarFiltros() {
+      try {
+        const anoSeleccionado = document.getElementById('filtro-ano').value;
+
+        // Obtener tipos de delito seleccionados
+        const tiposSeleccionados = [];
+        document.querySelectorAll('#tipos-delito .chip.activo:not(.maestro):not(.limpiar)').forEach(chip => {
+          tiposSeleccionados.push(chip.dataset.tipo);
+        });
+
+        console.log('Aplicando filtros:', { anoSeleccionado, tiposSeleccionados: tiposSeleccionados.length });
+
+        // Filtrar datos
+        let datosFiltrados = delitosOriginales.filter(delito => {
+          // Filtro por tipo de delito
+          if (tiposSeleccionados.length > 0 && !tiposSeleccionados.includes(delito.tipoDelito)) {
+            return false;
+          }
+
+          // Filtro por año
+          if (anoSeleccionado) {
+            let anoDelito;
+            if (typeof delito.fecha === 'string' && delito.fecha.includes('/')) {
+              anoDelito = delito.fecha.split('/')[2];
+            } else {
+              anoDelito = new Date(delito.fecha).getFullYear().toString();
+            }
+
+            if (anoDelito !== anoSeleccionado) return false;
+          }
+
+          return true;
+        });
+
+        // Actualizar datos globales
+        delitosData = datosFiltrados;
+
+        // Reagrupar y recrear visualizaciones
+        agruparDelitos();
+        crearCirculosConcentricos();
+        actualizarEstadisticas();
+
+        // Mostrar resultados del filtro
+        mostrarResultadosFiltro(datosFiltrados.length, delitosOriginales.length);
+
+        console.log(`Filtros aplicados: ${datosFiltrados.length} de ${delitosOriginales.length} delitos`);
+        mostrarNotificacion(`✨ Filtros aplicados: ${datosFiltrados.length} delitos mostrados`);
+      } catch (error) {
+        console.error('Error aplicando filtros:', error);
+        mostrarError('Error aplicando filtros: ' + error.message);
+      }
+    }
+
+    // Limpiar filtros
+    function limpiarFiltros() {
+      try {
+        delitosData = [...delitosOriginales];
+
+        document.getElementById('filtro-ano').value = '';
+        document.getElementById('modo-visualizacion').value = 'concentracion';
+
+        document.querySelectorAll('#tipos-delito .chip:not(.limpiar)').forEach(chip => {
+          chip.classList.add('activo');
+        });
+
+        const chipMaestro = document.getElementById('chip-maestro-tipos');
+        if (chipMaestro) {
+          chipMaestro.classList.add('activo');
+          chipMaestro.innerHTML = '✅ Todos los tipos';
+        }
+
+        agruparDelitos();
+        crearCirculosConcentricos();
+        actualizarEstadisticas();
+
+        document.getElementById('resultados-filtro').style.display = 'none';
+
+        console.log('Filtros limpiados');
+        mostrarNotificacion('🧹 Todos los filtros han sido limpiados');
+      } catch (error) {
+        console.error('Error limpiando filtros:', error);
+      }
+    }
+
+    // Mostrar resultados de filtro
+    function mostrarResultadosFiltro(filtrados, total) {
+      const porcentaje = ((filtrados / total) * 100).toFixed(1);
+      const resultadosDiv = document.getElementById('resultados-filtro');
+      resultadosDiv.style.display = 'block';
+      resultadosDiv.innerHTML = `
+        <strong>📊 Resultados del Filtro</strong><br>
+        <br>Se muestran <span style="color: #667eea; font-weight: bold;">${filtrados}</span> de ${total} delitos (${porcentaje}%)<br>
+        <small>Los círculos han sido actualizados</small>
+      `;
+    }
+
+    // Función para exportar imagen del mapa
+    function exportarImagen() {
+      try {
+        mostrarNotificacion('📸 Preparando captura completa...', 2000);
+
+        // Capturar todo el contenedor principal en lugar de solo el mapa
+        const contenedorCompleto = document.querySelector('.container');
+
+        // Configurar opciones para html2canvas
+        const opciones = {
+          useCORS: true,
+          allowTaint: true,
+          scale: 1,
+          logging: false,
+          backgroundColor: '#ffffff',
+          width: window.innerWidth,
+          height: window.innerHeight,
+          scrollX: 0,
+          scrollY: 0
+        };
+
+        // Usar html2canvas para capturar toda la interfaz
+        if (typeof html2canvas !== 'undefined') {
+          html2canvas(contenedorCompleto, opciones).then(canvas => {
+            // Crear enlace de descarga
+            const link = document.createElement('a');
+            const fecha = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
+            link.download = `mapa-delitos-completo-ctm-el-risco-${fecha}.png`;
+            link.href = canvas.toDataURL('image/png', 0.9);
+
+            // Simular clic para descargar
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            mostrarNotificacion('✅ Interfaz completa exportada correctamente', 3000);
+          }).catch(error => {
+            console.error('Error exportando interfaz completa:', error);
+            exportarImagenAlternativo();
+          });
+        } else {
+          // Método alternativo sin html2canvas
+          exportarImagenAlternativo();
+        }
+      } catch (error) {
+        console.error('Error en exportarImagen:', error);
+        exportarImagenAlternativo();
+      }
+    }
+
+    // Método alternativo para exportar imagen
+    function exportarImagenAlternativo() {
+      try {
+        mostrarNotificacion('📸 Usando método alternativo para interfaz completa...', 2000);
+
+        // Intentar capturar todo el body
+        const opciones = {
+          useCORS: true,
+          allowTaint: true,
+          scale: 0.8,
+          logging: false,
+          backgroundColor: '#ffffff',
+          width: window.innerWidth,
+          height: document.body.scrollHeight
+        };
+
+        if (typeof html2canvas !== 'undefined') {
+          html2canvas(document.body, opciones).then(canvas => {
+            const link = document.createElement('a');
+            const fecha = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
+            link.download = `mapa-delitos-interfaz-completa-${fecha}.png`;
+            link.href = canvas.toDataURL('image/png', 0.8);
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            mostrarNotificacion('✅ Interfaz completa exportada (método alternativo)', 3000);
+          }).catch(error => {
+            console.error('Error con método alternativo:', error);
+            exportarImagenBasico();
+          });
+        } else {
+          exportarImagenBasico();
+        }
+      } catch (error) {
+        console.error('Error en método alternativo:', error);
+        exportarImagenBasico();
+      }
+    }
+
+    // Event listeners
+    function setupEventListeners() {
+      try {
+        document.getElementById('btn-centrar').addEventListener('click', function () {
+          const poligonoLayer = L.geoJSON(poligonoElRisco, {
+            style: { color: '#667eea', fillOpacity: 0.1, weight: 3 }
+          });
+          map.fitBounds(poligonoLayer.getBounds());
+          mostrarNotificacion('🎯 Mapa centrado en CTM El Risco');
+        });
+
+        document.getElementById('btn-aplicar-filtros').addEventListener('click', aplicarFiltros);
+        document.getElementById('btn-limpiar-filtros').addEventListener('click', limpiarFiltros);
+
+        document.getElementById('filtro-ano').addEventListener('change', aplicarFiltros);
+        document.getElementById('modo-visualizacion').addEventListener('change', function () {
+          crearCirculosConcentricos();
+          mostrarNotificacion(`🎯 Modo cambiado a: ${this.value === 'porcentaje' ? 'Porcentaje' : 'Concentración'}`);
+        });
+
+        document.getElementById('btn-cambiar-mapa').addEventListener('click', cambiarTipoMapa);
+        document.getElementById('btn-toggle-estadisticas').addEventListener('click', toggleEstadisticas);
+        document.getElementById('btn-toggle-leyenda').addEventListener('click', toggleLeyenda);
+        document.getElementById('btn-exportar-imagen').addEventListener('click', exportarImagen);
+
+      } catch (error) {
+        console.error('Error configurando eventos:', error);
+      }
+    }
+
+    // Cambiar tipo de mapa
+    function cambiarTipoMapa() {
+      try {
+        tipoMapaActual = (tipoMapaActual + 1) % tiposMapas.length;
+
+        if (currentTileLayer) {
+          map.removeLayer(currentTileLayer);
+        }
+
+        currentTileLayer = L.tileLayer(tiposMapas[tipoMapaActual].url, {
+          maxZoom: 20,
+          attribution: tiposMapas[tipoMapaActual].attribution
+        }).addTo(map);
+
+        console.log('Mapa cambiado a:', tiposMapas[tipoMapaActual].nombre);
+        mostrarNotificacion(`🗺️ ${tiposMapas[tipoMapaActual].nombre}`);
+
+      } catch (error) {
+        console.error('Error cambiando tipo de mapa:', error);
+      }
+    }
+
+    // Toggle estadísticas
+    function toggleEstadisticas() {
+      try {
+        const estadisticasEl = document.getElementById('estadisticas');
+        const botonEl = document.getElementById('btn-toggle-estadisticas');
+        mostrandoEstadisticas = !mostrandoEstadisticas;
+
+        if (mostrandoEstadisticas) {
+          estadisticasEl.style.display = 'block';
+          botonEl.classList.remove('inactivo');
+          botonEl.classList.add('activo');
+          mostrarNotificacion('📊 Estadísticas mostradas');
+        } else {
+          estadisticasEl.style.display = 'none';
+          botonEl.classList.remove('activo');
+          botonEl.classList.add('inactivo');
+          mostrarNotificacion('📊 Estadísticas ocultadas');
+        }
+      } catch (error) {
+        console.error('Error toggle estadísticas:', error);
+      }
+    }
+
+    // Toggle leyenda
+    function toggleLeyenda() {
+      try {
+        const botonEl = document.getElementById('btn-toggle-leyenda');
+        mostrandoLeyenda = !mostrandoLeyenda;
+
+        if (mostrandoLeyenda) {
+          crearLeyenda();
+          botonEl.classList.remove('inactivo');
+          botonEl.classList.add('activo');
+          mostrarNotificacion('🔍 Leyenda mostrada');
+        } else {
+          if (leyendaControl) {
+            map.removeControl(leyendaControl);
+            leyendaControl = null;
+          }
+          botonEl.classList.remove('activo');
+          botonEl.classList.add('inactivo');
+          mostrarNotificacion('🔍 Leyenda ocultada');
+        }
+      } catch (error) {
+        console.error('Error toggle leyenda:', error);
+      }
+    }
+
+    // Detectar dispositivos móviles
+    function esMobile() {
+      return window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+
+    // Configurar estados iniciales según dispositivo
+    function configurarEstadosIniciales() {
+      if (esMobile()) {
+        mostrandoEstadisticas = false;
+        mostrandoLeyenda = false;
+        document.getElementById('estadisticas').style.display = 'none';
+        console.log('📱 Dispositivo móvil detectado - Estadísticas y leyenda ocultas por defecto');
+      } else {
+        mostrandoEstadisticas = true;
+        mostrandoLeyenda = true;
+        document.getElementById('estadisticas').style.display = 'block';
+        console.log('🖥️ Dispositivo desktop detectado - Estadísticas y leyenda visibles por defecto');
+      }
+    }
+
+    // Inicializar estado de botones
+    function inicializarEstadoBotones() {
+      try {
+        const btnEstadisticas = document.getElementById('btn-toggle-estadisticas');
+        if (mostrandoEstadisticas) {
+          btnEstadisticas.classList.add('activo');
+          btnEstadisticas.classList.remove('inactivo');
+        } else {
+          btnEstadisticas.classList.add('inactivo');
+          btnEstadisticas.classList.remove('activo');
+        }
+
+        const btnLeyenda = document.getElementById('btn-toggle-leyenda');
+        if (mostrandoLeyenda) {
+          btnLeyenda.classList.add('activo');
+          btnLeyenda.classList.remove('inactivo');
+        } else {
+          btnLeyenda.classList.add('inactivo');
+          btnLeyenda.classList.remove('activo');
+        }
+
+        console.log('Estado inicial de botones configurado');
+      } catch (error) {
+        console.error('Error inicializando estado de botones:', error);
+      }
+    }
+
+    // Inicialización principal
+    function inicializar() {
+      try {
+        if (!verificarLibrerias()) {
+          setTimeout(inicializar, 1000);
+          return;
+        }
+
+        if (!initMap()) return;
+
+        // Añadir el polígono al mapa
+        const poligonoLayer = L.geoJSON(poligonoElRisco, {
+          style: {
+            color: '#667eea',
+            fillOpacity: 0.1,
+            weight: 3
+          }
+        }).addTo(map);
+
+        map.fitBounds(poligonoLayer.getBounds());
+
+        setTimeout(() => {
+          procesarDelitos();
+          setupEventListeners();
+        }, 500);
+
+      } catch (error) {
+        mostrarError('Error de inicialización: ' + error.message);
+      }
+    }
+
+    // Esperar a que el DOM esté listo
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', inicializar);
+    } else {
+      inicializar();
+    }
   </script>
 </body>
 
