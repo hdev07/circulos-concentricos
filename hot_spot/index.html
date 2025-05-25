@@ -205,6 +205,243 @@
         margin: 0 auto;
       }
     }
+
+    .filtros-container {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+      margin-bottom: 10px;
+    }
+
+    .filtro-card {
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 15px;
+      border: 2px solid #e9ecef;
+      transition: all 0.3s ease;
+    }
+
+    .filtro-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      border-color: #667eea;
+    }
+
+    .filtro-card h3 {
+      color: #2c3e50;
+      font-size: 1rem;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .filtro-card select {
+      width: 100%;
+      padding: 8px;
+      border: 2px solid #e9ecef;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      background: white;
+      transition: border-color 0.3s ease;
+    }
+
+    .filtro-card select:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    /* Estilos para la nueva columna de tipos de delito */
+    .filtro-tipos-delito {
+      flex: 2;
+    }
+
+    .tipos-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      max-height: 200px;
+      overflow-y: auto;
+      padding: 10px;
+      background: white;
+      border-radius: 8px;
+      border: 2px solid #e9ecef;
+    }
+
+    /* Estilos para los chips */
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      background: #f8f9fa;
+      border: 2px solid #e9ecef;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      user-select: none;
+      min-height: 36px;
+    }
+
+    .chip:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .chip.activo {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white;
+      border-color: #667eea;
+    }
+
+    .chip.maestro {
+      background: rgba(102, 126, 234, 0.1);
+      border-color: #667eea;
+      font-weight: bold;
+      color: #2c3e50;
+      margin-bottom: 8px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .chip.maestro.activo {
+      background: #667eea;
+      color: white;
+    }
+
+    /* Estilos para la columna de otros filtros */
+    .filtro-otros {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .filtro-grupo {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .filtro-grupo h3 {
+      color: #2c3e50;
+      font-size: 1rem;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .filtro-grupo select {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      background: white;
+      transition: border-color 0.3s ease;
+    }
+
+    .filtro-grupo select:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .botones-container {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 15px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-secondary {
+      background: #6c757d;
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: #5a6268;
+      transform: translateY(-2px);
+    }
+
+    .resultados-filtro {
+      background: #e3f2fd;
+      border: 1px solid #2196f3;
+      border-radius: 8px;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+
+    .resultados-filtro h4 {
+      margin: 0 0 8px 0;
+      color: #1976d2;
+      font-size: 1rem;
+    }
+
+    .estadisticas {
+      position: absolute;
+      top: 90px;
+      right: 30px;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      min-width: 220px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .estadisticas h4 {
+      color: #2c3e50;
+      margin: 0 0 15px 0;
+      font-size: 1.2rem;
+      text-align: center;
+      border-bottom: 2px solid #667eea;
+      padding-bottom: 8px;
+    }
+
+    .stat-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      padding: 8px;
+      background: rgba(102, 126, 234, 0.1);
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+
+    .stat-number {
+      font-weight: bold;
+      color: #667eea;
+      font-size: 1.1rem;
+    }
   </style>
 </head>
 
@@ -212,8 +449,54 @@
   <div class="container">
     <!-- Header con título -->
     <div class="header">
-      <h1>🗺️ Mapa de Polígonos</h1>
-      <p class="subtitle">CTM El Risco - Visualización de áreas geográficas</p>
+      <h1>🗺️ Mapa de Hot Spots</h1>
+      <p class="subtitle">CTM El Risco - Análisis de zonas de seguridad con círculos de 50m</p>
+
+      <!-- Filtros principales -->
+      <div class="filtros-container">
+        <div class="filtro-card filtro-tipos-delito">
+          <h3>📊 Tipos de Delito</h3>
+          <div class="tipos-chips" id="tipos-delito">
+            <!-- Se llenarán dinámicamente como chips -->
+          </div>
+        </div>
+
+        <div class="filtro-card filtro-otros">
+          <div class="filtro-grupo">
+            <h3>🗓️ Año</h3>
+            <select id="filtro-ano">
+              <option value="">Todos los años</option>
+              <!-- Se llenarán dinámicamente -->
+            </select>
+          </div>
+
+          <div class="filtro-grupo">
+            <h3>📈 Nivel de Análisis</h3>
+            <select id="nivel-analisis">
+              <option value="1">🟢 Mostrar todos los hot spots</option>
+              <option value="2">🟡 Hot spots con delitos</option>
+              <option value="3">🟠 Hot spots de riesgo moderado+</option>
+              <option value="4">🔴 Hot spots de alto riesgo+</option>
+              <option value="5">⚫ Solo hot spots muy peligrosos</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botones de acción -->
+      <div class="botones-container">
+        <button class="btn btn-primary" id="btn-aplicar-filtros">
+          🔍 Aplicar Filtros
+        </button>
+        <button class="btn btn-secondary" id="btn-limpiar-filtros">
+          🧹 Limpiar Filtros
+        </button>
+      </div>
+
+      <!-- Resultados de filtros -->
+      <div class="resultados-filtro" id="resultados-filtro" style="display: none;">
+        <!-- Se mostrará información de los filtros aplicados -->
+      </div>
     </div>
 
     <!-- Container del mapa -->
@@ -224,11 +507,33 @@
           <button class="control-btn" id="btn-centrar">🎯 Centrar</button>
           <button class="control-btn" id="btn-cambiar-mapa">🗺️ Cambiar Mapa</button>
           <button class="control-btn" id="btn-toggle-leyenda">🔍 Leyenda</button>
-          <button class="control-btn" id="btn-toggle-circulos">🔥 Mostrar Calor</button>
+          <button class="control-btn" id="btn-toggle-circulos">🎯 Hot Spots</button>
+          <button class="control-btn" id="btn-toggle-estadisticas">📊 Estadísticas</button>
         </div>
       </div>
 
       <div id="map"></div>
+
+      <!-- Estadísticas flotantes -->
+      <div class="estadisticas" id="estadisticas" style="display: none;">
+        <h4>📊 Estadísticas</h4>
+        <div class="stat-item">
+          <span>Total delitos:</span>
+          <span class="stat-number" id="total-delitos-num">0</span>
+        </div>
+        <div class="stat-item">
+          <span>Hot spots:</span>
+          <span class="stat-number" id="hotspots-num">10</span>
+        </div>
+        <div class="stat-item">
+          <span>Filtrados:</span>
+          <span class="stat-number" id="delitos-filtrados">0</span>
+        </div>
+        <div class="stat-item">
+          <span>Zonas seguras:</span>
+          <span class="stat-number" id="zonas-seguras">0</span>
+        </div>
+      </div>
 
       <!-- Leyenda -->
       <div class="leyenda" id="leyenda">
@@ -250,6 +555,14 @@
     let poligonoLayer;
     let circulos = [];
     let mostrandoCirculos = true;
+    let mostrandoEstadisticas = false;
+    let delitosOriginales = [];
+    let delitosData = [];
+    let filtrosActivos = {
+      tiposDelito: [],
+      ano: '',
+      nivelAnalisis: 1
+    };
 
     // Polígono de CTM El Risco
     const poligonoElRisco = {
@@ -320,79 +633,172 @@
       return dentro;
     }
 
-    // Función para calcular las zonas más calientes
-    function calcularZonasCalientes() {
-      console.log('📊 Calculando zonas más calientes...');
+    // Función para calcular los hot spots distribuidos uniformemente
+    function calcularHotSpots() {
+      console.log('📊 Calculando hot spots distribuidos...');
 
-      // Filtrar delitos que están dentro del polígono
-      const delitosEnPoligono = DELITOS_DATA.filter(delito =>
-        puntoEnPoligono(delito.lat, delito.lng, poligonoElRisco)
-      );
+      // Obtener límites del polígono
+      const coords = poligonoElRisco.geometry.coordinates[0];
+      let minLat = Infinity, maxLat = -Infinity;
+      let minLng = Infinity, maxLng = -Infinity;
 
-      console.log(`🔍 Delitos en polígono: ${delitosEnPoligono.length} de ${DELITOS_DATA.length} totales`);
-
-      // Crear una cuadrícula para agrupar delitos por proximidad
-      const tamanoCelda = 0.001; // Aproximadamente 100 metros
-      const celdas = {};
-
-      delitosEnPoligono.forEach(delito => {
-        const celdaX = Math.floor(delito.lat / tamanoCelda);
-        const celdaY = Math.floor(delito.lng / tamanoCelda);
-        const celdaKey = `${celdaX},${celdaY}`;
-
-        if (!celdas[celdaKey]) {
-          celdas[celdaKey] = {
-            delitos: [],
-            lat: 0,
-            lng: 0,
-            tipos: {}
-          };
-        }
-
-        celdas[celdaKey].delitos.push(delito);
-        celdas[celdaKey].lat += delito.lat;
-        celdas[celdaKey].lng += delito.lng;
-
-        // Contar tipos de delitos
-        if (!celdas[celdaKey].tipos[delito.tipoDelito]) {
-          celdas[celdaKey].tipos[delito.tipoDelito] = 0;
-        }
-        celdas[celdaKey].tipos[delito.tipoDelito]++;
+      coords.forEach(coord => {
+        const lng = coord[0];
+        const lat = coord[1];
+        minLat = Math.min(minLat, lat);
+        maxLat = Math.max(maxLat, lat);
+        minLng = Math.min(minLng, lng);
+        maxLng = Math.max(maxLng, lng);
       });
 
-      // Calcular centros y ordenar por cantidad de delitos
-      const zonasCalientes = Object.keys(celdas)
-        .map(key => {
-          const celda = celdas[key];
-          const cantidad = celda.delitos.length;
+      console.log(`📍 Límites del polígono: Lat(${minLat.toFixed(6)} - ${maxLat.toFixed(6)}), Lng(${minLng.toFixed(6)} - ${maxLng.toFixed(6)})`);
 
-          return {
-            lat: celda.lat / cantidad,
-            lng: celda.lng / cantidad,
-            cantidad: cantidad,
-            tipos: celda.tipos,
-            tipoMasComun: Object.keys(celda.tipos).reduce((a, b) =>
-              celda.tipos[a] > celda.tipos[b] ? a : b
-            )
-          };
-        })
-        .filter(zona => zona.cantidad >= 2) // Solo zonas con al menos 2 delitos
-        .sort((a, b) => b.cantidad - a.cantidad)
-        .slice(0, 10); // Top 10
+      // Crear cuadrícula más densa para mejor cobertura con círculos de 50m
+      const hotSpots = [];
+      const filas = 5; // Aumentado a 5 filas
+      const columnas = 6; // Aumentado a 6 columnas = 30 puntos base
 
-      console.log('🔥 Top 10 zonas más calientes:', zonasCalientes);
-      return zonasCalientes;
+      const deltaLat = (maxLat - minLat) / (filas + 1);
+      const deltaLng = (maxLng - minLng) / (columnas + 1);
+
+      // Crear puntos en cuadrícula regular más densa
+      for (let fila = 1; fila <= filas; fila++) {
+        for (let col = 1; col <= columnas; col++) {
+          const lat = minLat + (deltaLat * fila);
+          const lng = minLng + (deltaLng * col);
+
+          // Verificar si el punto está dentro del polígono
+          if (puntoEnPoligono(lat, lng, poligonoElRisco)) {
+            hotSpots.push({
+              lat: lat,
+              lng: lng,
+              fila: fila,
+              columna: col,
+              id: `${fila}-${col}`
+            });
+          }
+        }
+      }
+
+      // Agregar puntos adicionales en los bordes y esquinas para mejor cobertura
+      const puntosAdicionales = [
+        // Puntos en bordes superiores e inferiores
+        { lat: minLat + deltaLat * 0.3, lng: minLng + deltaLng * 1.5, id: 'borde-sup-1' },
+        { lat: minLat + deltaLat * 0.3, lng: minLng + deltaLng * 3, id: 'borde-sup-2' },
+        { lat: minLat + deltaLat * 0.3, lng: minLng + deltaLng * 4.5, id: 'borde-sup-3' },
+        { lat: minLat + deltaLat * 5.7, lng: minLng + deltaLng * 1.5, id: 'borde-inf-1' },
+        { lat: minLat + deltaLat * 5.7, lng: minLng + deltaLng * 3, id: 'borde-inf-2' },
+        { lat: minLat + deltaLat * 5.7, lng: minLng + deltaLng * 4.5, id: 'borde-inf-3' },
+
+        // Puntos en bordes laterales
+        { lat: minLat + deltaLat * 2, lng: minLng + deltaLng * 0.3, id: 'borde-izq-1' },
+        { lat: minLat + deltaLat * 3, lng: minLng + deltaLng * 0.3, id: 'borde-izq-2' },
+        { lat: minLat + deltaLat * 4, lng: minLng + deltaLng * 0.3, id: 'borde-izq-3' },
+        { lat: minLat + deltaLat * 2, lng: minLng + deltaLng * 6.7, id: 'borde-der-1' },
+        { lat: minLat + deltaLat * 3, lng: minLng + deltaLng * 6.7, id: 'borde-der-2' },
+        { lat: minLat + deltaLat * 4, lng: minLng + deltaLng * 6.7, id: 'borde-der-3' },
+
+        // Puntos intermedios para mejor cobertura
+        { lat: minLat + deltaLat * 1.5, lng: minLng + deltaLng * 2.5, id: 'inter-1' },
+        { lat: minLat + deltaLat * 2.5, lng: minLng + deltaLng * 1.5, id: 'inter-2' },
+        { lat: minLat + deltaLat * 3.5, lng: minLng + deltaLng * 2.5, id: 'inter-3' },
+        { lat: minLat + deltaLat * 4.5, lng: minLng + deltaLng * 3.5, id: 'inter-4' },
+        { lat: minLat + deltaLat * 2.5, lng: minLng + deltaLng * 4.5, id: 'inter-5' },
+        { lat: minLat + deltaLat * 3.5, lng: minLng + deltaLng * 5.5, id: 'inter-6' }
+      ];
+
+      puntosAdicionales.forEach(punto => {
+        if (puntoEnPoligono(punto.lat, punto.lng, poligonoElRisco)) {
+          hotSpots.push(punto);
+        }
+      });
+
+      // Tomar los primeros 20 hot spots para mejor rendimiento
+      const hotSpotsFinales = hotSpots.slice(0, 20);
+
+      // Calcular delitos en cada hot spot (radio de 50 metros)
+      const radioInfluencia = 0.00045; // Aproximadamente 50 metros
+
+      hotSpotsFinales.forEach((hotSpot, index) => {
+        const delitosEnZona = delitosData.filter(delito => {
+          const distancia = Math.sqrt(
+            Math.pow(delito.lat - hotSpot.lat, 2) +
+            Math.pow(delito.lng - hotSpot.lng, 2)
+          );
+          return distancia <= radioInfluencia;
+        });
+
+        // Contar tipos de delitos
+        const tiposDelitos = {};
+        delitosEnZona.forEach(delito => {
+          if (!tiposDelitos[delito.tipoDelito]) {
+            tiposDelitos[delito.tipoDelito] = 0;
+          }
+          tiposDelitos[delito.tipoDelito]++;
+        });
+
+        // Encontrar el tipo más común
+        const tipoMasComun = Object.keys(tiposDelitos).length > 0
+          ? Object.keys(tiposDelitos).reduce((a, b) => tiposDelitos[a] > tiposDelitos[b] ? a : b)
+          : 'Sin delitos';
+
+        hotSpot.cantidad = delitosEnZona.length;
+        hotSpot.tipos = tiposDelitos;
+        hotSpot.tipoMasComun = tipoMasComun;
+        hotSpot.numero = index + 1;
+
+        console.log(`🎯 Hot Spot #${index + 1}: ${delitosEnZona.length} delitos en radio de 50m`);
+      });
+
+      // Filtrar hot spots según nivel de análisis
+      let hotSpotsFiltrados = hotSpotsFinales;
+
+      switch (filtrosActivos.nivelAnalisis) {
+        case 2: // Hot spots con delitos
+          hotSpotsFiltrados = hotSpotsFinales.filter(hs => hs.cantidad > 0);
+          break;
+        case 3: // Riesgo moderado+
+          hotSpotsFiltrados = hotSpotsFinales.filter(hs => hs.cantidad >= 4);
+          break;
+        case 4: // Alto riesgo+
+          hotSpotsFiltrados = hotSpotsFinales.filter(hs => hs.cantidad >= 7);
+          break;
+        case 5: // Muy peligrosos
+          hotSpotsFiltrados = hotSpotsFinales.filter(hs => hs.cantidad >= 10);
+          break;
+        default: // Mostrar todos
+          hotSpotsFiltrados = hotSpotsFinales;
+      }
+
+      // Ordenar por cantidad de delitos (mayor a menor) para referencia
+      const hotSpotsOrdenados = [...hotSpotsFiltrados].sort((a, b) => b.cantidad - a.cantidad);
+
+      console.log('🔥 Hot Spots ordenados por peligrosidad:');
+      hotSpotsOrdenados.forEach((hs, i) => {
+        console.log(`${i + 1}. Hot Spot #${hs.numero}: ${hs.cantidad} delitos - ${hs.tipoMasComun}`);
+      });
+
+      return hotSpotsFiltrados;
     }
 
-    // Función para obtener color según intensidad
-    function obtenerColorIntensidad(cantidad, maxCantidad) {
-      const intensidad = cantidad / maxCantidad;
+    // Función para obtener color según cantidad de delitos
+    function obtenerColorHotSpot(cantidad) {
+      if (cantidad === 0) return '#4caf50'; // Verde - Sin delitos
+      if (cantidad <= 2) return '#8bc34a'; // Verde claro - Muy pocos delitos
+      if (cantidad <= 4) return '#ffeb3b'; // Amarillo - Pocos delitos
+      if (cantidad <= 7) return '#ff9800'; // Naranja - Delitos moderados
+      if (cantidad <= 10) return '#ff5722'; // Rojo naranja - Muchos delitos
+      return '#f44336'; // Rojo intenso - Zona muy peligrosa
+    }
 
-      if (intensidad >= 0.8) return '#ff4757'; // Rojo muy intenso
-      if (intensidad >= 0.6) return '#ff6b7a'; // Rojo
-      if (intensidad >= 0.4) return '#ffa726'; // Naranja
-      if (intensidad >= 0.2) return '#ffeb3b'; // Amarillo
-      return '#4caf50'; // Verde
+    // Función para obtener nivel de riesgo
+    function obtenerNivelRiesgo(cantidad) {
+      if (cantidad === 0) return { nivel: 'Muy Seguro', emoji: '🟢' };
+      if (cantidad <= 2) return { nivel: 'Seguro', emoji: '🟢' };
+      if (cantidad <= 4) return { nivel: 'Precaución', emoji: '🟡' };
+      if (cantidad <= 7) return { nivel: 'Riesgo Moderado', emoji: '🟠' };
+      if (cantidad <= 10) return { nivel: 'Riesgo Alto', emoji: '🔴' };
+      return { nivel: 'Muy Peligroso', emoji: '⚫' };
     }
 
     // Función para obtener emoji según tipo de delito más común
@@ -418,56 +824,62 @@
       return emojis[tipoDelito] || '📍';
     }
 
-    // Función para agregar círculos de calor
-    function agregarCirculosCalor() {
+    // Función para agregar hot spots
+    function agregarHotSpots() {
       // Limpiar círculos existentes
       circulos.forEach(circulo => map.removeLayer(circulo));
       circulos = [];
 
       if (!mostrandoCirculos) return;
 
-      const zonasCalientes = calcularZonasCalientes();
+      const hotSpots = calcularHotSpots();
 
-      if (zonasCalientes.length === 0) {
-        console.log('⚠️ No se encontraron zonas calientes');
+      if (hotSpots.length === 0) {
+        console.log('⚠️ No se pudieron crear hot spots');
         return;
       }
 
-      const maxCantidad = zonasCalientes[0].cantidad;
-
-      zonasCalientes.forEach((zona, index) => {
-        const color = obtenerColorIntensidad(zona.cantidad, maxCantidad);
-        const emoji = obtenerEmojiDelito(zona.tipoMasComun);
-        const radio = Math.max(30, zona.cantidad * 8); // Radio proporcional a la cantidad
+      hotSpots.forEach((hotSpot, index) => {
+        const color = obtenerColorHotSpot(hotSpot.cantidad);
+        const riesgo = obtenerNivelRiesgo(hotSpot.cantidad);
+        const emoji = obtenerEmojiDelito(hotSpot.tipoMasComun);
+        const radio = 50; // Radio fijo de 50 metros
 
         // Crear círculo
-        const circulo = L.circle([zona.lat, zona.lng], {
+        const circulo = L.circle([hotSpot.lat, hotSpot.lng], {
           color: color,
           fillColor: color,
-          fillOpacity: 0.4,
+          fillOpacity: 0.5,
           radius: radio,
-          weight: 3
+          weight: 2
         });
 
         // Crear contenido del popup
-        const tiposTexto = Object.keys(zona.tipos)
-          .map(tipo => `${tipo}: ${zona.tipos[tipo]}`)
-          .join('<br>');
+        let tiposTexto = 'No hay delitos registrados en esta área';
+        if (Object.keys(hotSpot.tipos).length > 0) {
+          tiposTexto = Object.keys(hotSpot.tipos)
+            .map(tipo => `• ${tipo}: ${hotSpot.tipos[tipo]} casos`)
+            .join('<br>');
+        }
 
         const popupContent = `
-          <div style="text-align: center; padding: 10px; min-width: 200px;">
+          <div style="text-align: center; padding: 12px; min-width: 240px;">
             <h3 style="margin: 0 0 10px 0; color: #2c3e50;">
-              ${emoji} Zona Caliente #${index + 1}
+              🎯 Hot Spot #${hotSpot.numero}
             </h3>
-            <div style="background: ${color}; color: white; padding: 8px; border-radius: 5px; margin-bottom: 10px;">
-              <strong>${zona.cantidad} delitos registrados</strong>
+            <div style="background: ${color}; color: white; padding: 10px; border-radius: 8px; margin-bottom: 12px;">
+              <strong>${riesgo.emoji} ${riesgo.nivel}</strong><br>
+              <span style="font-size: 1.1rem;">${hotSpot.cantidad} delitos en 50m de radio</span>
             </div>
-            <div style="text-align: left; font-size: 0.9rem;">
-              <strong>Delito más común:</strong><br>
-              ${zona.tipoMasComun} (${zona.tipos[zona.tipoMasComun]} casos)
+            <div style="text-align: left; font-size: 0.9rem; background: #f8f9fa; padding: 10px; border-radius: 6px;">
+              <strong>📍 Cobertura:</strong><br>
+              Radio de 50 metros (${hotSpot.id})
               <br><br>
-              <strong>Distribución de delitos:</strong><br>
-              ${tiposTexto}
+              <strong>🔍 Análisis de seguridad:</strong><br>
+              ${hotSpot.cantidad > 0 ?
+            `Delito principal: ${emoji} ${hotSpot.tipoMasComun}<br><br><strong>Distribución:</strong><br>${tiposTexto}` :
+            '✅ Área completamente segura<br>Sin delitos registrados'
+          }
             </div>
           </div>
         `;
@@ -476,7 +888,7 @@
 
         // Tooltip al pasar el mouse
         circulo.bindTooltip(
-          `${emoji} Zona #${index + 1}: ${zona.cantidad} delitos`,
+          `🎯 Hot Spot #${hotSpot.numero}: ${riesgo.emoji} ${hotSpot.cantidad} delitos (50m)`,
           { permanent: false, direction: 'top' }
         );
 
@@ -485,14 +897,14 @@
         circulos.push(circulo);
       });
 
-      console.log(`✅ ${zonasCalientes.length} círculos de calor agregados`);
+      console.log(`✅ ${hotSpots.length} hot spots de 50m distribuidos agregados`);
 
       // Actualizar leyenda
-      actualizarLeyenda(zonasCalientes, maxCantidad);
+      actualizarLeyendaHotSpots(hotSpots);
     }
 
-    // Función para actualizar la leyenda
-    function actualizarLeyenda(zonasCalientes, maxCantidad) {
+    // Función para actualizar la leyenda de hot spots
+    function actualizarLeyendaHotSpots(hotSpots) {
       const leyenda = document.getElementById('leyenda');
 
       let contenidoLeyenda = `
@@ -503,37 +915,51 @@
         </div>
       `;
 
-      if (mostrandoCirculos && zonasCalientes.length > 0) {
+      if (mostrandoCirculos && hotSpots.length > 0) {
         contenidoLeyenda += `
           <div style="margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px;">
-            <h5 style="margin: 0 0 10px 0;">🔥 Zonas de Calor</h5>
+            <h5 style="margin: 0 0 10px 0;">�� Hot Spots (Radio: 50m)</h5>
         `;
 
-        // Niveles de intensidad
+        // Niveles de riesgo actualizados para 50m
         const niveles = [
-          { min: 0.8, color: '#ff4757', texto: 'Muy Alto', emoji: '🔴' },
-          { min: 0.6, color: '#ff6b7a', texto: 'Alto', emoji: '🟠' },
-          { min: 0.4, color: '#ffa726', texto: 'Medio', emoji: '🟡' },
-          { min: 0.2, color: '#ffeb3b', texto: 'Bajo', emoji: '🟢' },
-          { min: 0, color: '#4caf50', texto: 'Muy Bajo', emoji: '🟢' }
+          { cantidad: 0, color: '#4caf50', texto: 'Muy Seguro', emoji: '🟢', desc: '0 delitos' },
+          { cantidad: 1, color: '#8bc34a', texto: 'Seguro', emoji: '🟢', desc: '1-2 delitos' },
+          { cantidad: 3, color: '#ffeb3b', texto: 'Precaución', emoji: '🟡', desc: '3-4 delitos' },
+          { cantidad: 5, color: '#ff9800', texto: 'Riesgo Moderado', emoji: '🟠', desc: '5-7 delitos' },
+          { cantidad: 8, color: '#ff5722', texto: 'Riesgo Alto', emoji: '🔴', desc: '8-10 delitos' },
+          { cantidad: 11, color: '#f44336', texto: 'Muy Peligroso', emoji: '⚫', desc: '11+ delitos' }
         ];
 
         niveles.forEach(nivel => {
           contenidoLeyenda += `
             <div class="leyenda-item">
               <div class="color-box" style="background-color: ${nivel.color};"></div>
-              <span>${nivel.emoji} Riesgo ${nivel.texto}</span>
+              <span>${nivel.emoji} ${nivel.texto} (${nivel.desc})</span>
             </div>
           `;
         });
 
+        // Estadísticas generales
+        const totalDelitos = hotSpots.reduce((sum, hs) => sum + hs.cantidad, 0);
+        const hotSpotMasPeligroso = hotSpots.length > 0 ? hotSpots.reduce((max, hs) => hs.cantidad > max.cantidad ? hs : max, hotSpots[0]) : null;
+        const hotSpotsSeguras = hotSpots.filter(hs => hs.cantidad === 0).length;
+
         contenidoLeyenda += `
-          <div style="margin-top: 10px; font-size: 0.8rem; color: #666;">
-            Máximo: ${maxCantidad} delitos por zona
+          <div style="margin-top: 12px; padding-top: 8px; border-top: 1px solid #eee; font-size: 0.8rem; color: #666;">
+            <strong>📊 Estadísticas:</strong><br>
+            • Total de delitos: ${totalDelitos}<br>
+            ${hotSpotMasPeligroso ? `• Hot Spot más peligroso: #${hotSpotMasPeligroso.numero} (${hotSpotMasPeligroso.cantidad} delitos)<br>` : ''}
+            • Zonas seguras: ${hotSpotsSeguras}/${hotSpots.length}<br>
+            • Radio de análisis: 50 metros c/u
           </div>
         `;
 
         contenidoLeyenda += '</div>';
+
+        // Actualizar estadísticas flotantes
+        document.getElementById('zonas-seguras').textContent = hotSpotsSeguras;
+        document.getElementById('hotspots-num').textContent = hotSpots.length;
       }
 
       leyenda.innerHTML = contenidoLeyenda;
@@ -548,14 +974,20 @@
       // Agregar capa base inicial
       mapLayers[currentMapType].layer.addTo(map);
 
+      // Inicializar filtros
+      inicializarFiltros();
+
       // Agregar polígono
       addPolygon();
 
-      // Agregar círculos de calor
-      agregarCirculosCalor();
+      // Agregar hot spots
+      agregarHotSpots();
 
       // Configurar controles
       setupControls();
+
+      // Actualizar estadísticas iniciales
+      actualizarEstadisticas();
     }
 
     // Agregar polígono al mapa
@@ -633,12 +1065,12 @@
         mostrandoCirculos = !mostrandoCirculos;
 
         if (mostrandoCirculos) {
-          agregarCirculosCalor();
-          this.innerHTML = '🔥 Ocultar Calor';
+          agregarHotSpots();
+          this.innerHTML = '🎯 Ocultar Hot Spots';
         } else {
           circulos.forEach(circulo => map.removeLayer(circulo));
           circulos = [];
-          this.innerHTML = '🔥 Mostrar Calor';
+          this.innerHTML = '🎯 Mostrar Hot Spots';
 
           // Actualizar leyenda sin círculos
           const leyenda = document.getElementById('leyenda');
@@ -651,12 +1083,250 @@
           `;
         }
       });
+
+      // Botón toggle estadísticas
+      document.getElementById('btn-toggle-estadisticas').addEventListener('click', function () {
+        mostrandoEstadisticas = !mostrandoEstadisticas;
+        const estadisticas = document.getElementById('estadisticas');
+
+        if (mostrandoEstadisticas) {
+          estadisticas.style.display = 'block';
+          this.innerHTML = '📊 Ocultar Estadísticas';
+        } else {
+          estadisticas.style.display = 'none';
+          this.innerHTML = '📊 Mostrar Estadísticas';
+        }
+      });
     }
 
     // Inicializar cuando se carga la página
     document.addEventListener('DOMContentLoaded', function () {
       initMap();
     });
+
+    // Función para obtener los datos de delitos
+    function obtenerDelitosData() {
+      try {
+        if (typeof DELITOS_DATA !== 'undefined' && DELITOS_DATA.length > 0) {
+          console.log(`📊 Delitos cargados: ${DELITOS_DATA.length}`);
+          return DELITOS_DATA;
+        } else {
+          throw new Error('No se encontraron datos de delitos');
+        }
+      } catch (error) {
+        console.error('❌ Error obteniendo datos de delitos:', error);
+        return [];
+      }
+    }
+
+    // Función para inicializar los filtros
+    function inicializarFiltros() {
+      delitosOriginales = obtenerDelitosData();
+      delitosData = [...delitosOriginales];
+
+      // Crear chips de tipos de delito
+      crearChipsTiposDelito();
+
+      // Llenar select de años
+      llenarSelectAnos();
+
+      // Configurar event listeners
+      configurarEventListeners();
+
+      console.log('🔧 Filtros inicializados');
+    }
+
+    // Función para crear chips de tipos de delito
+    function crearChipsTiposDelito() {
+      const tiposContainer = document.getElementById('tipos-delito');
+      const tiposUnicos = [...new Set(delitosOriginales.map(d => d.tipoDelito))].sort();
+
+      // Chip maestro para seleccionar/deseleccionar todos
+      const chipMaestro = document.createElement('div');
+      chipMaestro.className = 'chip maestro';
+      chipMaestro.innerHTML = '📋 Todos los tipos de delito';
+      chipMaestro.addEventListener('click', toggleTodosTipos);
+      tiposContainer.appendChild(chipMaestro);
+
+      // Chips individuales
+      tiposUnicos.forEach(tipo => {
+        const chip = document.createElement('div');
+        chip.className = 'chip';
+        chip.dataset.tipo = tipo;
+        chip.innerHTML = `${obtenerEmojiDelito(tipo)} ${tipo}`;
+        chip.addEventListener('click', () => toggleTipoDelito(tipo));
+        tiposContainer.appendChild(chip);
+      });
+    }
+
+    // Función para llenar select de años
+    function llenarSelectAnos() {
+      const selectAno = document.getElementById('filtro-ano');
+      const anos = [...new Set(delitosOriginales.map(d => {
+        const fecha = d.fecha;
+        if (typeof fecha === 'string' && fecha.includes('/')) {
+          return fecha.split('/')[2];
+        }
+        return new Date(fecha).getFullYear().toString();
+      }))].sort().reverse();
+
+      anos.forEach(ano => {
+        const option = document.createElement('option');
+        option.value = ano;
+        option.textContent = ano;
+        selectAno.appendChild(option);
+      });
+    }
+
+    // Función para toggle todos los tipos
+    function toggleTodosTipos() {
+      const chipMaestro = document.querySelector('.chip.maestro');
+      const chipsIndividuales = document.querySelectorAll('.chip:not(.maestro)');
+
+      if (chipMaestro.classList.contains('activo')) {
+        // Deseleccionar todos
+        chipMaestro.classList.remove('activo');
+        chipsIndividuales.forEach(chip => chip.classList.remove('activo'));
+        filtrosActivos.tiposDelito = [];
+      } else {
+        // Seleccionar todos
+        chipMaestro.classList.add('activo');
+        chipsIndividuales.forEach(chip => {
+          chip.classList.add('activo');
+          filtrosActivos.tiposDelito.push(chip.dataset.tipo);
+        });
+      }
+    }
+
+    // Función para toggle tipo individual
+    function toggleTipoDelito(tipo) {
+      const chip = document.querySelector(`[data-tipo="${tipo}"]`);
+      const chipMaestro = document.querySelector('.chip.maestro');
+
+      if (chip.classList.contains('activo')) {
+        chip.classList.remove('activo');
+        filtrosActivos.tiposDelito = filtrosActivos.tiposDelito.filter(t => t !== tipo);
+      } else {
+        chip.classList.add('activo');
+        filtrosActivos.tiposDelito.push(tipo);
+      }
+
+      // Actualizar chip maestro
+      const totalTipos = document.querySelectorAll('.chip:not(.maestro)').length;
+      const tiposSeleccionados = filtrosActivos.tiposDelito.length;
+
+      if (tiposSeleccionados === totalTipos) {
+        chipMaestro.classList.add('activo');
+      } else {
+        chipMaestro.classList.remove('activo');
+      }
+    }
+
+    // Función para configurar event listeners
+    function configurarEventListeners() {
+      // Botón aplicar filtros
+      document.getElementById('btn-aplicar-filtros').addEventListener('click', aplicarFiltros);
+
+      // Botón limpiar filtros
+      document.getElementById('btn-limpiar-filtros').addEventListener('click', limpiarFiltros);
+
+      // Select de año
+      document.getElementById('filtro-ano').addEventListener('change', (e) => {
+        filtrosActivos.ano = e.target.value;
+      });
+
+      // Select de nivel de análisis
+      document.getElementById('nivel-analisis').addEventListener('change', (e) => {
+        filtrosActivos.nivelAnalisis = parseInt(e.target.value);
+      });
+    }
+
+    // Función para aplicar filtros
+    function aplicarFiltros() {
+      console.log('🔍 Aplicando filtros:', filtrosActivos);
+
+      // Filtrar datos
+      delitosData = delitosOriginales.filter(delito => {
+        // Filtro por tipo de delito
+        if (filtrosActivos.tiposDelito.length > 0 &&
+          !filtrosActivos.tiposDelito.includes(delito.tipoDelito)) {
+          return false;
+        }
+
+        // Filtro por año
+        if (filtrosActivos.ano) {
+          const anoDelito = typeof delito.fecha === 'string' && delito.fecha.includes('/')
+            ? delito.fecha.split('/')[2]
+            : new Date(delito.fecha).getFullYear().toString();
+
+          if (anoDelito !== filtrosActivos.ano) {
+            return false;
+          }
+        }
+
+        return true;
+      });
+
+      // Actualizar hot spots con datos filtrados
+      agregarHotSpots();
+
+      // Mostrar resultados
+      mostrarResultadosFiltros();
+
+      // Actualizar estadísticas
+      actualizarEstadisticas();
+    }
+
+    // Función para limpiar filtros
+    function limpiarFiltros() {
+      // Resetear filtros
+      filtrosActivos = {
+        tiposDelito: [],
+        ano: '',
+        nivelAnalisis: 1
+      };
+
+      // Limpiar UI
+      document.querySelectorAll('.chip').forEach(chip => chip.classList.remove('activo'));
+      document.getElementById('filtro-ano').value = '';
+      document.getElementById('nivel-analisis').value = '1';
+      document.getElementById('resultados-filtro').style.display = 'none';
+
+      // Restaurar datos originales
+      delitosData = [...delitosOriginales];
+
+      // Actualizar mapa
+      agregarHotSpots();
+      actualizarEstadisticas();
+
+      console.log('🧹 Filtros limpiados');
+    }
+
+    // Función para mostrar resultados de filtros
+    function mostrarResultadosFiltros() {
+      const resultadosDiv = document.getElementById('resultados-filtro');
+      const totalOriginal = delitosOriginales.length;
+      const totalFiltrado = delitosData.length;
+
+      if (filtrosActivos.tiposDelito.length > 0 || filtrosActivos.ano || filtrosActivos.nivelAnalisis > 1) {
+        resultadosDiv.style.display = 'block';
+        resultadosDiv.innerHTML = `
+          <h4>🔍 Filtros Aplicados</h4>
+          <p><strong>Delitos mostrados:</strong> ${totalFiltrado} de ${totalOriginal} totales</p>
+          ${filtrosActivos.tiposDelito.length > 0 ? `<p><strong>Tipos:</strong> ${filtrosActivos.tiposDelito.join(', ')}</p>` : ''}
+          ${filtrosActivos.ano ? `<p><strong>Año:</strong> ${filtrosActivos.ano}</p>` : ''}
+          ${filtrosActivos.nivelAnalisis > 1 ? `<p><strong>Nivel de análisis:</strong> ${document.getElementById('nivel-analisis').selectedOptions[0].text}</p>` : ''}
+        `;
+      } else {
+        resultadosDiv.style.display = 'none';
+      }
+    }
+
+    // Función para actualizar estadísticas
+    function actualizarEstadisticas() {
+      document.getElementById('total-delitos-num').textContent = delitosOriginales.length;
+      document.getElementById('delitos-filtrados').textContent = delitosData.length;
+    }
   </script>
 </body>
 
