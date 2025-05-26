@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Modelo de Burgess - Círculos Concéntricos - CTM El Risco</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 0;
+    }
+
+    .container {
+      max-width: none;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .header {
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      margin: 0 auto 20px auto;
+    }
+
+    .header h1 {
+      color: #2c3e50;
+      font-size: 2.2rem;
+      text-align: center;
+      margin-bottom: 5px;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #7f8c8d;
+      font-size: 1rem;
+      margin-bottom: 12px;
+    }
+
+    .modelo-info {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 10px;
+      margin: 15px 0;
+      border-left: 4px solid #667eea;
+    }
+
+    .modelo-info h3 {
+      margin: 0 0 10px 0;
+      color: #2c3e50;
+    }
+
+    .modelo-info p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .controles-burgess {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .control-grupo h3 {
+      color: #2c3e50;
+      font-size: 1rem;
+      margin-bottom: 8px;
+    }
+
+    .control-grupo select {
+      width: 100%;
+      padding: 8px;
+      border: 2px solid #e9ecef;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      background: white;
+    }
+
+    .botones-container {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 15px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-secondary {
+      background: #6c757d;
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: #5a6268;
+      transform: translateY(-2px);
+    }
+
+    .mapa-container {
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      position: relative;
+      margin: 0 -20px;
+      border-radius: 0;
+    }
+
+    .mapa-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .mapa-title {
+      color: #2c3e50;
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .controles-mapa {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+      width: 100%;
+    }
+
+    .control-btn {
+      padding: 10px 15px;
+      background: #f8f9fa;
+      border: 2px solid #e9ecef;
+      border-radius: 15px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      color: #495057;
+    }
+
+    .control-btn:hover {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
+      transform: translateY(-1px);
+    }
+
+    .control-btn.activo {
+      background: #28a745;
+      color: white;
+      border-color: #28a745;
+    }
+
+    .control-btn.inactivo {
+      background: #dc3545;
+      color: white;
+      border-color: #dc3545;
+      opacity: 0.8;
+    }
+
+    #map {
+      height: 80vh;
+      width: 100%;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .estadisticas {
+      position: absolute;
+      top: 90px;
+      right: 30px;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      min-width: 220px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .estadisticas h4 {
+      color: #2c3e50;
+      margin: 0 0 15px 0;
+      font-size: 1.2rem;
+      text-align: center;
+      border-bottom: 2px solid #667eea;
+      padding-bottom: 8px;
+    }
+
+    .stat-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+      padding: 5px 0;
+    }
+
+    .stat-number {
+      font-weight: 700;
+      color: #667eea;
+      font-size: 1.1rem;
+      background: rgba(102, 126, 234, 0.1);
+      padding: 4px 8px;
+      border-radius: 8px;
+    }
+
+    .leyenda {
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.98);
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      max-height: 85vh;
+      overflow-y: auto;
+      width: 320px;
+      backdrop-filter: blur(10px);
+      font-size: 0.85rem;
+      border: 2px solid #667eea;
+    }
+
+    .leyenda h4 {
+      margin: 0 0 15px;
+      font-size: 1.1rem;
+      color: #2c3e50;
+      text-align: center;
+    }
+
+    .leyenda-item-detallada {
+      margin-bottom: 15px;
+      padding: 12px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 249, 250, 0.95));
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .leyenda-item-detallada:hover {
+      transform: scale(1.02);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .loading {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      z-index: 2000;
+      text-align: center;
+    }
+
+    .loading h3 {
+      color: #2c3e50;
+      margin-bottom: 15px;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #667eea;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .notificacion {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 15px 25px;
+      border-radius: 25px;
+      z-index: 2000;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    /* Estilos para las etiquetas de nivel en el centro de los círculos */
+    .etiqueta-nivel-centro {
+      z-index: 1000 !important;
+    }
+
+    .etiqueta-nivel-centro .leaflet-div-icon {
+      background: transparent !important;
+      border: none !important;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        padding: 10px;
+      }
+
+      .controles-burgess {
+        grid-template-columns: 1fr;
+      }
+
+      .controles-mapa {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .estadisticas {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        right: auto;
+        top: auto;
+        width: calc(100% - 40px);
+        max-width: 300px;
+      }
+
+      .leyenda {
+        width: calc(100% - 20px);
+        max-width: 280px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- Header con título -->
+    <div class="header">
+      <h1>🏛️ Modelo de Burgess - Círculos Concéntricos</h1>
+      <p class="subtitle">CTM El Risco - Teoría Urbana de Ernest Burgess (5 Niveles)</p>
+
+      <!-- Información del modelo -->
+      <div class="modelo-info">
+        <h3>📚 Modelo Teórico de Ernest Burgess (1925)</h3>
+        <p>
+          Teoría de desarrollo urbano que describe la ciudad como una serie de círculos concéntricos,
+          cada uno con características socioeconómicas y funcionales específicas.
+        </p>
+      </div>
+
+      <!-- Controles del modelo -->
+      <div class="controles-burgess">
+        <div class="control-grupo">
+          <h3>🎯 Visualización</h3>
+          <select id="modo-burgess">
+            <option value="teorico">📖 Modelo Teórico Puro</option>
+            <option value="adaptado">🏘️ Adaptado a El Risco</option>
+          </select>
+        </div>
+
+        <div class="control-grupo">
+          <h3>📏 Escala de Radios</h3>
+          <select id="escala-radios">
+            <option value="proporcional">📐 Proporcional</option>
+            <option value="uniforme">⚖️ Uniforme</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Botones de acción -->
+      <div class="botones-container">
+        <button class="btn btn-primary" id="btn-generar-modelo">🏗️ Generar Modelo</button>
+        <button class="btn btn-secondary" id="btn-reset-modelo">🔄 Resetear</button>
+      </div>
+    </div>
+
+    <!-- Container del mapa -->
+    <div class="mapa-container">
+      <div class="mapa-header">
+        <h2 class="mapa-title">🏘️ Mapa Interactivo</h2>
+        <div class="controles-mapa">
+          <button class="control-btn" id="btn-centrar">🎯 Centrar</button>
+          <button class="control-btn" id="btn-cambiar-mapa">🗺️ Cambiar Mapa</button>
+          <button class="control-btn activo" id="btn-toggle-etiquetas">🏷️ Etiquetas</button>
+          <button class="control-btn" id="btn-toggle-estadisticas">📊 Estadísticas</button>
+          <button class="control-btn" id="btn-toggle-leyenda">🔍 Leyenda</button>
+          <button class="control-btn" id="btn-exportar-imagen">📸 Exportar</button>
+        </div>
+      </div>
+
+      <div id="map"></div>
+
+      <!-- Estadísticas flotantes -->
+      <div class="estadisticas" id="estadisticas" style="display: none;">
+        <h4>📊 Modelo de Burgess</h4>
+        <div class="stat-item">
+          <span>Niveles:</span>
+          <span class="stat-number" id="niveles-burgess">5</span>
+        </div>
+        <div class="stat-item">
+          <span>Radio máximo:</span>
+          <span class="stat-number" id="radio-maximo">0m</span>
+        </div>
+        <div class="stat-item">
+          <span>Área total:</span>
+          <span class="stat-number" id="area-total">0 ha</span>
+        </div>
+        <div class="stat-item">
+          <span>Modelo:</span>
+          <span class="stat-number" id="tipo-modelo">Teórico</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading" id="loading">
+    <h3>🔄 Cargando mapa...</h3>
+    <div class="spinner"></div>
+    <p>Preparando modelo de Burgess</p>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+  <script src="https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script>
+    // Variables globales para el modelo de Burgess
+    let map;
+    let circulosLayer;
+    let leyendaControl;
+    let mostrandoEstadisticas = true;
+    let mostrandoLeyenda = true;
+    let mostrandoEtiquetas = true;
+    let currentTileLayer;
+    let tipoMapaActual = 0;
+
+    // Modelo de Burgess - 5 Niveles Concéntricos para CTM El Risco
+    const modeloBurgess = [
+      {
+        nivel: 1,
+        nombre: "Círculo Central",
+        descripcion: "Núcleo comercial-administrativo",
+        caracteristicas: [
+          "Mercado 'El Risco'",
+          "Explanada cívica",
+          "Estación de transporte público sobre Eje 5 Norte",
+          "Comercio minorista concentrado"
+        ],
+        rasgosClave: "Alta concentración de comercio minorista, servicios básicos, paradero de microbuses y mototaxis, flujo peatonal intenso.",
+        correspondencia: "Pequeño núcleo comercial-administrativo (mercado 'El Risco', explanada cívica, estación de transporte público sobre Eje 5 Norte)",
+        color: "#e41a1c",
+        poblacion: "Trabajadores diurnos, comerciantes",
+        actividades: "Comercio, servicios básicos, transporte público"
+      },
+      {
+        nivel: 2,
+        nombre: "Zona de Transición",
+        descripcion: "Corredores de vivienda colectiva y comercios",
+        caracteristicas: [
+          "Edificios de la CTM",
+          "Vecindades remodeladas",
+          "Comercios en planta baja",
+          "Vivienda colectiva alrededor del núcleo"
+        ],
+        rasgosClave: "Mezcla de usos; vivienda más antigua con cuartos subdivididos y renta; mayor deterioro físico, presencia de giros negros y alta rotación de población.",
+        correspondencia: "Corredores de vivienda colectiva y comercios en planta baja alrededor del núcleo (edificios de la CTM, vecindades remodeladas)",
+        color: "#377eb8",
+        poblacion: "Inquilinos, trabajadores de bajos ingresos",
+        actividades: "Vivienda de transición, comercio mixto"
+      },
+      {
+        nivel: 3,
+        nombre: "Residencia de Obreros",
+        descripcion: "Conjuntos habitacionales CTM",
+        caracteristicas: [
+          "Edificios CTM de los años 70-80",
+          "Edificios de 4-5 niveles",
+          "Fraccionamientos INFONAVIT cercanos",
+          "Equipamiento escolar y deportivo"
+        ],
+        rasgosClave: "Densidad media-alta, población de trabajadores industriales y de servicios; equipamiento escolar y deportivo comunitario; cohesión social moderada.",
+        correspondencia: "Conjuntos habitacionales CTM de los años 70-80 (edificios de 4-5 niveles) y fraccionamientos INFONAVIT cercanos",
+        color: "#4daf4a",
+        poblacion: "Trabajadores industriales y de servicios",
+        actividades: "Residencial obrero, servicios comunitarios"
+      },
+      {
+        nivel: 4,
+        nombre: "Viviendas Independientes",
+        descripcion: "Casas autoconstruidas unifamiliares",
+        caracteristicas: [
+          "Calle Central, Avenida de las Torres",
+          "Casas autoconstruidas de 2-3 niveles",
+          "Pequeños dúplex y lotes unifamiliares",
+          "Mejoras paulatinas (remodelación, ampliación)"
+        ],
+        rasgosClave: "Propiedad individual; mejoras paulatinas (remodelación, ampliación); menor densidad; familias de ingresos medios-bajos; aumento de automóviles particulares.",
+        correspondencia: "Calles internas con casas autoconstruidas de 2-3 niveles (ej. Calle Central, Avenida de las Torres), pequeños dúplex y lotes unifamiliares",
+        color: "#984ea3",
+        poblacion: "Familias de ingresos medios-bajos",
+        actividades: "Residencial unifamiliar, servicios especializados"
+      },
+      {
+        nivel: 5,
+        nombre: "Suburbios / Ciudades Satélite",
+        descripcion: "Colonias y municipios colindantes",
+        caracteristicas: [
+          "Candelaria Ticomán, San Juan de Aragón",
+          "Ecatepec, Tecámac (más allá)",
+          "Fraccionamientos cerrados",
+          "Parques industriales"
+        ],
+        rasgosClave: "Expansión periférica de clase trabajadora y media; fraccionamientos cerrados y parques industriales; dependencia del transporte suburbano; desplazamientos diarios al Risco o al Centro.",
+        correspondencia: "Colonias y municipios colindantes: Candelaria Ticomán, San Juan de Aragón, y, más allá, Ecatepec, Tecámac",
+        color: "#ff7f00",
+        poblacion: "Clase trabajadora y media periférica",
+        actividades: "Residencial suburbano, industria, recreación"
+      }
+    ];
+
+    // Configuraciones de diferentes mapas
+    const tiposMapas = [
+      {
+        nombre: 'OpenStreetMap',
+        url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      },
+      {
+        nombre: 'Google Maps Estándar',
+        url: 'https://mt1.google.com/vt/lyrs=r&x={x}&y={y}&z={z}',
+        attribution: '&copy; <a href="https://www.google.com/maps">Google Maps</a>'
+      },
+      {
+        nombre: 'Google Maps Satélite',
+        url: 'https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',
+        attribution: '&copy; <a href="https://www.google.com/maps">Google Maps</a>'
+      },
+      {
+        nombre: 'Google Maps Híbrido',
+        url: 'https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}',
+        attribution: '&copy; <a href="https://www.google.com/maps">Google Maps</a>'
+      }
+    ];
+
+    // Polígono real de CTM El Risco
+    const poligonoElRisco = {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-99.09740966399839, 19.51266487533441],
+          [-99.10056001114475, 19.51184350019888],
+          [-99.1006093896991, 19.511303564087626],
+          [-99.09965400636638, 19.509148468250586],
+          [-99.09932498626866, 19.509227827856975],
+          [-99.098853531969, 19.509016322113567],
+          [-99.09863095442408, 19.509346968554595],
+          [-99.0981457328141, 19.509095591825343],
+          [-99.09843057741668, 19.508495805177503],
+          [-99.09604558848774, 19.50725339452788],
+          [-99.09533437072858, 19.5074291381071],
+          [-99.09286947300322, 19.506017748674992],
+          [-99.09259666715131, 19.505876914674985],
+          [-99.09040664577094, 19.5095740415083],
+          [-99.09493725520933, 19.51130173772033],
+          [-99.09740966399839, 19.51266487533441]
+        ]]
+      }
+    };
+
+    // Función para mostrar notificación
+    function mostrarNotificacion(mensaje, duracion = 3000) {
+      let notificacion = document.getElementById('notificacion-general');
+      if (!notificacion) {
+        notificacion = document.createElement('div');
+        notificacion.id = 'notificacion-general';
+        notificacion.className = 'notificacion';
+        document.body.appendChild(notificacion);
+      }
+
+      notificacion.textContent = mensaje;
+      notificacion.style.display = 'block';
+
+      setTimeout(() => {
+        notificacion.style.display = 'none';
+      }, duracion);
+    }
+
+    // Función para mostrar error
+    function mostrarError(mensaje) {
+      const loading = document.getElementById('loading');
+      loading.innerHTML = `
+        <h3>❌ Error</h3>
+        <p>${mensaje}</p>
+      `;
+      loading.style.background = '#f8d7da';
+      loading.style.color = '#721c24';
+      console.error(mensaje);
+    }
+
+    // Verificar si las librerías están cargadas
+    function verificarLibrerias() {
+      if (typeof L === 'undefined') {
+        mostrarError('Error: No se pudo cargar la librería Leaflet');
+        return false;
+      }
+      if (typeof turf === 'undefined') {
+        mostrarError('Error: No se pudo cargar la librería Turf.js');
+        return false;
+      }
+      return true;
+    }
+
+    // Inicializar el mapa
+    function initMap() {
+      try {
+        if (!verificarLibrerias()) return false;
+
+        map = L.map('map').setView([19.510, -99.096], 15);
+        currentTileLayer = L.tileLayer(tiposMapas[tipoMapaActual].url, {
+          maxZoom: 20,
+          attribution: tiposMapas[tipoMapaActual].attribution
+        }).addTo(map);
+
+        circulosLayer = L.layerGroup().addTo(map);
+
+        console.log('Mapa inicializado correctamente');
+        return true;
+      } catch (error) {
+        mostrarError('Error inicializando el mapa: ' + error.message);
+        return false;
+      }
+    }
+
+    // Función para generar el modelo de Burgess
+    function generarModeloBurgess() {
+      try {
+        circulosLayer.clearLayers();
+
+        // Calcular el centro del polígono (CBD)
+        const turfPolygon = turf.polygon(poligonoElRisco.geometry.coordinates);
+        const centro = turf.centroid(turfPolygon);
+        const centroCoordenadas = [centro.geometry.coordinates[1], centro.geometry.coordinates[0]];
+
+        // Calcular radio máximo disponible
+        const bbox = turf.bbox(turfPolygon);
+        const [minX, minY, maxX, maxY] = bbox;
+        const anchoPoligono = (maxX - minX) * 111320;
+        const altoPoligono = (maxY - minY) * 110540;
+        const radioMaximo = Math.min(anchoPoligono, altoPoligono) / 2 * 0.8;
+
+        console.log(`Generando Modelo de Burgess para CTM El Risco`);
+        console.log(`Centro (CBD): [${centroCoordenadas[0].toFixed(6)}, ${centroCoordenadas[1].toFixed(6)}]`);
+        console.log(`Radio máximo disponible: ${radioMaximo.toFixed(1)} metros`);
+
+        // Calcular radios para cada nivel
+        const radios = calcularRadiosBurgess(radioMaximo);
+
+        // Crear círculos concéntricos (del más grande al más pequeño para correcta visualización)
+        for (let i = modeloBurgess.length - 1; i >= 0; i--) {
+          const nivel = modeloBurgess[i];
+          const radio = radios[i];
+
+          if (radio > 0) {
+            // Crear círculo
+            const circle = L.circle(centroCoordenadas, {
+              radius: radio,
+              color: nivel.color,
+              fillColor: nivel.color,
+              fillOpacity: 0.3,
+              weight: 3,
+              opacity: 0.8,
+              className: `burgess-nivel-${nivel.nivel}`
+            }).bindPopup(crearPopupBurgess(nivel, radio, i + 1));
+
+            circulosLayer.addLayer(circle);
+            console.log(`Nivel ${nivel.nivel}: ${nivel.nombre} - Radio: ${radio.toFixed(1)}m`);
+          }
+        }
+
+        // Crear etiquetas de nivel en el centro (TODAS en el mismo centro)
+        if (mostrandoEtiquetas) {
+          for (let i = 0; i < modeloBurgess.length; i++) {
+            const nivel = modeloBurgess[i];
+            const radio = radios[i];
+
+            if (radio > 0) {
+              // Calcular el radio medio del anillo (entre el círculo anterior y el actual)
+              const radioAnterior = i > 0 ? radios[i - 1] : 0;
+              const radioMedio = (radioAnterior + radio) / 2;
+
+              // Poner el número en el lado derecho (este) del anillo
+              const deltaLat = 0; // sin desplazamiento vertical
+              const deltaLng = radioMedio / (111320 * Math.cos(centroCoordenadas[0] * Math.PI / 180)); // hacia la derecha
+
+              const posicionEtiqueta = [
+                centroCoordenadas[0] + deltaLat, // Sin desplazamiento vertical
+                centroCoordenadas[1] + deltaLng  // Desplazamiento hacia la derecha
+              ];
+
+              const etiquetaNivel = L.marker(posicionEtiqueta, {
+                icon: L.divIcon({
+                  html: `<div style="
+                    background: ${nivel.color};
+                    color: white;
+                    border-radius: 50%;
+                    width: 30px;
+                    height: 30px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                    font-size: 14px;
+                    box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+                    border: 2px solid white;
+                    cursor: pointer;
+                    z-index: ${1000 + i};
+                  ">${nivel.nivel}</div>`,
+                  className: 'etiqueta-nivel-centro',
+                  iconSize: [30, 30],
+                  iconAnchor: [15, 15]
+                }),
+                interactive: true,
+                zIndexOffset: 1000 + i
+              }).bindPopup(crearPopupBurgess(nivel, radio, i + 1));
+
+              circulosLayer.addLayer(etiquetaNivel);
+              console.log(`Etiqueta ${nivel.nivel} en centro del anillo ${i + 1} (radio medio: ${radioMedio.toFixed(1)}m): [${posicionEtiqueta[0].toFixed(6)}, ${posicionEtiqueta[1].toFixed(6)}]`);
+            }
+          }
+        }
+
+        // Crear leyenda del modelo
+        crearLeyendaBurgess();
+
+        // Actualizar estadísticas
+        actualizarEstadisticasBurgess(radioMaximo, radios);
+
+        mostrarNotificacion('🏛️ Modelo de Burgess generado correctamente');
+
+      } catch (error) {
+        console.error('Error generando modelo de Burgess:', error);
+        mostrarError('Error generando modelo: ' + error.message);
+      }
+    }
+
+    // Calcular radios para cada nivel del modelo
+    function calcularRadiosBurgess(radioMaximo) {
+      const modoBurgess = document.getElementById('modo-burgess').value;
+      const escalaRadios = document.getElementById('escala-radios').value;
+      const radios = [];
+
+      if (escalaRadios === 'uniforme') {
+        // Radios uniformes - cada nivel ocupa el mismo espacio
+        const incremento = radioMaximo / modeloBurgess.length;
+        for (let i = 0; i < modeloBurgess.length; i++) {
+          radios.push(incremento * (i + 1));
+        }
+      } else {
+        // Radios proporcionales - basados en la teoría de Burgess
+        if (modoBurgess === 'teorico') {
+          // Modelo teórico: CBD pequeño, crecimiento exponencial hacia afuera
+          const factores = [0.15, 0.30, 0.50, 0.75, 1.0]; // Factores teóricos
+          factores.forEach(factor => {
+            radios.push(radioMaximo * factor);
+          });
+        } else {
+          // Adaptado a El Risco: considerando la realidad urbana local
+          const factores = [0.20, 0.35, 0.55, 0.80, 1.0]; // Adaptado a colonias mexicanas
+          factores.forEach(factor => {
+            radios.push(radioMaximo * factor);
+          });
+        }
+      }
+
+      console.log('Radios calculados:', radios.map(r => r.toFixed(1)));
+      return radios;
+    }
+
+    // Crear popup informativo para cada nivel
+    function crearPopupBurgess(nivel, radio, orden) {
+      const area = (Math.PI * radio * radio / 10000).toFixed(2); // Área en hectáreas
+
+      return `
+        <div style="text-align: center; font-size: 14px; max-width: 350px;">
+          <div style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            padding: 10px;
+            background: linear-gradient(135deg, ${nivel.color}, ${nivel.color}dd);
+            border-radius: 10px;
+            color: white;
+          ">
+            <div style="
+              background: rgba(255,255,255,0.2);
+              border-radius: 50%;
+              width: 40px;
+              height: 40px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-weight: bold;
+              font-size: 18px;
+              margin-right: 12px;
+            ">
+              ${nivel.nivel}
+            </div>
+            <div>
+              <h4 style="margin: 0; font-size: 16px;">${nivel.nombre}</h4>
+              <p style="margin: 2px 0 0 0; font-size: 12px; opacity: 0.9;">${nivel.descripcion}</p>
+            </div>
+          </div>
+          
+          <div style="text-align: left; margin: 12px 0;">
+            <div style="
+              background: rgba(${nivel.color.replace('#', '')}, 0.1);
+              padding: 10px;
+              border-radius: 8px;
+              margin-bottom: 10px;
+              border-left: 4px solid ${nivel.color};
+            ">
+              <strong style="color: ${nivel.color};">📍 Correspondencia en El Risco CTM:</strong><br>
+              <span style="font-size: 12px; line-height: 1.4;">${nivel.correspondencia}</span>
+            </div>
+            
+            <div style="
+              background: rgba(${nivel.color.replace('#', '')}, 0.08);
+              padding: 10px;
+              border-radius: 8px;
+              margin-bottom: 10px;
+            ">
+              <strong style="color: ${nivel.color};">🔍 Rasgos clave:</strong><br>
+              <span style="font-size: 12px; line-height: 1.4;">${nivel.rasgosClave}</span>
+            </div>
+            
+            <div style="
+              background: #f8f9fa;
+              padding: 8px;
+              border-radius: 8px;
+              margin-bottom: 10px;
+            ">
+              <strong>📊 Características específicas:</strong><br>
+              ${nivel.caracteristicas.map(c => `• ${c}`).join('<br>')}
+            </div>
+          </div>
+          
+          <div style="
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 12px 0;
+            font-size: 11px;
+          ">
+            <div style="background: #e9ecef; padding: 8px; border-radius: 6px; text-align: center;">
+              <strong>👥 Población</strong><br>
+              ${nivel.poblacion}
+            </div>
+            <div style="background: #e9ecef; padding: 8px; border-radius: 6px; text-align: center;">
+              <strong>🏢 Actividades</strong><br>
+              ${nivel.actividades}
+            </div>
+          </div>
+          
+          <div style="
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            font-size: 11px;
+            background: rgba(${nivel.color.replace('#', '')}, 0.1);
+            padding: 8px;
+            border-radius: 6px;
+          ">
+            <div style="text-align: center;">
+              <strong>📏 Radio:</strong> ${radio.toFixed(1)} metros
+            </div>
+            <div style="text-align: center;">
+              <strong>📐 Área:</strong> ${area} hectáreas
+            </div>
+          </div>
+          
+          <div style="
+            margin-top: 12px;
+            padding-top: 8px;
+            border-top: 2px solid ${nivel.color};
+            font-size: 10px;
+            color: #666;
+            text-align: center;
+          ">
+            <strong>Modelo de Ernest Burgess (1925)</strong><br>
+            Aplicado a CTM El Risco, Gustavo A. Madero
+          </div>
+        </div>
+      `;
+    }
+
+    // Crear leyenda específica del modelo de Burgess
+    function crearLeyendaBurgess() {
+      try {
+        if (leyendaControl) {
+          map.removeControl(leyendaControl);
+        }
+
+        if (!mostrandoLeyenda) {
+          return;
+        }
+
+        leyendaControl = L.control({ position: 'bottomleft' });
+        leyendaControl.onAdd = function () {
+          const div = L.DomUtil.create('div', 'leyenda');
+          div.innerHTML = `
+            <h4 style="text-align: center; margin-bottom: 15px; color: #2c3e50; border-bottom: 3px solid #667eea; padding-bottom: 8px;">
+              🏛️ Modelo de Burgess - CTM El Risco
+            </h4>
+          `;
+
+          modeloBurgess.forEach((nivel, i) => {
+            div.innerHTML += `
+              <div class="leyenda-item-detallada" style="
+                border: 2px solid ${nivel.color};
+              ">
+                <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                  <div style="
+                    background: ${nivel.color};
+                    color: white;
+                    border-radius: 50%;
+                    width: 28px;
+                    height: 28px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                    font-size: 14px;
+                    margin-right: 10px;
+                    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+                  ">
+                    ${nivel.nivel}
+                  </div>
+                  <div style="
+                    font-size: 12px;
+                    font-weight: bold;
+                    color: ${nivel.color};
+                    line-height: 1.2;
+                  ">
+                    ${nivel.nombre}
+                  </div>
+                </div>
+                
+                <div style="
+                  font-size: 10px;
+                  color: #666;
+                  font-style: italic;
+                  margin-bottom: 8px;
+                  line-height: 1.3;
+                  font-weight: 600;
+                ">
+                  ${nivel.descripcion}
+                </div>
+                
+                <div style="
+                  font-size: 8px;
+                  color: #555;
+                  background: rgba(${nivel.color.replace('#', '')}, 0.08);
+                  padding: 6px 8px;
+                  border-radius: 6px;
+                  margin-bottom: 6px;
+                  line-height: 1.4;
+                  border-left: 3px solid ${nivel.color};
+                ">
+                  <strong>Correspondencia en El Risco:</strong><br>
+                  ${nivel.correspondencia}
+                </div>
+              </div>
+            `;
+          });
+
+          div.innerHTML += `
+            <div style="
+              margin-top: 15px; 
+              padding-top: 10px; 
+              border-top: 2px solid #ddd; 
+              font-size: 8px; 
+              color: #666;
+              text-align: center;
+              line-height: 1.4;
+            ">
+              <div style="margin-bottom: 4px;">
+                <strong>🎯 Centro:</strong> Distrito Central de Negocios
+              </div>
+              <div style="margin-bottom: 4px;">
+                <strong>📈 Crecimiento:</strong> Radial concéntrico
+              </div>
+              <div style="margin-bottom: 4px;">
+                <strong>🏛️ Teoría:</strong> Ernest Burgess (1925)
+              </div>
+              <div style="color: #888; font-style: italic;">
+                Aplicado a CTM El Risco, GAM
+              </div>
+            </div>
+          `;
+
+          return div;
+        };
+        leyendaControl.addTo(map);
+
+      } catch (error) {
+        console.error('Error creando leyenda de Burgess:', error);
+      }
+    }
+
+    // Actualizar estadísticas del modelo
+    function actualizarEstadisticasBurgess(radioMaximo, radios) {
+      try {
+        const areaTotal = (Math.PI * radioMaximo * radioMaximo / 10000).toFixed(1);
+        const modoBurgess = document.getElementById('modo-burgess').value;
+
+        document.getElementById('radio-maximo').textContent = radioMaximo.toFixed(0) + 'm';
+        document.getElementById('area-total').textContent = areaTotal + ' ha';
+        document.getElementById('tipo-modelo').textContent = modoBurgess === 'teorico' ? 'Teórico' : 'Adaptado';
+      } catch (error) {
+        console.error('Error actualizando estadísticas:', error);
+      }
+    }
+
+    // Resetear modelo
+    function resetearModelo() {
+      try {
+        circulosLayer.clearLayers();
+
+        if (leyendaControl) {
+          map.removeControl(leyendaControl);
+          leyendaControl = null;
+        }
+
+        // Resetear estadísticas
+        document.getElementById('radio-maximo').textContent = '0m';
+        document.getElementById('area-total').textContent = '0 ha';
+        document.getElementById('tipo-modelo').textContent = 'Ninguno';
+
+        mostrarNotificacion('🔄 Modelo reseteado');
+      } catch (error) {
+        console.error('Error reseteando modelo:', error);
+      }
+    }
+
+    // Event listeners para el modelo de Burgess
+    function setupEventListeners() {
+      try {
+        document.getElementById('btn-centrar').addEventListener('click', function () {
+          const poligonoLayer = L.geoJSON(poligonoElRisco, {
+            style: { color: '#667eea', fillOpacity: 0.1, weight: 3 }
+          });
+          map.fitBounds(poligonoLayer.getBounds());
+          mostrarNotificacion('🎯 Mapa centrado en CTM El Risco');
+        });
+
+        document.getElementById('btn-generar-modelo').addEventListener('click', generarModeloBurgess);
+        document.getElementById('btn-reset-modelo').addEventListener('click', resetearModelo);
+
+        document.getElementById('modo-burgess').addEventListener('change', function () {
+          if (circulosLayer.getLayers().length > 0) {
+            generarModeloBurgess();
+            mostrarNotificacion(`🏛️ Modelo cambiado a: ${this.value === 'teorico' ? 'Teórico' : 'Adaptado'}`);
+          }
+        });
+
+        document.getElementById('escala-radios').addEventListener('change', function () {
+          if (circulosLayer.getLayers().length > 0) {
+            generarModeloBurgess();
+            mostrarNotificacion(`📏 Escala cambiada a: ${this.value === 'proporcional' ? 'Proporcional' : 'Uniforme'}`);
+          }
+        });
+
+        document.getElementById('btn-cambiar-mapa').addEventListener('click', cambiarTipoMapa);
+        document.getElementById('btn-toggle-estadisticas').addEventListener('click', toggleEstadisticas);
+        document.getElementById('btn-toggle-leyenda').addEventListener('click', toggleLeyenda);
+        document.getElementById('btn-toggle-etiquetas').addEventListener('click', toggleEtiquetas);
+        document.getElementById('btn-exportar-imagen').addEventListener('click', exportarImagen);
+
+      } catch (error) {
+        console.error('Error configurando eventos:', error);
+      }
+    }
+
+    // Cambiar tipo de mapa
+    function cambiarTipoMapa() {
+      try {
+        tipoMapaActual = (tipoMapaActual + 1) % tiposMapas.length;
+
+        if (currentTileLayer) {
+          map.removeLayer(currentTileLayer);
+        }
+
+        currentTileLayer = L.tileLayer(tiposMapas[tipoMapaActual].url, {
+          maxZoom: 20,
+          attribution: tiposMapas[tipoMapaActual].attribution
+        }).addTo(map);
+
+        console.log('Mapa cambiado a:', tiposMapas[tipoMapaActual].nombre);
+        mostrarNotificacion(`🗺️ ${tiposMapas[tipoMapaActual].nombre}`);
+
+      } catch (error) {
+        console.error('Error cambiando tipo de mapa:', error);
+      }
+    }
+
+    // Toggle estadísticas
+    function toggleEstadisticas() {
+      try {
+        const estadisticasEl = document.getElementById('estadisticas');
+        const botonEl = document.getElementById('btn-toggle-estadisticas');
+        mostrandoEstadisticas = !mostrandoEstadisticas;
+
+        if (mostrandoEstadisticas) {
+          estadisticasEl.style.display = 'block';
+          botonEl.classList.remove('inactivo');
+          botonEl.classList.add('activo');
+          mostrarNotificacion('📊 Estadísticas mostradas');
+        } else {
+          estadisticasEl.style.display = 'none';
+          botonEl.classList.remove('activo');
+          botonEl.classList.add('inactivo');
+          mostrarNotificacion('📊 Estadísticas ocultadas');
+        }
+      } catch (error) {
+        console.error('Error toggle estadísticas:', error);
+      }
+    }
+
+    // Toggle leyenda
+    function toggleLeyenda() {
+      try {
+        const botonEl = document.getElementById('btn-toggle-leyenda');
+        mostrandoLeyenda = !mostrandoLeyenda;
+
+        if (mostrandoLeyenda) {
+          if (circulosLayer.getLayers().length > 0) {
+            crearLeyendaBurgess();
+          }
+          botonEl.classList.remove('inactivo');
+          botonEl.classList.add('activo');
+          mostrarNotificacion('🔍 Leyenda del modelo mostrada');
+        } else {
+          if (leyendaControl) {
+            map.removeControl(leyendaControl);
+            leyendaControl = null;
+          }
+          botonEl.classList.remove('activo');
+          botonEl.classList.add('inactivo');
+          mostrarNotificacion('🔍 Leyenda del modelo ocultada');
+        }
+      } catch (error) {
+        console.error('Error toggle leyenda:', error);
+      }
+    }
+
+    // Toggle etiquetas
+    function toggleEtiquetas() {
+      try {
+        const botonEl = document.getElementById('btn-toggle-etiquetas');
+        mostrandoEtiquetas = !mostrandoEtiquetas;
+
+        if (mostrandoEtiquetas) {
+          botonEl.classList.remove('inactivo');
+          botonEl.classList.add('activo');
+          mostrarNotificacion('🏷️ Números de nivel mostrados');
+          // Regenerar modelo si ya existe
+          if (circulosLayer.getLayers().length > 0) {
+            generarModeloBurgess();
+          }
+        } else {
+          // Ocultar etiquetas existentes
+          circulosLayer.eachLayer(function (layer) {
+            if (layer.options && layer.options.icon && layer.options.icon.options.className &&
+              layer.options.icon.options.className.includes('etiqueta-nivel-centro')) {
+              circulosLayer.removeLayer(layer);
+            }
+          });
+          botonEl.classList.remove('activo');
+          botonEl.classList.add('inactivo');
+          mostrarNotificacion('🏷️ Números de nivel ocultados');
+        }
+      } catch (error) {
+        console.error('Error toggle etiquetas:', error);
+      }
+    }
+
+    // Función para exportar imagen del mapa
+    function exportarImagen() {
+      try {
+        mostrarNotificacion('📸 Preparando captura...', 2000);
+
+        if (typeof html2canvas !== 'undefined') {
+          const contenedorCompleto = document.querySelector('.container');
+          const opciones = {
+            useCORS: true,
+            allowTaint: true,
+            scale: 1,
+            logging: false,
+            backgroundColor: '#ffffff'
+          };
+
+          html2canvas(contenedorCompleto, opciones).then(canvas => {
+            const link = document.createElement('a');
+            const fecha = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
+            link.download = `modelo-burgess-ctm-el-risco-${fecha}.png`;
+            link.href = canvas.toDataURL('image/png', 0.9);
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            mostrarNotificacion('✅ Imagen exportada correctamente', 3000);
+          }).catch(error => {
+            console.error('Error exportando imagen:', error);
+            mostrarNotificacion('❌ Error al exportar imagen', 3000);
+          });
+        } else {
+          mostrarNotificacion('❌ Librería de exportación no disponible', 3000);
+        }
+      } catch (error) {
+        console.error('Error en exportarImagen:', error);
+        mostrarNotificacion('❌ Error al exportar imagen', 3000);
+      }
+    }
+
+    // Detectar dispositivos móviles
+    function esMobile() {
+      return window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+
+    // Configurar estados iniciales según dispositivo
+    function configurarEstadosIniciales() {
+      if (esMobile()) {
+        mostrandoEstadisticas = false;
+        mostrandoLeyenda = false;
+        document.getElementById('estadisticas').style.display = 'none';
+        console.log('📱 Dispositivo móvil detectado - Estadísticas y leyenda ocultas por defecto');
+      } else {
+        mostrandoEstadisticas = true;
+        mostrandoLeyenda = true;
+        document.getElementById('estadisticas').style.display = 'block';
+        console.log('🖥️ Dispositivo desktop detectado - Estadísticas y leyenda visibles por defecto');
+      }
+    }
+
+    // Inicializar estado de botones
+    function inicializarEstadoBotones() {
+      try {
+        const btnEstadisticas = document.getElementById('btn-toggle-estadisticas');
+        if (mostrandoEstadisticas) {
+          btnEstadisticas.classList.add('activo');
+          btnEstadisticas.classList.remove('inactivo');
+        } else {
+          btnEstadisticas.classList.add('inactivo');
+          btnEstadisticas.classList.remove('activo');
+        }
+
+        const btnLeyenda = document.getElementById('btn-toggle-leyenda');
+        if (mostrandoLeyenda) {
+          btnLeyenda.classList.add('activo');
+          btnLeyenda.classList.remove('inactivo');
+        } else {
+          btnLeyenda.classList.add('inactivo');
+          btnLeyenda.classList.remove('activo');
+        }
+
+        const btnEtiquetas = document.getElementById('btn-toggle-etiquetas');
+        if (mostrandoEtiquetas) {
+          btnEtiquetas.classList.add('activo');
+          btnEtiquetas.classList.remove('inactivo');
+        } else {
+          btnEtiquetas.classList.add('inactivo');
+          btnEtiquetas.classList.remove('activo');
+        }
+
+        console.log('Estado inicial de botones configurado');
+      } catch (error) {
+        console.error('Error inicializando estado de botones:', error);
+      }
+    }
+
+    // Inicialización principal
+    function inicializar() {
+      try {
+        if (!verificarLibrerias()) {
+          setTimeout(inicializar, 1000);
+          return;
+        }
+
+        if (!initMap()) return;
+
+        // Añadir el polígono al mapa
+        const poligonoLayer = L.geoJSON(poligonoElRisco, {
+          style: {
+            color: '#667eea',
+            fillOpacity: 0.1,
+            weight: 3
+          }
+        }).addTo(map);
+
+        map.fitBounds(poligonoLayer.getBounds());
+
+        // Configurar estados iniciales
+        configurarEstadosIniciales();
+        inicializarEstadoBotones();
+
+        // Configurar eventos
+        setupEventListeners();
+
+        // Ocultar loading
+        document.getElementById('loading').style.display = 'none';
+
+        // Mostrar notificación de bienvenida
+        mostrarNotificacion('🏛️ Modelo de Burgess listo - Haz clic en "Generar Modelo"');
+
+        console.log('Aplicación inicializada correctamente - Esperando generación del modelo');
+
+      } catch (error) {
+        mostrarError('Error de inicialización: ' + error.message);
+      }
+    }
+
+    // Esperar a que el DOM esté listo
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', inicializar);
+    } else {
+      inicializar();
+    }
+  </script>
+</body>
+
+</html>
