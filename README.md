@@ -51,7 +51,7 @@ El sistema está organizado en módulos independientes, cada uno especializado e
 
 #### Datos Incluidos:
 - Archivo `poligonos_zonas.js` con geometrías de zonas
-- Archivo `delitos_data.js` con datos procesados
+- Archivo `delitos.js` con datos procesados
 - Sistema de colores por nivel de riesgo
 
 ### 3. 🔥 **Módulo Hot Spots** (`hot_spot/`)
