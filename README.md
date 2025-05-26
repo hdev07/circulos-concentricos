@@ -1,168 +1,283 @@
-# Mapa de Delitos - CTM El Risco
+# Sistema de Análisis Geoespacial de Delitos - CTM El Risco
 
-## Descripción
+## 📋 Descripción General
 
-Este proyecto es una visualización interactiva de delitos en la zona de CTM El Risco utilizando un mapa web. La aplicación muestra la distribución geográfica de diferentes tipos de delitos mediante círculos de diferentes tamaños y colores, proporcionando una representación visual clara de la incidencia delictiva en la zona.
+Este proyecto es un **sistema integral de análisis geoespacial** que proporciona múltiples herramientas de visualización y análisis de datos delictivos en la zona de CTM El Risco. La aplicación ha evolucionado de un simple mapa de delitos a una plataforma completa con diferentes módulos especializados para el análisis criminológico y geográfico.
 
-## Características
+## 🏗️ Arquitectura del Sistema
 
-### 🗺️ Visualización Interactiva
-- **Mapa base**: Utiliza OpenStreetMap para mostrar el contexto geográfico
-- **Polígono de área**: Delimita exactamente la zona de CTM El Risco
-- **Círculos proporcionales**: El tamaño de cada círculo representa la cantidad de delitos
-- **Colores distintivos**: Cada tipo de delito tiene un color único para fácil identificación
+El sistema está organizado en módulos independientes, cada uno especializado en un tipo específico de análisis:
 
-### 📊 Datos de Delitos
-El mapa incluye los siguientes tipos de delitos con sus respectivas cantidades:
+```
+📁 Sistema de Análisis Geoespacial/
+├── 📄 index.html                    # Módulo principal - Mapa interactivo con filtros avanzados
+├── 📁 zona_riesgo/                  # Análisis de zonas de riesgo con polígonos
+├── 📁 hot_spot/                     # Análisis de puntos calientes (Hot Spots)
+├── 📁 concentricos_burgues/         # Modelo de Burgess - Círculos concéntricos
+├── 📁 cartografia/                  # Visualización cartográfica básica
+├── 📁 ProcesamientoDatos/           # Scripts y datos procesados
+└── 📄 README.md                     # Documentación del sistema
+```
 
-| Tipo de Delito | Cantidad | Porcentaje |
-|----------------|----------|------------|
-| Violencia Familiar | 31 | 29.8% |
-| Robo | 19 | 18.3% |
-| Amenazas | 12 | 11.5% |
-| Daño A La Propiedad | 7 | 6.7% |
-| Fraude | 6 | 5.8% |
-| Usurpación | 4 | 3.8% |
-| Abuso De Autoridad | 3 | 2.9% |
-| Tentativa | 3 | 2.9% |
-| Electorales | 2 | 1.9% |
-| Lesiones Culposas | 2 | 1.9% |
-| Despojo | 2 | 1.9% |
-| Allanamiento | 1 | 1.0% |
-| Contra La Intimidad Sexual | 1 | 1.0% |
-| Corrupción De Menores | 1 | 1.0% |
-| Encubrimiento | 1 | 1.0% |
-| Ambiental | 1 | 1.0% |
-| Narcomenudeo | 1 | 1.0% |
+## 🚀 Módulos del Sistema
 
-**Total de delitos: 104**
+### 1. 🗺️ **Módulo Principal** (`index.html`)
+**Mapa interactivo con sistema de filtros avanzados**
 
-### 🎛️ Controles y Funcionalidades
-- **Leyenda interactiva**: Muestra todos los tipos de delitos con colores y porcentajes
-- **Contador total**: Displays el número total de delitos registrados
-- **Botón centrar**: Permite volver a la vista completa del área
-- **Popups informativos**: Al hacer clic en cada círculo se muestra información detallada
+#### Características:
+- **Visualización de 2,800+ delitos** con datos reales georeferenciados
+- **Sistema de filtros inteligente** con chips interactivos
+- **Filtros por tipo de delito** con selección múltiple
+- **Filtros temporales** (año, mes, día de la semana, hora)
+- **Estadísticas en tiempo real** que se actualizan con los filtros
+- **Interfaz responsive** optimizada para móviles y desktop
+- **Mapa base OpenStreetMap** con controles de navegación
 
-## Tecnologías Utilizadas
+#### Funcionalidades Avanzadas:
+- Filtrado maestro por categorías de delitos
+- Visualización de estadísticas dinámicas
+- Sistema de notificaciones para resultados de filtros
+- Optimización de rendimiento para grandes volúmenes de datos
+
+### 2. 🎯 **Módulo de Zonas de Riesgo** (`zona_riesgo/`)
+**Análisis territorial con polígonos de riesgo**
+
+#### Características:
+- **Polígonos de zonas** con diferentes niveles de riesgo
+- **Clasificación por intensidad** de actividad delictiva
+- **Filtros especializados** para análisis territorial
+- **Visualización por densidad** de delitos por zona
+- **Análisis comparativo** entre diferentes áreas
+
+#### Datos Incluidos:
+- Archivo `poligonos_zonas.js` con geometrías de zonas
+- Archivo `delitos_data.js` con datos procesados
+- Sistema de colores por nivel de riesgo
+
+### 3. 🔥 **Módulo Hot Spots** (`hot_spot/`)
+**Identificación de puntos calientes de actividad delictiva**
+
+#### Características:
+- **Análisis de concentración** de delitos por área
+- **Identificación automática** de puntos calientes
+- **Visualización por intensidad** con gradientes de color
+- **Análisis temporal** de evolución de hot spots
+- **Métricas de densidad** delictiva
+
+### 4. 🎯 **Módulo Círculos Concéntricos** (`concentricos_burgues/`)
+**Implementación del Modelo de Burgess para análisis urbano**
+
+#### Características:
+- **Modelo teórico de Burgess** aplicado a datos reales
+- **Círculos concéntricos** desde el centro urbano
+- **Análisis por distancia** del centro de la ciudad
+- **Comparación de patrones** delictivos por zona concéntrica
+- **Controles interactivos** para ajustar parámetros del modelo
+
+#### Funcionalidades:
+- Generación automática de círculos concéntricos
+- Análisis de distribución delictiva por anillo
+- Visualización de patrones urbanos
+- Controles para modificar radio y número de círculos
+
+### 5. 🗺️ **Módulo de Cartografía** (`cartografia/`)
+**Visualización cartográfica básica y polígonos**
+
+#### Características:
+- **Visualización simple** de polígonos geográficos
+- **Interfaz minimalista** para análisis básico
+- **Leyenda interactiva** con colores por zona
+- **Controles básicos** de navegación
+
+### 6. 🔧 **Módulo de Procesamiento** (`ProcesamientoDatos/`)
+**Scripts y herramientas para procesamiento de datos**
+
+#### Contenido:
+- **`index.py`**: Script de Python para conversión Excel → JSON
+- **`delitos.xlsx`**: Datos originales en formato Excel (2,800+ registros)
+- **`delitos.json`**: Datos en formato JSON sin procesar
+- **`delitos_procesados.json`**: Datos limpios y estructurados
+
+#### Funcionalidades del Script:
+- Conversión automática de Excel a JSON
+- Limpieza y estructuración de datos
+- Manejo de caracteres especiales
+- Extracción de campos relevantes (tipo, fecha, hora, coordenadas)
+
+## 📊 Datos del Sistema
+
+### Volumen de Información
+- **Total de delitos**: 2,800+ registros georeferenciados
+- **Tipos de delitos**: 17+ categorías diferentes
+- **Cobertura temporal**: Datos históricos con fechas y horas
+- **Precisión geográfica**: Coordenadas exactas (lat/lng)
+
+### Principales Tipos de Delitos
+| Tipo de Delito | Frecuencia | Análisis |
+|----------------|------------|----------|
+| Violencia Familiar | Alta | Patrón residencial |
+| Robo | Alta | Concentrado en zonas comerciales |
+| Amenazas | Media | Distribuido uniformemente |
+| Daño a la Propiedad | Media | Relacionado con vandalismo |
+| Fraude | Media | Concentrado en centros urbanos |
+| Otros | Variable | Patrones específicos por tipo |
+
+## 🛠️ Tecnologías Utilizadas
 
 ### Frontend
-- **HTML5**: Estructura de la página
-- **CSS3**: Estilos y diseño responsivo
-- **JavaScript ES6**: Lógica de la aplicación
+- **HTML5**: Estructura semántica y accesible
+- **CSS3**: Diseño moderno con gradientes y animaciones
+- **JavaScript ES6+**: Lógica avanzada y manipulación de datos
+- **Responsive Design**: Optimizado para todos los dispositivos
 
-### Librerías
-- **Leaflet 1.7.1**: Biblioteca principal para mapas interactivos
+### Librerías y APIs
+- **Leaflet 1.7.1**: Mapas interactivos de alto rendimiento
 - **Turf.js 6.0**: Análisis geoespacial y cálculos geométricos
-- **OpenStreetMap**: Proveedor de tiles del mapa base
+- **OpenStreetMap**: Tiles de mapa base gratuitos
+- **GeoJSON**: Formato estándar para datos geográficos
 
-## Algoritmos Implementados
+### Backend/Procesamiento
+- **Python 3.x**: Scripts de procesamiento de datos
+- **Pandas**: Manipulación y análisis de datos
+- **JSON**: Formato de intercambio de datos
 
-### 🎯 Distribución Inteligente de Círculos
-El sistema utiliza un algoritmo sofisticado para distribuir los círculos de delitos:
+## 🚀 Instalación y Configuración
 
-1. **Cálculo de área**: Determina el área total del polígono de CTM El Risco
-2. **Distribución en grilla**: Crea una grilla inicial basada en el aspect ratio del área
-3. **Validación geográfica**: Verifica que todos los puntos estén dentro del polígono
-4. **Optimización de distancias**: Utiliza un algoritmo greedy para maximizar la separación entre círculos
-5. **Ajuste de tamaños**: Calcula radios proporcionales basados en la cantidad de delitos
+### Requisitos del Sistema
+- **Navegador moderno**: Chrome 80+, Firefox 75+, Safari 13+, Edge 80+
+- **Conexión a internet**: Para cargar librerías CDN y tiles de mapa
+- **Python 3.x**: Solo para procesamiento de datos (opcional)
 
-### 📐 Cálculos Geométricos
-- **Centro del polígono**: Utiliza Turf.js para calcular el centroide geométrico
-- **Área del polígono**: Calcula el área en metros cuadrados para dimensionar círculos
-- **Distancias mínimas**: Evita superposiciones excesivas entre círculos
-- **Validación de límites**: Asegura que los círculos se mantengan dentro del área definida
+### Instalación Rápida
+1. **Clona o descarga** el repositorio completo
+2. **Abre cualquier módulo** directamente en el navegador:
+   - `index.html` - Módulo principal
+   - `zona_riesgo/index.html` - Análisis de zonas
+   - `hot_spot/index.html` - Puntos calientes
+   - `concentricos_burgues/index.html` - Modelo de Burgess
+   - `cartografia/index.html` - Cartografía básica
 
-## Estructura del Proyecto
+### Configuración de Datos (Opcional)
+Si necesitas procesar nuevos datos:
 
-```
-├── mapa-delitos-distribuidos.html    # Archivo principal de la aplicación
-├── README.md                         # Documentación del proyecto
-└── assets/                          # (Opcional) Carpeta para recursos adicionales
-```
-
-## Instalación y Uso
-
-### Requisitos
-- Navegador web moderno (Chrome, Firefox, Safari, Edge)
-- Conexión a internet (para cargar las librerías CDN y tiles del mapa)
-
-### Ejecución
-1. Descarga el archivo `mapa-delitos-distribuidos.html`
-2. Abre el archivo en tu navegador web
-3. El mapa se cargará automáticamente mostrando la visualización de delitos
-
-### Uso de la Interfaz
-- **Navegación**: Usa el mouse para hacer zoom y pan en el mapa
-- **Información**: Haz clic en cualquier círculo para ver detalles del delito
-- **Centrar**: Usa el botón "Centrar Mapa" para volver a la vista completa
-- **Leyenda**: Consulta la leyenda en la esquina inferior izquierda para identificar tipos de delitos
-
-## Configuración Avanzada
-
-### Modificar Datos de Delitos
-Para actualizar los datos de delitos, modifica el array `delitos` en el JavaScript:
-
-```javascript
-const delitos = [
-  { nombre: "Nuevo Delito", cantidad: 5 },
-  // ... más delitos
-];
+```bash
+cd ProcesamientoDatos/
+python index.py
 ```
 
-### Cambiar Área Geográfica
-Para cambiar el polígono del área, modifica las coordenadas en `poligonoElRisco`:
+## 📱 Uso del Sistema
 
-```javascript
-const poligonoElRisco = {
-  "type": "Feature",
-  "geometry": {
-    "type": "Polygon",
-    "coordinates": [[
-      // Nuevas coordenadas [longitud, latitud]
-    ]]
-  }
-};
-```
+### Navegación Entre Módulos
+Cada módulo es independiente y se puede usar por separado según el tipo de análisis requerido:
 
-### Personalizar Colores
-Modifica el array `colores` para cambiar la paleta de colores:
+- **Análisis general**: Usar módulo principal
+- **Análisis territorial**: Usar módulo de zonas de riesgo
+- **Identificación de hot spots**: Usar módulo hot spots
+- **Análisis urbano teórico**: Usar módulo de círculos concéntricos
+- **Visualización simple**: Usar módulo de cartografía
 
-```javascript
-const colores = [
-  '#e41a1c', '#377eb8', '#4daf4a', // ... más colores
-];
-```
+### Controles Comunes
+- **Zoom**: Rueda del mouse o controles táctiles
+- **Pan**: Arrastrar el mapa
+- **Información**: Clic en elementos para detalles
+- **Filtros**: Usar controles específicos de cada módulo
+- **Centrar**: Botón para volver a la vista completa
 
-## Características Técnicas
+## 🔧 Configuración Avanzada
 
-### Rendimiento
-- **Carga rápida**: Utiliza CDNs para librerías externas
-- **Optimización de memoria**: Algoritmos eficientes para cálculos geométricos
-- **Responsivo**: Se adapta a diferentes tamaños de pantalla
+### Personalización de Datos
+Para actualizar los datos en cualquier módulo:
 
-### Compatibilidad
-- **Navegadores**: Compatible con todos los navegadores modernos
-- **Dispositivos**: Funciona en desktop, tablet y móvil
-- **Resoluciones**: Diseño responsivo para diferentes resoluciones
+1. **Modifica el archivo de datos** correspondiente
+2. **Mantén la estructura JSON** existente
+3. **Actualiza las coordenadas** si cambias la zona de estudio
 
-## Contribuciones
+### Personalización Visual
+- **Colores**: Modifica arrays de colores en cada módulo
+- **Estilos**: Edita las secciones CSS de cada archivo
+- **Tamaños**: Ajusta parámetros de círculos y polígonos
 
-Para contribuir al proyecto:
+### Extensión del Sistema
+Para agregar nuevos módulos:
 
-1. Fork el repositorio
-2. Crea una rama para tu feature (`git checkout -b feature/nueva-funcionalidad`)
-3. Commit tus cambios (`git commit -am 'Agrega nueva funcionalidad'`)
-4. Push a la rama (`git push origin feature/nueva-funcionalidad`)
-5. Crea un Pull Request
+1. **Crea una nueva carpeta** con estructura similar
+2. **Incluye los archivos** HTML, CSS y JS necesarios
+3. **Mantén la consistencia** de diseño y funcionalidad
+4. **Documenta** las nuevas características
 
-## Licencia
+## 📈 Características Técnicas Avanzadas
 
-Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
+### Optimización de Rendimiento
+- **Carga lazy** de datos grandes
+- **Clustering** automático para muchos puntos
+- **Debouncing** en filtros para mejor UX
+- **Caché** de cálculos geométricos complejos
 
-## Contacto
+### Algoritmos Implementados
+- **Distribución espacial** inteligente de elementos
+- **Cálculo de densidades** por área
+- **Análisis de proximidad** entre puntos
+- **Generación automática** de polígonos de riesgo
+- **Clustering** jerárquico para hot spots
 
-Para preguntas o sugerencias sobre este proyecto, por favor contacta al equipo de desarrollo.
+### Compatibilidad y Accesibilidad
+- **Responsive design** para todos los dispositivos
+- **Controles táctiles** optimizados para móviles
+- **Navegación por teclado** en elementos interactivos
+- **Colores accesibles** con suficiente contraste
+
+## 🤝 Contribuciones
+
+### Cómo Contribuir
+1. **Fork** el repositorio
+2. **Crea una rama** para tu feature (`git checkout -b feature/nueva-funcionalidad`)
+3. **Desarrolla** siguiendo las convenciones del proyecto
+4. **Prueba** en diferentes dispositivos y navegadores
+5. **Commit** con mensajes descriptivos
+6. **Push** y crea un **Pull Request**
+
+### Áreas de Mejora
+- **Nuevos algoritmos** de análisis geoespacial
+- **Integración** con APIs de datos en tiempo real
+- **Exportación** de reportes y análisis
+- **Análisis predictivo** con machine learning
+- **Integración** con sistemas de información geográfica (SIG)
+
+## 📄 Licencia
+
+Este proyecto está bajo la **Licencia MIT**. Ver el archivo `LICENSE` para más detalles.
+
+## 📞 Contacto y Soporte
+
+Para preguntas, sugerencias o reportes de bugs:
+- **Issues**: Usa el sistema de issues del repositorio
+- **Documentación**: Consulta este README y comentarios en el código
+- **Contribuciones**: Sigue el proceso de Pull Requests
 
 ---
 
-**Nota**: Este mapa es una herramienta de visualización con fines informativos y de análisis. Los datos mostrados corresponden a registros oficiales de delitos en la zona de CTM El Risco.
+## 🎯 Casos de Uso
+
+### Para Analistas de Seguridad
+- **Identificación** de patrones delictivos
+- **Análisis temporal** de tendencias
+- **Evaluación** de efectividad de medidas de seguridad
+
+### Para Planificadores Urbanos
+- **Análisis** de distribución espacial del crimen
+- **Identificación** de zonas que requieren intervención
+- **Planificación** de recursos de seguridad
+
+### Para Investigadores
+- **Validación** de teorías criminológicas
+- **Análisis** de patrones urbanos
+- **Generación** de hipótesis para investigación
+
+### Para Autoridades Locales
+- **Toma de decisiones** basada en datos
+- **Asignación** eficiente de recursos
+- **Comunicación** efectiva con la comunidad
+
+---
+
+**Nota**: Este sistema es una herramienta de análisis con fines informativos, educativos y de investigación. Los datos mostrados corresponden a registros reales de delitos en la zona de CTM El Risco y deben ser utilizados de manera responsable y ética.
