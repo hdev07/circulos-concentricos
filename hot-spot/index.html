@@ -1185,23 +1185,108 @@
     function crearChipsTiposDelito() {
       const tiposContainer = document.getElementById('tipos-delito');
       const tiposUnicos = [...new Set(delitosOriginales.map(d => d.tipoDelito))].sort();
+      tiposContainer.innerHTML = '';
 
       // Chip maestro para seleccionar/deseleccionar todos
       const chipMaestro = document.createElement('div');
-      chipMaestro.className = 'chip maestro';
-      chipMaestro.innerHTML = '📋 Todos los tipos de delito';
-      chipMaestro.addEventListener('click', toggleTodosTipos);
+      chipMaestro.className = 'chip maestro activo';
+      chipMaestro.id = 'chip-maestro-tipos';
+      chipMaestro.innerHTML = '✅ Todos los tipos';
+      chipMaestro.addEventListener('click', function () {
+        const estaActivo = this.classList.contains('activo');
+
+        if (estaActivo) {
+          this.classList.remove('activo');
+          this.innerHTML = '❌ Ningún tipo';
+          // Deseleccionar todos
+          const chipsIndividuales = document.querySelectorAll('.chip:not(.maestro):not(.limpiar)');
+          chipsIndividuales.forEach(chip => chip.classList.remove('activo'));
+          filtrosActivos.tiposDelito = [];
+        } else {
+          this.classList.add('activo');
+          this.innerHTML = '✅ Todos los tipos';
+          // Seleccionar todos
+          const chipsIndividuales = document.querySelectorAll('.chip:not(.maestro):not(.limpiar)');
+          filtrosActivos.tiposDelito = [];
+          chipsIndividuales.forEach(chip => {
+            chip.classList.add('activo');
+            filtrosActivos.tiposDelito.push(chip.dataset.tipo);
+          });
+        }
+
+        // Aplicar filtros automáticamente
+        aplicarFiltros();
+
+        // Mostrar notificación
+        mostrarNotificacion(!estaActivo ? '✅ Todos los tipos seleccionados' : '❌ Todos los tipos deseleccionados');
+      });
       tiposContainer.appendChild(chipMaestro);
 
-      // Chips individuales
+      // Crear chip para limpiar todos los filtros
+      const chipLimpiar = document.createElement('div');
+      chipLimpiar.className = 'chip limpiar';
+      chipLimpiar.innerHTML = '🧹 Resetear Todo';
+      chipLimpiar.style.background = '#e74c3c';
+      chipLimpiar.style.color = 'white';
+      chipLimpiar.style.borderColor = '#e74c3c';
+      chipLimpiar.style.marginBottom = '8px';
+      chipLimpiar.style.width = '100%';
+      chipLimpiar.style.justifyContent = 'center';
+      chipLimpiar.addEventListener('click', limpiarFiltros);
+      tiposContainer.appendChild(chipLimpiar);
+
+      // Chips individuales - todos activos por defecto
       tiposUnicos.forEach(tipo => {
         const chip = document.createElement('div');
-        chip.className = 'chip';
+        chip.className = 'chip activo';
         chip.dataset.tipo = tipo;
         chip.innerHTML = `${obtenerEmojiDelito(tipo)} ${tipo}`;
-        chip.addEventListener('click', () => toggleTipoDelito(tipo));
+        chip.addEventListener('click', function () {
+          this.classList.toggle('activo');
+
+          if (this.classList.contains('activo')) {
+            if (!filtrosActivos.tiposDelito.includes(tipo)) {
+              filtrosActivos.tiposDelito.push(tipo);
+            }
+          } else {
+            filtrosActivos.tiposDelito = filtrosActivos.tiposDelito.filter(t => t !== tipo);
+          }
+
+          // Actualizar chip maestro
+          actualizarChipMaestro();
+
+          // Aplicar filtros automáticamente
+          aplicarFiltros();
+        });
         tiposContainer.appendChild(chip);
+
+        // Agregar al array de filtros activos
+        filtrosActivos.tiposDelito.push(tipo);
       });
+    }
+
+    // Función para actualizar el estado del chip maestro
+    function actualizarChipMaestro() {
+      try {
+        const chipMaestro = document.getElementById('chip-maestro-tipos');
+        const chipsIndividuales = document.querySelectorAll('.chip:not(.maestro):not(.limpiar)');
+
+        const todosActivos = Array.from(chipsIndividuales).every(chip => chip.classList.contains('activo'));
+        const algunoActivo = Array.from(chipsIndividuales).some(chip => chip.classList.contains('activo'));
+
+        if (todosActivos) {
+          chipMaestro.classList.add('activo');
+          chipMaestro.innerHTML = '✅ Todos los tipos';
+        } else if (algunoActivo) {
+          chipMaestro.classList.remove('activo');
+          chipMaestro.innerHTML = '◐ Algunos tipos';
+        } else {
+          chipMaestro.classList.remove('activo');
+          chipMaestro.innerHTML = '❌ Ningún tipo';
+        }
+      } catch (error) {
+        console.error('Error actualizando chip maestro:', error);
+      }
     }
 
     // Función para llenar select de años
@@ -1223,50 +1308,6 @@
       });
     }
 
-    // Función para toggle todos los tipos
-    function toggleTodosTipos() {
-      const chipMaestro = document.querySelector('.chip.maestro');
-      const chipsIndividuales = document.querySelectorAll('.chip:not(.maestro)');
-
-      if (chipMaestro.classList.contains('activo')) {
-        // Deseleccionar todos
-        chipMaestro.classList.remove('activo');
-        chipsIndividuales.forEach(chip => chip.classList.remove('activo'));
-        filtrosActivos.tiposDelito = [];
-      } else {
-        // Seleccionar todos
-        chipMaestro.classList.add('activo');
-        chipsIndividuales.forEach(chip => {
-          chip.classList.add('activo');
-          filtrosActivos.tiposDelito.push(chip.dataset.tipo);
-        });
-      }
-    }
-
-    // Función para toggle tipo individual
-    function toggleTipoDelito(tipo) {
-      const chip = document.querySelector(`[data-tipo="${tipo}"]`);
-      const chipMaestro = document.querySelector('.chip.maestro');
-
-      if (chip.classList.contains('activo')) {
-        chip.classList.remove('activo');
-        filtrosActivos.tiposDelito = filtrosActivos.tiposDelito.filter(t => t !== tipo);
-      } else {
-        chip.classList.add('activo');
-        filtrosActivos.tiposDelito.push(tipo);
-      }
-
-      // Actualizar chip maestro
-      const totalTipos = document.querySelectorAll('.chip:not(.maestro)').length;
-      const tiposSeleccionados = filtrosActivos.tiposDelito.length;
-
-      if (tiposSeleccionados === totalTipos) {
-        chipMaestro.classList.add('activo');
-      } else {
-        chipMaestro.classList.remove('activo');
-      }
-    }
-
     // Función para configurar event listeners
     function configurarEventListeners() {
       // Botón aplicar filtros
@@ -1275,14 +1316,16 @@
       // Botón limpiar filtros
       document.getElementById('btn-limpiar-filtros').addEventListener('click', limpiarFiltros);
 
-      // Select de año
+      // Select de año - aplicar filtros automáticamente
       document.getElementById('filtro-ano').addEventListener('change', (e) => {
         filtrosActivos.ano = e.target.value;
+        aplicarFiltros();
       });
 
-      // Select de nivel de análisis
+      // Select de nivel de análisis - aplicar filtros automáticamente
       document.getElementById('nivel-analisis').addEventListener('change', (e) => {
         filtrosActivos.nivelAnalisis = parseInt(e.target.value);
+        aplicarFiltros();
       });
     }
 
@@ -1331,20 +1374,37 @@
         nivelAnalisis: 1
       };
 
-      // Limpiar UI
-      document.querySelectorAll('.chip').forEach(chip => chip.classList.remove('activo'));
+      // Limpiar UI - seleccionar todos los tipos
+      document.querySelectorAll('#tipos-delito .chip:not(.limpiar)').forEach(chip => {
+        chip.classList.add('activo');
+      });
+
+      // Actualizar chip maestro
+      const chipMaestro = document.getElementById('chip-maestro-tipos');
+      if (chipMaestro) {
+        chipMaestro.classList.add('activo');
+        chipMaestro.innerHTML = '✅ Todos los tipos';
+      }
+
+      // Resetear selects
       document.getElementById('filtro-ano').value = '';
       document.getElementById('nivel-analisis').value = '1';
+
+      // Ocultar resultados de filtro
       document.getElementById('resultados-filtro').style.display = 'none';
 
-      // Restaurar datos originales
+      // Restaurar datos originales y llenar filtros activos
       delitosData = [...delitosOriginales];
+      filtrosActivos.tiposDelito = [...new Set(delitosOriginales.map(d => d.tipoDelito))];
 
       // Actualizar mapa
       agregarHotSpots();
       actualizarEstadisticas();
 
-      console.log('🧹 Filtros limpiados');
+      // Mostrar notificación
+      mostrarNotificacion('🧹 Todos los filtros han sido limpiados');
+
+      console.log('🧹 Filtros limpiados y datos restaurados');
     }
 
     // Función para mostrar resultados de filtros

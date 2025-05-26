@@ -751,6 +751,15 @@
       mostrarDelitos();
     });
 
+    // Aplicar filtros automáticamente cuando cambie el tipo
+    document.getElementById('tipoFilter').addEventListener('change', aplicarFiltros);
+
+    // Aplicar filtros automáticamente cuando cambie el año
+    document.getElementById('yearFilter').addEventListener('change', aplicarFiltros);
+
+    // Aplicar filtros automáticamente cuando se escriba en la búsqueda
+    document.getElementById('searchText').addEventListener('input', aplicarFiltros);
+
     document.getElementById('searchText').addEventListener('keypress', function (e) {
       if (e.key === 'Enter') {
         aplicarFiltros();
